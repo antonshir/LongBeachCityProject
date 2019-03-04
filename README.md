@@ -1,2 +1,2 @@
-# LongBeachCityProject
-CSULB Project in conjunction with the city of Long Beach.
+#LBVitality
+This project analyzes data in city of Long Beach to provide more insights to local businesses.
