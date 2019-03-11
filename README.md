@@ -1,5 +1,6 @@
 # LBVitality
 This project analyzes data in city of Long Beach to provide more insights to local businesses.
+Make sure you have python 3.7 or higher
 
 Go into WebApp directory. install the virtual environment if you have't done so.
 ```
