@@ -13,7 +13,7 @@ pipenv shell
 ```
 Download Django and DjangoRestFramework if you haven't done so.
 ```
-pip install django djangorestframwork
+pipenv install django djangorestframwork
 ```
 
 Download dependencies if you haven't done so.
