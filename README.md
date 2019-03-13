@@ -1,22 +1,27 @@
 # LBVitality
 This project analyzes data in city of Long Beach to provide more insights to local businesses.
+Make sure you have python 3.7 or higher
 
-Before getting devleopment, install the virtual environment
+Go into WebApp directory. install the virtual environment if you have't done so.
 ```
 pip install pipenv // make sure it's python 3
 ```
 
-To start the virtual environment
+Start the virtual environment
 ```
 pipenv shell
 ```
+Download Django and DjangoRestFramework if you haven't done so.
+```
+pipenv install django djangorestframwork
+```
 
-Download dependencies
+Download dependencies if you haven't done so.
 ```
 npm install
 ```
 
-To run the backend/django server
+To run the backend/django server, go into lbvitality folder 
 ```
 python manage.py runserver
 ```
