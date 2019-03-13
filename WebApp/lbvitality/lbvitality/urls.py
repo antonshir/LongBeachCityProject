@@ -14,22 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-<<<<<<< HEAD:WebApp/backend/backend/urls.py
-from django.urls import path
-from rest_framework import routers
-from LBVitality import views
-
-router = routers.DefaultRouter()
-router.register(r'LBVitality', views.TodoView, 'LBVitality')
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
-=======
 from django.urls import path, include
 
 urlpatterns = [
     path('',include('frontend.urls')),
     path('', include('businesses.urls'))
->>>>>>> parent of 0690ba9d... Changes:WebApp/lbvitality/lbvitality/urls.py
 ]
