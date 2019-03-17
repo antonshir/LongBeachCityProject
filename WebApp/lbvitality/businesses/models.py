@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Business(models.Model):
     licenseNum = models.CharField(max_length = 20)
@@ -16,7 +14,4 @@ class Business(models.Model):
     businessType = models.CharField(max_length = 60)
     propertyType = models.CharField(max_length = 20)
     zipcode = models.CharField(max_length = 5)
-
-    def __str__(self):
-        return self.name
 
