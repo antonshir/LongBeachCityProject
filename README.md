@@ -4,7 +4,7 @@ Make sure you have python 3.7 or higher
 
 Go into WebApp directory. install the virtual environment if you have't done so.
 ```
-pip install pipenv // make sure it's python 3
+pip install pipenv
 ```
 
 Start the virtual environment
@@ -13,7 +13,7 @@ pipenv shell
 ```
 Download Django and DjangoRestFramework if you haven't done so.
 ```
-pipenv install django djangorestframwork
+pipenv install
 ```
 
 Download dependencies if you haven't done so.
