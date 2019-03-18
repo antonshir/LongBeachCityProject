@@ -1,0 +1,14 @@
+Populate database wih CSV file data
+python data.py
+
+Let Django know we made some changes
+python manage.py makemigrations businesses
+
+Apply those changes
+python manage.py migrate
+
+See tables in SQLite
+- sqlite3 db.sqlite3 
+- .tables (show all tables)
+- .schema 'Table name' (display table)
+
