@@ -12,3 +12,8 @@ See tables in SQLite
 - .tables (show all tables)
 - .schema 'Table name' (display table)
 
+To play with object in database in terminal:
+- python manage.py shell
+- from businesses.models import Business 
+- Business.objects.all() (to see all objects in Business table)
+
