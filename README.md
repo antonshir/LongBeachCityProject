@@ -2,6 +2,23 @@
 This project analyzes data in city of Long Beach to provide more insights to local businesses.
 Make sure you have python 3.7 or higher
 
+
+For Backend, go to Vitality folder, CD into backend and run:
+```
+source env/bin/activate
+```
+
+For Frontend, got Vitality folder, CD into frontend and install dependencies:
+```
+npm install
+```
+
+then to start:
+```
+npm start
+```
+
+
 Go into WebApp directory. install the virtual environment if you have't done so.
 ```
 pip install pipenv
