@@ -5,7 +5,7 @@ Make sure you have python 3.7 or higher
 
 **BACKEND**
 
-For Backend, go to Vitality folder, CD into backend. \
+For Backend, go to Vitality folder, CD into backend.
 
 Install the virtual environment if you have't done so.
 
@@ -34,6 +34,7 @@ python manage.py runserver
 Server at http://localhost:8000/
 
 **FRONTEND**
+
 For Frontend, go to Vitality folder, CD into frontend and install dependencies:
 
 ```
