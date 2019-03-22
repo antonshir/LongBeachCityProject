@@ -1,0 +1,23 @@
+Install PostgreSQL on your computer. Then create a database called 'businessdb', username='postgres', and password='admin'
+
+Install Pgadmin4 on your computer, then connect your local postgres database to pgadmin4
+
+Run your local database server
+
+To connect to a PostgreSQL server with Python, please first install the psycopg2 library: 
+*** (install this after 'pipenv shell')
+```pip install psycopg2```
+
+
+To add table to your localhost PostgreSQL database:
+- let Django know we made some changes
+```python manage.py makemigrations business``` 
+
+- apply those changes 
+```python manage.py migrate```
+
+
+Add data to your database:
+- go to "/backend/lbvitality/business"
+- Then run: 
+```python data.py```  
