@@ -8,6 +8,7 @@ from django.test import TestCase
 
 
 class CommandTests(TestCase):
+
     def test_wait_for_db_ready(self):
         """Test Simulation of Available DB"""
         #overriding behavior of connection handler
