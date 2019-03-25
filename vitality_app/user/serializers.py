@@ -22,6 +22,18 @@ class UserSerializer(serializers.ModelSerializer):
         """Create New User With Encrypted Passwd and Return"""
         #verifying encryption occurred for authentication
         return get_user_model().objects.create_user(**validated_data)
+    def update(self, instance, validated_data):
+        """Update User, Set Passwd Properly and Return"""
+        #after retreived its removed from dictionary
+        password = validated_data.pop('password', None)
+        user = super().update(instance, validated_data)
+
+        if password:
+            user.set_password(password)
+            user.save()
+
+        return user
+        
     #Serializer based off django's standard serial.
     #using it for authentication
 class AuthTokenSerializer(serializers.Serializer):

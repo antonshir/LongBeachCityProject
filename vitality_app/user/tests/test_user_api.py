@@ -10,6 +10,8 @@ from rest_framework import status
 CREATE_USER_URL = reverse('user:create')
 #http post requst for token
 TOKEN_URL = reverse('user:token')
+ME_URL = reverse('user:me')
+
 #helper function for user TestCase
 def create_user(**params):
     return get_user_model().objects.create_user(**params)
@@ -44,6 +46,7 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        
     #test to verify passwd length
     def test_password_too_short(self):
         """Test Passwd Length: Must be More Than 5 Characters"""
@@ -55,6 +58,7 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
+
     def test_create_token_for_user(self):
         """Test Token Generation For User"""
         payload = {'email': 'test@vitality.com', 'password': 'testpass'}
@@ -87,3 +91,50 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(TOKEN_URL, {'email': 'one', 'password': ''})
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthorized(self):
+        """Test Required User Authentication"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    #only supporting patch and put for endpoints
+#private for required to use authtoken
+class PrivateUserApiTests(TestCase):
+    """Test API Required Authenticaion"""
+
+    def setUp(self):
+        self.user = create_user(
+            email='test@londonappdev.com',
+            password='testpass',
+            name='name'
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_profile_success(self):
+        """Test Retrieved Profile For Logged User"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, {
+            'name': self.user.name,
+            'email': self.user.email
+        })
+
+    def test_post_me_not_allowed(self):
+        """Test POST Not Permitted In URL"""
+        res = self.client.post(ME_URL, {})
+
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_udpate_user_profile(self):
+        """Test Update User Profile For Auth"""
+        payload = {'name': 'new name', 'password': 'newpassword123'}
+
+        res = self.client.patch(ME_URL, payload)
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.name, payload['name'])
+        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
