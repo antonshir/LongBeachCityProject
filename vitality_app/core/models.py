@@ -1,12 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
+                                        PermissionsMixin
+from django.conf import settings
 #libraries required to extend the django user model while
 #making use of some out of the box features of django-user models
 #*******ATTENTION**********
 #After making changes to models, run migrations.
 #Ask your system administrator if this is not clear.
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
-                                        PermissionsMixin
+
 #create user manager class for helper functions
+
 class UserManager(BaseUserManager):
 #extra fields add additional fields if we need it: flexibility
     def create_user(self, email, password=None, **extra_fields):
@@ -31,6 +34,7 @@ class UserManager(BaseUserManager):
 
         return user
 #building model on top of built in django user model
+
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom User Model Supports Emails Not Username"""
     email = models.EmailField(max_length=255, unique=True)
@@ -41,3 +45,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 #usually its username: customizing this
     USERNAME_FIELD = 'email'
+
+
+#using best practice django auth setting from settings
+class Tag(models.Model):
+    """Tag Utilized In Business"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name

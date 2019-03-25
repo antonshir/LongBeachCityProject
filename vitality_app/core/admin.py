@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 #for diff languange supporrt and fields http
 from django.utils.translation import gettext as _
+
 from core import models
 
 class UserAdmin(BaseUserAdmin):
@@ -30,3 +31,4 @@ class UserAdmin(BaseUserAdmin):
     #found in django admin documentation
     #customized for vitality new user in system with minimal data required
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Tag)

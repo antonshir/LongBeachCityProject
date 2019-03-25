@@ -1,6 +1,12 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+from core import models
+#help function to create users
+def sample_user(email='andreology_test@vitality.com', password='testpass'):
+    """Create Dummy User"""
+    return get_user_model().objects.create_user(email, password)
+
 
 class ModelTests(TestCase):
 
@@ -19,7 +25,7 @@ class ModelTests(TestCase):
 
     def test_new_user_email_normalized(self):
         """Test Email From User Input: check normalizaed"""
-        email = 'andreology_test@VITALITY.COM'
+        email = 'andreology_test@vitality.com'
         user = get_user_model().objects.create_user(email, 'test123')
 
         self.assertEqual(user.email, email.lower())
@@ -38,3 +44,12 @@ class ModelTests(TestCase):
         #is_superuser wont be in model. Its included in mix in extra
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_tag_str(self):
+        """Test Tag String Denotation"""
+        tag = models.Tag.objects.create(
+            user=sample_user(),
+            name='Tupac'
+        )
+
+        self.assertEqual(str(tag), tag.name)
