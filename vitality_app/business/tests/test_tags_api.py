@@ -5,7 +5,7 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core. models import Tag
+from core.models import Tag
 #serializer to make sure unit test passes
 from business.serializers import TagSerializer
 
@@ -62,3 +62,21 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(len(res.data), 1)
         #verifying API is limited results to authenticated user.
         self.assertEqual(res.data[0]['name'], tag.name)
+
+    def test_create_tag_successful(self):
+        """New Tag Creation Test"""
+        payload = {'name': 'Test tag'}
+        self.client.post(TAGS_URL, payload)
+
+        exists = Tag.objects.filter(
+         user=self.user,
+        name=payload['name']
+        ).exists()
+        self.assertTrue(exists)
+        #blank string error test
+
+    def test_create_tag_invalid(self):
+        """New Tag Creation Using Invalid Payload"""
+        payload = {'name': ''}
+        res = self.client.post(TAGS_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
