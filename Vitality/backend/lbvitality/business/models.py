@@ -16,8 +16,7 @@ class Business(models.Model):
     businessType = models.CharField(max_length = 100)
     propertyType = models.CharField(max_length = 100)
     zipcode = models.CharField(max_length = 100)
-
-
+    
 
 
 
