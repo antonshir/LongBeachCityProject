@@ -32,3 +32,4 @@ class UserAdmin(BaseUserAdmin):
     #customized for vitality new user in system with minimal data required
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Tag)
+admin.site.register(models.Location)

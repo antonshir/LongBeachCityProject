@@ -53,3 +53,11 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(tag), tag.name)
+    def test_location_str(self):
+        """Test Location Denotation"""
+        location = models.Location.objects.create(
+            user=sample_user(),
+            name='90806'
+        )
+
+        self.assertEqual(str(location), location.name)

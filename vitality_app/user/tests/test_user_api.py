@@ -46,7 +46,7 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        
+
     #test to verify passwd length
     def test_password_too_short(self):
         """Test Passwd Length: Must be More Than 5 Characters"""
@@ -105,7 +105,7 @@ class PrivateUserApiTests(TestCase):
 
     def setUp(self):
         self.user = create_user(
-            email='test@londonappdev.com',
+            email='test@vitalitydev.com',
             password='testpass',
             name='name'
         )
