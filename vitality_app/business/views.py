@@ -27,7 +27,9 @@ class TagViewSet(viewsets.GenericViewSet,
          """New Tag Generated"""
          serializer.save(user=self.request.user)
          #overriding function to customize modifications to alter create object
-class LocationViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class LocationViewSet(viewsets.GenericViewSet,
+                      mixins.ListModelMixin,
+                      mixins.CreateModelMixin):
     #mixin to support listing Locations
     """Order Locations In DB"""
     #class variables set up
@@ -39,3 +41,7 @@ class LocationViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     def get_queryset(self):
         """Auth User Return Objects"""
         return self.queryset.filter(user=self.request.user).order_by('-name')
+
+    def perform_create(self, serializer):
+        """New Location Creation"""
+        serializer.save(user=self.request.user)
