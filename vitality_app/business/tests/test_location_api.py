@@ -52,11 +52,11 @@ class PrivateLocationApiTest(TestCase):
         #test locations are capped to auth end user
     def test_locations_limited_to_user(self):
         """Test Auth User Received Locations"""
-        user0 = get_user_model().objects.create_user(
+        user2 = get_user_model().objects.create_user(
         'other@vitality.com',
         'testpass'
         )
-        Location.objects.create(user=user0, name='90801')
+        Location.objects.create(user=user2, name='90801')
         location = Location.objects.create(user=self.user, name='90808')
 
         res = self.client.get(LOCATION_URL)
