@@ -2,7 +2,7 @@ from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from core.models import Tag
+from core.models import Tag, Location
 
 from business import serializers
 
@@ -27,3 +27,15 @@ class TagViewSet(viewsets.GenericViewSet,
          """New Tag Generated"""
          serializer.save(user=self.request.user)
          #overriding function to customize modifications to alter create object
+class LocationViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+    #mixin to support listing Locations
+    """Order Locations In DB"""
+    #class variables set up
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = Location.objects.all()
+    serializer_class = serializers.LocationSerializer
+    #filter by objects assigned to user auth and order by name
+    def get_queryset(self):
+        """Auth User Return Objects"""
+        return self.queryset.filter(user=self.request.user).order_by('-name')

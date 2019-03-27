@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 from business import views
 router = DefaultRouter()
 router.register('tags', views.TagViewSet)
+router.register('location', views.LocationViewSet)
 
 app_name = 'business'
 
