@@ -1,3 +1,5 @@
+#Gets first 200 matching businesses in active.csv and stores info in yelp.csv
+
 from __future__ import print_function
 
 import argparse
@@ -7,28 +9,20 @@ import requests
 import sys
 import urllib
 
-from urllib.error import HTTPError
 from urllib.parse import quote
-from urllib.parse import urlencode
 
 import psycopg2
 import csv
+import datetime
 
 #put in your own yelp api key
-# API_KEY= 'DJHBNSxYY_E981Oi1l1zlzfCeHkGKjM8tpIX5lpt-0j3VCiXuQ1A8CcN7Wftj1RYHJlTAc6Mctn8TNZR6mvpMlBGexxHXdkcxaBoklzbhiaziSOu686-Pg1nXSidXHYx'
-API_KEY = 'u6m_IknP8m6UDXU-ANhM_JLm8QDlejrpScT3BAlSDF0VWaSNkRwcKL_0k23cpOUntg8YcK5BTqw8E0V7x-QnUnknKiw8VQA_mxmKTCvqm_nxfirTsN2VvgvD5ZaeXHYx'
+API_KEY = ''
 
-
-# API constants, you shouldn't have to change these.
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
 MATCH_PATH = '/v3/businesses/matches'
 BUSINESS_PATH = '/v3/businesses/'  # Business ID will come after slash.
 
-
-# Defaults for our simple example.
-DEFAULT_TERM = 'dinner'
-DEFAULT_LOCATION = 'San Francisco, CA'
 SEARCH_LIMIT = 3
 
 
@@ -114,133 +108,123 @@ def query_api(term, location):
     pprint.pprint(response, indent=2)
 
 
-def main():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
-                        type=str, help='Search term (default: %(default)s)')
-    parser.add_argument('-l', '--location', dest='location',
-                        default=DEFAULT_LOCATION, type=str,
-                        help='Search location (default: %(default)s)')
-
-    input_values = parser.parse_args()
-
-    try:
-        query_api(input_values.term, input_values.location)
-    except HTTPError as error:
-        sys.exit(
-            'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
-                error.code,
-                error.url,
-                error.read(),
-            )
-        )
-
-
 if __name__ == '__main__':
-    # main()
-    conn = psycopg2.connect("host=127.0.0.1 dbname=businessdb user=postgres password=admin")
+    conn = psycopg2.connect(
+        "host=127.0.0.1 dbname=businessdb user=postgres password=admin")
     cur = conn.cursor()
 
     postgreSQL_select_Query = "select * from business_business"
     cur.execute(postgreSQL_select_Query)
     # print("Selecting rows from mobile table using cursor.fetchall")
-    businesses = cur.fetchall() 
+    businesses = cur.fetchall()
+    d = datetime.datetime.now()
+    date = d.date()
 
-    with open('/Users/David/Desktop/yelp2.csv','w') as appendFile:
+    with open('/Users/David/Desktop/yelp4.csv', 'w') as appendFile:
         writer = csv.writer(appendFile)
-        header = ['yelp_name','yelp_id', 'image_url','is_claimed','is_closed','address','city','state','country','zip_code', 'price', 'rating', 'review_count','transactions','url']
+        header = [
+            'id', 'date', 'yelp_name', 'yelp_id', 'image_url', 'is_claimed',
+            'is_closed', 'address', 'city', 'state', 'country', 'zip_code',
+            'price', 'rating', 'review_count', 'transactions', 'url'
+        ]
         writer.writerow(header)
 
         count = 0
+        total = 0
         for row in businesses:
-            # print(business)
             if count >= 200:
                 break
 
-            business = search(API_KEY, row[2], row[-2])
-
-
+            total = total + 1
+            business = search(API_KEY, row[3], row[-2])
             try:
                 if len(business['businesses']) != 0:
-                    count = count +1
+                    count = count + 1
                     print(count)
-                    info = get_business(API_KEY,business['businesses'][0]['id'])
+                    info = get_business(API_KEY,
+                                        business['businesses'][0]['id'])
                     # pprint.pprint(info)
-                    row = []
+                    arr = []
                     try:
-                        row.append(info['name'])
+                        arr.append(row[0])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['id'])
+                        arr.append(str(date))
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['image_url'])
+                        arr.append(info['name'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['is_claimed'])
+                        arr.append(info['id'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['is_closed'])
+                        arr.append(info['image_url'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['location']['address1'])
+                        arr.append(info['is_claimed'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['location']['city'])
+                        arr.append(info['is_closed'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['location']['state'])
+                        arr.append(info['location']['address1'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['location']['country'])
+                        arr.append(info['location']['city'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['location']['zip_code'])
+                        arr.append(info['location']['state'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['price'])
+                        arr.append(info['location']['country'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['rating'])
+                        arr.append(info['location']['zip_code'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['review_count'])
+                        arr.append(info['price'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['transactions'])
+                        arr.append(info['rating'])
                     except:
-                        row.append('')
+                        arr.append('')
                     try:
-                        row.append(info['url'])
+                        arr.append(info['review_count'])
                     except:
-                        row.append('')
+                        arr.append('')
+                    try:
+                        arr.append(info['transactions'])
+                    except:
+                        arr.append('')
+                    try:
+                        arr.append(info['url'])
+                    except:
+                        arr.append('')
 
-                    writer.writerow(row)
+                    writer.writerow(arr)
             except:
                 print(business)
+    print(total)
     appendFile.close()
 
-
-      # if row[2] == 'CLANCY\'S':
-            #     business = search(API_KEY, row[2], row[-2])
-            #     pprint.pprint(business,indent=2)
-            #     print(business['businesses'][0]['id'])
-            #     print(business['businesses'][0]['location'])
-            #     print(business['businesses'][0]['name'])
-            #     xd = get_business(API_KEY,business['businesses'][0]['id'])
-            #     pprint.pprint(xd,indent=2)
-    
+    # if row[2] == 'CLANCY\'S':
+    #     business = search(API_KEY, row[2], row[-2])
+    #     pprint.pprint(business,indent=2)
+    #     print(business['businesses'][0]['id'])
+    #     print(business['businesses'][0]['location'])
+    #     print(business['businesses'][0]['name'])
+    #     xd = get_business(API_KEY,business['businesses'][0]['id'])
+    #     pprint.pprint(xd,indent=2)
