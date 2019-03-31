@@ -6,7 +6,7 @@ Run your local database server
 
 To connect to a PostgreSQL server with Python, please first install the psycopg2 library: 
 *** (install this after 'pipenv shell')
-```pip install psycopg2```
+```pipenv install psycopg2-binary```
 
 
 To add table to your localhost PostgreSQL database:
