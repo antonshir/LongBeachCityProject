@@ -16,7 +16,7 @@ with open(
     next(reader)  # Skip the header row.
     for row in reader:
         cur.execute(
-            """INSERT INTO business_yelp ("id","date","yelp_name","yelp_id","image_url","is_claimed","is_closed", \
+            """INSERT INTO business_yelp ("licenseNum","date","yelp_name","yelp_id","image_url","is_claimed","is_closed", \
             "address","city","state","country","zip_code","price","rating","review_count","transactions","url") \
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
             (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],

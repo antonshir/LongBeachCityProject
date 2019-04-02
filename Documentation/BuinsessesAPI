@@ -1,2 +1,5 @@
 http://localhost:8000/api/buinesses
 returns a list of JSONObjects of businesses
+
+http://localhost:8000/api/zipcoderatio
+return active/delinquent ratio for each zipcode
