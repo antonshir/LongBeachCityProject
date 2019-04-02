@@ -120,12 +120,13 @@ if __name__ == '__main__':
     d = datetime.datetime.now()
     date = d.date()
 
-    with open('/Users/David/Desktop/yelp4.csv', 'w') as appendFile:
+    with open('/Users/David/Desktop/yelp.csv', 'w') as appendFile:
         writer = csv.writer(appendFile)
         header = [
-            'id', 'date', 'yelp_name', 'yelp_id', 'image_url', 'is_claimed',
-            'is_closed', 'address', 'city', 'state', 'country', 'zip_code',
-            'price', 'rating', 'review_count', 'transactions', 'url'
+            'licenseNum', 'date', 'yelp_name', 'yelp_id', 'image_url',
+            'is_claimed', 'is_closed', 'address', 'city', 'state', 'country',
+            'zip_code', 'price', 'rating', 'review_count', 'transactions',
+            'url'
         ]
         writer.writerow(header)
 
@@ -136,7 +137,7 @@ if __name__ == '__main__':
                 break
 
             total = total + 1
-            business = search(API_KEY, row[3], row[-2])
+            business = search(API_KEY, row[2], row[-2])
             try:
                 if len(business['businesses']) != 0:
                     count = count + 1
