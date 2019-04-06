@@ -9,9 +9,8 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
-import os
-
+import os, sys
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +19,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g3cy-8pyd^6(t!@wf*go4a*l)244#l=q%6_fvh958st-$^8_23'
+#SECRET_KEY = 'g3cy-8pyd^6(t!@wf*go4a*l)244#l=q%6_fvh958st-$^8_23'
 
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
+DB_HOST = config('DJANGO_DB_HOST', default='localhost')
+WEB_HOST = config('DJANGO_WEB_HOST', default='localhost')
+POSTGRES_USER = config('POSTGRES_USER')
+DB_NAME = config('DJANGO_DB_NAME')
+POSTGRES_PASSWORD = config('POSTGRES_PASSWORD')
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [WEB_HOST, 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -81,10 +87,15 @@ WSGI_APPLICATION = 'vitality_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DB_HOST'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
+        'HOST': DB_HOST,
+        'NAME': DB_NAME,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'PORT': '5432',
+    },
+    'local': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -126,6 +137,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #creating new setting for vitality app
 AUTH_USER_MODEL = 'core.User'
