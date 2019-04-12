@@ -26,9 +26,9 @@ class Business(models.Model):
 class SocialMedia(models.Model):
     licenseNum = models.CharField(max_length=100)
     date = models.CharField(max_length=100)
+    score = models.CharField(max_length=100)
     hasYelp = models.BooleanField(default=False)
     hasGoogle = models.BooleanField(default=False)
-    hasTwitter = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (('licenseNum', 'date'), )
@@ -54,6 +54,22 @@ class Yelp(models.Model):
     review_count = models.CharField(max_length=10000)
     transactions = models.CharField(max_length=100)
     url = models.CharField(max_length=1000)
+
+    class Meta:
+        unique_together = (('licenseNum', 'date'), )
+
+
+class Google(models.Model):
+    licenseNum = models.CharField(max_length=100)
+    date = models.CharField(max_length=100)
+
+    google_name = models.CharField(max_length=100)
+    google_id = models.CharField(max_length=100)
+    formatted_address = models.CharField(max_length=1000)
+    latitude = models.CharField(max_length=100)
+    longtitude = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
+    rating = models.CharField(max_length=100)
 
     class Meta:
         unique_together = (('licenseNum', 'date'), )
