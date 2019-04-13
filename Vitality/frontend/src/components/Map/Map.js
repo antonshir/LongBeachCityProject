@@ -9,7 +9,7 @@ const {
 } = require("react-google-maps");
 const Map = compose(
   withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCys__gg8EEH6Mor2NnnVYL8Y5qukV_mI4",
+    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=API_HERE",
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `100vh` }} />,
     mapElement: <div style={{ height: `86%` }} />,
