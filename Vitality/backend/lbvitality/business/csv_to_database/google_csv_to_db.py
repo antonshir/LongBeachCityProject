@@ -16,7 +16,7 @@ with open(
     next(reader)  # Skip the header row.
     for row in reader:
         cur.execute(
-            """INSERT INTO business_google ("licenseNum","date","google_name","google_id","formatted_address","latitude","longtitude", \
+            """INSERT INTO business_google ("license_um","date","google_name","google_id","formatted_address","latitude","longtitude", \
             "price","rating") \
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
             (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
