@@ -15,8 +15,8 @@ with open(
     next(reader)  # Skip the header row.
     for row in reader:
         cur.execute(
-            """INSERT INTO business_business ("licenseNum","name","DBAName","licenseType","status","processedDate","startDate", \
-            "expireDate","employeeNum","companyType","businessType","propertyType","address","zipcode") \
+            """INSERT INTO business_business ("license_num","name","dba_name","license_type","status","processed_date","start_date", \
+            "expire_date","employee_num","company_type","business_type","property_type","address","zipcode") \
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
             (row[0], row[1], row[2], row[3], row[5], row[6], row[7], row[8],
              row[17], row[16], row[22], row[13], row[14], row[15]))
@@ -30,8 +30,8 @@ with open(
     next(reader)  # Skip the header row.
     for row in reader:
         cur.execute(
-            """INSERT INTO business_business ("licenseNum","name","DBAName","licenseType","status","processedDate","startDate", \
-            "expireDate","employeeNum","companyType","businessType","propertyType","address","zipcode") \
+            """INSERT INTO business_business ("license_num","name","dba_name","license_type","status","processed_date","start_date", \
+            "expire_date","employee_num","company_type","business_type","property_type","address","zipcode") \
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
             (row[0], row[1], row[2], row[3], row[5], row[6], row[7], row[8],
              row[17], row[16], row[22], row[13], row[14], row[15]))
