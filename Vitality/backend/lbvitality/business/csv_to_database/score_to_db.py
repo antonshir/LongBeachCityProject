@@ -25,13 +25,9 @@ with open(
     for row in reader:
         business = Business.objects.get(license_num=row[0])
         print(business)
-        social = SocialMedia(date=row[1],
-                             score=row[2],
-                             has_yelp=False,
-                             has_google=False,
-                             business=business)
-        print(social)
-        social.save()
+        score = SocialMediaScore(date=row[1], score=row[2], business=business)
+        print(score)
+        score.save()
     # for row in reader:
     #     cur.execute(
     #         """INSERT INTO business_socialmedia ("licenseNum","date","score","hasYelp","hasGoogle") \

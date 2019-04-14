@@ -6,5 +6,7 @@ router = routers.DefaultRouter()
 router.register('business', BusinessViewSet, 'business')
 router.register('businesslist', BusinessListViewSet, 'businesslist')
 router.register('zipcoderatio', ZipCodeRatioViewSet, 'zipcoderatio')
+router.register('socialmediascore', SocialMediaScoreViewSet,
+                'socialmediascore')
 
 urlpatterns = router.urls
