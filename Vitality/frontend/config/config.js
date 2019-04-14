@@ -48,13 +48,26 @@ export default {
       path: '/',
       component: '../layouts/BasicLayout',
       routes: [
-        { path: '/', redirect: '/analysis' },
+        { path: '/', redirect: '/dashboard/analysis' },
         // dashboard
         {
-          path: '/analysis',
-          name: 'Analytics',
+          path: '/dashboard',
+          name: 'Dashboard',
           icon: 'area-chart',
-          component: './Dashboard/Analysis',
+          routes: [
+            {
+              path: '/dashboard/analysis',
+              name: 'Analysis',
+              component: './Dashboard/Analysis'
+            },
+            {
+              path: '/dashboard/advancedprofile',
+              name: 'Test/Profile',
+              component: './Dashboard/AdvancedProfile'
+            },
+
+
+          ],
         },
 
       ],
@@ -68,8 +81,7 @@ export default {
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
   },
-  // Theme for antd
-  // https://ant.design/docs/react/customize-theme-cn
+
   theme: {
     'primary-color': primaryColor,
   },

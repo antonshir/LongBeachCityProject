@@ -14,7 +14,7 @@ app.use(createLoading());
   app.use(plugin);
 });
 
-app.model({ namespace: 'global', ...(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/models/global.js').default) });
-app.model({ namespace: 'menu', ...(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/models/menu.js').default) });
-app.model({ namespace: 'setting', ...(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/models/setting.js').default) });
-app.model({ namespace: 'user', ...(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/models/user.js').default) });
+app.model({ namespace: 'global', ...(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/models/global.js').default) });
+app.model({ namespace: 'menu', ...(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/models/menu.js').default) });
+app.model({ namespace: 'setting', ...(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/models/setting.js').default) });
+app.model({ namespace: 'user', ...(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/models/user.js').default) });

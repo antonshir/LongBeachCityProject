@@ -2,7 +2,7 @@ import React from 'react';
 import { Router as DefaultRouter, Route, Switch } from 'react-router-dom';
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/_renderRoutes';
-import RendererWrapper0 from '/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/pages/.umi/LocaleWrapper.jsx'
+import RendererWrapper0 from '/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/pages/.umi/LocaleWrapper.jsx'
 import _dvaDynamic from 'dva/dynamic'
 
 let Router = require('dva/router').routerRedux.ConnectedRouter;
@@ -13,7 +13,7 @@ let routes = [
     "component": _dvaDynamic({
   
   component: () => import('../../layouts/UserLayout'),
-  LoadingComponent: require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/components/PageLoading/index').default,
+  LoadingComponent: require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/components/PageLoading/index').default,
 }),
     "routes": [
       {
@@ -21,12 +21,12 @@ let routes = [
         "component": _dvaDynamic({
   
   component: () => import('../Welcome'),
-  LoadingComponent: require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/components/PageLoading/index').default,
+  LoadingComponent: require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/components/PageLoading/index').default,
 }),
         "exact": true
       },
       {
-        "component": () => React.createElement(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+        "component": () => React.createElement(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
       }
     ]
   },
@@ -35,32 +35,51 @@ let routes = [
     "component": _dvaDynamic({
   
   component: () => import('../../layouts/BasicLayout'),
-  LoadingComponent: require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/components/PageLoading/index').default,
+  LoadingComponent: require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/components/PageLoading/index').default,
 }),
     "routes": [
       {
         "path": "/",
-        "redirect": "/analysis",
+        "redirect": "/dashboard/analysis",
         "exact": true
       },
       {
-        "path": "/analysis",
-        "name": "Analytics",
+        "path": "/dashboard",
+        "name": "Dashboard",
         "icon": "area-chart",
-        "component": _dvaDynamic({
+        "routes": [
+          {
+            "path": "/dashboard/analysis",
+            "name": "Analysis",
+            "component": _dvaDynamic({
   
   component: () => import('../Dashboard/Analysis'),
-  LoadingComponent: require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/src/components/PageLoading/index').default,
+  LoadingComponent: require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/components/PageLoading/index').default,
 }),
-        "exact": true
+            "exact": true
+          },
+          {
+            "path": "/dashboard/advancedprofile",
+            "name": "Test/Profile",
+            "component": _dvaDynamic({
+  
+  component: () => import('../Dashboard/AdvancedProfile'),
+  LoadingComponent: require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/components/PageLoading/index').default,
+}),
+            "exact": true
+          },
+          {
+            "component": () => React.createElement(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+          }
+        ]
       },
       {
-        "component": () => React.createElement(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+        "component": () => React.createElement(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
       }
     ]
   },
   {
-    "component": () => React.createElement(require('/Users/applesauce/Desktop/Projects/Backup/LatestLBVIT/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
+    "component": () => React.createElement(require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: true })
   }
 ];
 window.g_routes = routes;

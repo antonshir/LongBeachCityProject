@@ -2,11 +2,15 @@ import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
+import {menu} from '../defaultSettings';
 
 const { check } = Authorized;
 
 // Conversion router to menu.
 function formatter(data, parentAuthority, parentName) {
+  if(!data){
+    return undefined;
+  }
   return data
     .map(item => {
       if (!item.name || !item.path) {
@@ -19,6 +23,7 @@ function formatter(data, parentAuthority, parentName) {
       } else {
         locale = `menu.${item.name}`;
       }
+
 
       const result = {
         ...item,
@@ -66,10 +71,12 @@ const filterMenuData = menuData => {
     .filter(item => item);
 };
 /**
- * 获取面包屑映射
- * @param {Object} menuData 菜单配置
+ * @param {Object} menuData
  */
 const getBreadcrumbNameMap = menuData => {
+  if(!menuData) {
+    return {};
+  }
   const routerMap = {};
 
   const flattenMenuData = data => {
@@ -92,6 +99,7 @@ export default {
 
   state: {
     menuData: [],
+    routerData: [],
     breadcrumbNameMap: {},
   },
 

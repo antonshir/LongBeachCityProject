@@ -5,8 +5,9 @@ import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Analysis.less';
 import PageLoading from '@/components/PageLoading';
 import PriorirtDrawer from '@/components/PriorityDrawer/index'
+import Map from '@/components/Map/Map'
 
-const MapCard = React.lazy(() => import('./MapCard'));
+
 
 
 
@@ -27,21 +28,7 @@ class Analysis extends Component {
 
   render() {
     return (
-      <GridContent>
-        <Button type="primary" size={'small'} onClick={this.showDrawer}>Open</Button>
-         <Drawer
-          title="Priority"
-          placement="right"
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-        >
-        </Drawer>
-        <Suspense fallback={null}>
-          <MapCard>
-          </MapCard>
-        </Suspense>
-      </GridContent>
+      <Map/>
     );
   }
 
