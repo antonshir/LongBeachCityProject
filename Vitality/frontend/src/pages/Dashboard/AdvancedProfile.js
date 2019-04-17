@@ -1,7 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import '@/services/api'
+import '@/utils/request'
+import { queryBusiness } from '@/services/api';
+import  axios from 'axios';
+
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
+import CardDrawer from '@/components/Drawer/CardDrawer'
 import {
     Button,
     Menu,
@@ -45,15 +51,33 @@ const description = (
 
 class AdvancedProfile extends Component {
 
-  componentDidMount() {
+  state = {
+    zipcode: []
   }
+  componentDidMount() {
+    var config = {
+      headers: { "content-type": "application/x-www-form-urlencoded" }
+    };
+
+    jQuery
+      .get("/api/business")
+      .then(res => {
+        const zipcode = res.data;
+        this.setState({zipcode})
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+  }
+
+
     render()
     {
         return (
             <PageHeaderWrapper
             title = "Business Name"
-            content = {description}
-            >
+            content = {description}>
+
             </PageHeaderWrapper>
 
         );

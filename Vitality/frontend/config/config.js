@@ -53,7 +53,7 @@ export default {
         {
           path: '/dashboard',
           name: 'Dashboard',
-          icon: 'area-chart',
+          icon: 'home',
           routes: [
             {
               path: '/dashboard/analysis',

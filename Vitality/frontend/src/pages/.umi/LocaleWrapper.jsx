@@ -24,7 +24,7 @@ defaultAntd = defaultAntd.default || defaultAntd;
 const localeInfo = {
   'en-US': {
     messages: {
-      ...require('/Users/AppleSauce/Desktop/Projects/Backup/frontend/src/locales/en-US.js').default,
+      ...require('/Users/AppleSauce/Documents/GitHub/AprilProject/Vitality/frontend/src/locales/en-US.js').default,
     },
     locale: 'en-US',
     antd: require('antd/lib/locale-provider/en_US'),

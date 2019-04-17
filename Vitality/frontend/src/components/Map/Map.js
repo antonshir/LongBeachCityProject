@@ -14,25 +14,29 @@ import zip__90814 from './model/zip_90814.json';
 import zip__90815 from './model/zip_90815.json';
 import zip__90822 from './model/zip_90822.json';
 import zip__90831 from './model/zip_90831.json';
-
-
-
-
-
-
-
+import CardDrawer from "@/components/Drawer/CardDrawer";
+import Button from "antd/es/button";
+import PageHeaderWrapper from "@/pages/Dashboard/AdvancedProfile";
 
 
 
 
 var map = ''
 var ctaLayer = ''
+var self = this;
+
 
 class Map extends Component {
   constructor(props) {
     super(props);
     this.onScriptLoad = this.onScriptLoad.bind(this)
   }
+
+  // handleDrawer = () => {
+  //   this.refs.customDrawerReference.showDrawer();
+  // }
+
+
 
   onScriptLoad() {
      map = new window.google.maps.Map(
@@ -42,12 +46,15 @@ class Map extends Component {
         zoom: 10,
         gestureHandling: 'greedy',
         disableDefualtUI: true,
+        mapTypeControl: false,
+        fullscreenControl: false,
 
       });
     ctaLayer = new google.maps.KmlLayer({
       url: 'https://sites.google.com/site/longbeachprojectqwer/kml/City_Of_Long_Beach_City_Boundary.kml',
       map: map
     });
+
 
 
     var lb_boundary = new google.maps.Data();
@@ -162,14 +169,26 @@ class Map extends Component {
     zip_90822.setMap(map);
     zip_90831.setMap(map);
 
+    var infowindow1 = new google.maps.InfoWindow();
+
+
+    google.maps.event.addListener(zip_90802, 'click', function(event) {
+      infowindow1.setContent('zip code: 90802');
+      infowindow1.setPosition(event.latLng);
+      infowindow1.open(map);
+      self.handleDrawer();
+    });
+
   }
+
+
 
 
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement('script');
       s.type = 'text/javascript';
-      s.src = `https://maps.google.com/maps/api/js?key=API_KEY`;
+      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyCys__gg8EEH6Mor2NnnVYL8Y5qukV_mI4`;
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       // Below is important.
@@ -185,8 +204,13 @@ class Map extends Component {
   render() {
     return (
       <div id = 'mapContainer'>
-      <div style={{ width: 900, height: 600 }} id="map"/>
+      <div style={{ width: '100%', height: '86vh' }} id="map"/>
+        <CardDrawer ref="customDrawerReference"/>
+        <Button type="primary" onClick={this.handleDrawer}>
+          Open
+        </Button>
       </div>
+
     );
   }
 }
