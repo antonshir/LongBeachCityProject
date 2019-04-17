@@ -1,5 +1,5 @@
 Go into the csv_to_database folder in backend/lbvitality/business
-run python lb_data.python
+run python lb_data.py
 then python yelp_csv_to_db.py
 then python google_csv_to_db.py
 
