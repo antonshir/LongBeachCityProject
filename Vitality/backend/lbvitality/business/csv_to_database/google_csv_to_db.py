@@ -37,4 +37,7 @@ with open(
                                        rating=row[8],
                                        google=google)
         print(google_history)
-        google_history.save()
+        try:
+            google_history.save()
+        except:
+            print("")

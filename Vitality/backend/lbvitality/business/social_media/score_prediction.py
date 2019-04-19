@@ -109,7 +109,7 @@ if __name__ == "__main__":
                                                   business=temp_business)
             print(social_media_score)
             print(score)
-            # social_media_score.save()
+            social_media_score.save()
 
         # no google ratings for that business
         except:
@@ -120,4 +120,4 @@ if __name__ == "__main__":
                                                   business=temp_business)
             print(social_media_score)
             print(score)
-            # social_media_score.save()
+            social_media_score.save()

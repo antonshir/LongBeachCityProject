@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404
 
 
 class SocialMediaScoreViewSet(viewsets.ModelViewSet):
-    queryset = SocialMediaScore.objects.all()
+    queryset = SocialMediaScore.objects.all()[0:10]
     permission_classes = [permissions.AllowAny]
     serializer_class = SocialMediaScoreSerializer
 
@@ -23,15 +23,39 @@ class SocialMediaScoreViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, business=None):
         queryset = SocialMediaScore.objects.filter(
             business=business).order_by('date')[0]
-        xd = SocialMediaScore.objects.filter(
-            business=business).order_by('date')
-        print(xd)
         serializer = SocialMediaScoreSerializer(queryset)
         return Response(serializer.data)
 
 
+class YelpHistoryViewSet(viewsets.ModelViewSet):
+    queryset = YelpHistory.objects.all()[0:10]
+    permission_classes = [permissions.AllowAny]
+    serializer_class = YelpHistorySerializer
+
+    lookup_field = 'yelp'
+
+    def retrieve(self, request, yelp=None):
+        queryset = YelpHistory.objects.filter(yelp=yelp).order_by('-date')[0]
+        serializer = YelpHistorySerializer(queryset)
+        return Response(serializer.data)
+
+
+class GoogleHistoryViewSet(viewsets.ModelViewSet):
+    queryset = GoogleHistory.objects.all()[0:10]
+    permission_classes = [permissions.AllowAny]
+    serializer_class = GoogleHistorySerializer
+
+    lookup_field = 'google'
+
+    def retrieve(self, request, google=None):
+        queryset = GoogleHistory.objects.filter(
+            google=google).order_by('-date')[0]
+        serializer = GoogleHistorySerializer(queryset)
+        return Response(serializer.data)
+
+
 class BusinessViewSet(viewsets.ModelViewSet):
-    queryset = Business.objects.all()
+    queryset = Business.objects.all()[0:10]
     permission_classes = [permissions.AllowAny]
     serializer_class = AllBusinessInfoSerializer
 
@@ -57,5 +81,6 @@ class BusinessListViewSet(viewsets.ModelViewSet):
         endIndex = int(req.query_params['endindex'])
         self.queryset = SocialMediaScore.objects.filter(
             business__zipcode=zipcode).order_by(
-                'score', 'date', 'business__employee_num')[startindex:endIndex]
+                'score', '-date',
+                '-business__employee_num')[startindex:endIndex]
         return self.queryset

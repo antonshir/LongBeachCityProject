@@ -7,7 +7,7 @@ http://localhost:8000/api/zipcoderatio
 return active/delinquent ratio for each zipcode
 
 http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
-returns a list of businesses of zipcode with the top worst scores
+returns a list of businesses of zipcode with the top worst scores and num of employees affected
 startindex and endindex indicates how many and the ranks of businesses returned
 
 ex. http://localhost:8000/api/businesslist/?zipcode=90813&startindex=0&endindex=10
