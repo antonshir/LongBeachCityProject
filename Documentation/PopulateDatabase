@@ -1,6 +1,13 @@
-Go into the csv_to_database folder in backend/lbvitality/business
-run python lb_data.py
-then python yelp_csv_to_db.py
-then python google_csv_to_db.py
+1. Make sure you in the virtual env by running pipenv shell in backend folder
+2. Make sure you run pipenv install to install latest packages
+
+1. Drop businessdb, add create it again.
+2. Go to backend/lbvitiality/, run python manage.py makemigrationsth, then python manage.py migrate
+3. Go to backend/lbvitality/business/csv_to_database/
+4. Run python lb_data.py
+5. Run python yelp_csv_to_db.py
+6. Run python google_csv_to_db.py
+7. GO to backend/lbvitality/business/social_media
+8. Run python score_prediction.py
 
 now the database should be populated and APIs should work!

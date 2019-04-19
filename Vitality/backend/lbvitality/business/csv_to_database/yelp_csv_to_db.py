@@ -42,4 +42,7 @@ with open(
                                    review_count=row[14],
                                    yelp=yelp)
         print(yelp_history)
-        yelp_history.save()
+        try:
+            yelp_history.save()
+        except:
+            print("")
