@@ -55,7 +55,7 @@ class GoogleHistoryViewSet(viewsets.ModelViewSet):
 
 
 class BusinessViewSet(viewsets.ModelViewSet):
-    queryset = Business.objects.all()[0:10]
+    queryset = Business.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = AllBusinessInfoSerializer
 

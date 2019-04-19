@@ -17,3 +17,14 @@ http://localhost:8000/api/socialmediascore/{license_num}/
 returns the most recent social media score of the business 
 ex. http://localhost:8000/api/socialmediascore/BU20357460/
 it will return the most recent social media score of business with license_num of BU20357460
+
+
+http://localhost:8000/api/yelphistory/{yelp_id}/
+returns the latest information of the business includes rating, num of comments
+ex. http://localhost:8000/api/yelphistory/QnNwwDCtj0F82M5LKG0yBg/
+it will return rating, num of comments, etc for that yelp account
+
+http://localhost:8000/api/googlehistory/{google_id}/
+returns the latest information of the business includes rating
+ex. http://localhost:8000/api/googlehistory/ChIJDw8gS6823YARNjmWA9Q-zeU/
+it will return rating, etc for that google account
