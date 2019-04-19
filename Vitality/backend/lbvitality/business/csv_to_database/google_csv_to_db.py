@@ -5,9 +5,9 @@ import os
 import django
 import sys
 
-sys.path.append(
-    "/Users/David/Documents/GitHub/LongBeachCityProject/Vitality/backend/lbvitality"
-)
+sys.path.append('/'.join((os.path.dirname(os.path.abspath(__file__)) +
+                          '').split('/')[0:-5]) +
+                '/Vitality/backend/lbvitality')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
 django.setup()
 
@@ -22,28 +22,19 @@ with open(
 
     for row in reader:
         business = Business.objects.get(license_num=row[0])
-        # print(business)
         google = Google(google_name=row[2],
                         google_id=row[3],
                         formatted_address=row[4],
                         latitude=row[5],
                         longtitude=row[6],
                         business=business)
-        # print(google)
         google.save()
 
-        google_history = GoogleHistory(date=row[1],
+        #give a date of 2019-04-01 since it was wrong formatted
+        date_temp = '2019-04-01'
+        google_history = GoogleHistory(date=date_temp,
                                        price=row[7],
                                        rating=row[8],
                                        google=google)
         print(google_history)
         google_history.save()
-
-#     for row in reader:
-#         cur.execute(
-#             """INSERT INTO business_google ("license_um","date","google_name","google_id","formatted_address","latitude","longtitude", \
-#             "price","rating") \
-#             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-#             (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
-#              row[8]))
-# conn.commit()

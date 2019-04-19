@@ -56,6 +56,6 @@ class BusinessListViewSet(viewsets.ModelViewSet):
         startindex = int(req.query_params['startindex'])
         endIndex = int(req.query_params['endindex'])
         self.queryset = SocialMediaScore.objects.filter(
-            business__zipcode=zipcode).order_by('score',
-                                                'date')[startindex:endIndex]
+            business__zipcode=zipcode).order_by(
+                'score', 'date', 'business__employee_num')[startindex:endIndex]
         return self.queryset

@@ -14,6 +14,7 @@ psycopg2-binary = "*"
 requests = "*"
 pandas = "*"
 django-cors-headers = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.7"
