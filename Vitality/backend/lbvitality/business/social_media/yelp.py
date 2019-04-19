@@ -220,12 +220,3 @@ if __name__ == '__main__':
                 print(business)
     print(total)
     appendFile.close()
-
-    # if row[2] == 'CLANCY\'S':
-    #     business = search(API_KEY, row[2], row[-2])
-    #     pprint.pprint(business,indent=2)
-    #     print(business['businesses'][0]['id'])
-    #     print(business['businesses'][0]['location'])
-    #     print(business['businesses'][0]['name'])
-    #     xd = get_business(API_KEY,business['businesses'][0]['id'])
-    #     pprint.pprint(xd,indent=2)
