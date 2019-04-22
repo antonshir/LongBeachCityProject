@@ -1,0 +1,50 @@
+[
+  {
+    "zipcode": 90815,
+    "businessCount": 1201,
+    "delinquentCount": 112,
+    "activeCount": 1089
+  },
+  {
+    "zipcode": 90802,
+    "businessCount": 1234,
+    "delinquentCount": 134,
+    "activeCount": 1421
+  },
+  {
+    "zipcode": 90803,
+    "businessCount": 12344,
+    "delinquentCount": 14,
+    "activeCount": 1421
+  },
+  {
+    "zipcode": 90804,
+    "businessCount": 34,
+    "delinquentCount": 13,
+    "activeCount": 21
+  },
+  {
+    "zipcode": 90805,
+    "businessCount": 124,
+    "delinquentCount": 13,
+    "activeCount": 111
+  },
+  {
+    "zipcode": 90806,
+    "businessCount": 120,
+    "delinquentCount": 20,
+    "activeCount": 100
+  },
+  {
+    "zipcode": 90807,
+    "businessCount": 14,
+    "delinquentCount": 4,
+    "activeCount": 10
+  },
+  {
+    "zipcode": 90808,
+    "businessCount": 12348,
+    "delinquentCount": 1347,
+    "activeCount": 14219
+  }
+]
