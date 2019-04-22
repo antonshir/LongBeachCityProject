@@ -1,9 +1,41 @@
 import { Drawer, Button, Radio } from 'antd';
+import React from 'react'
+import BusinessList from '@/components/BusinessList/BusinessList'
+import { queryBusiness, queryBusinessList, zipcoderatio } from "@/services/api";
+
 
 const RadioGroup = Radio.Group;
 
 class CardDrawer extends React.Component {
-  state = { visible: false, placement: 'left' };
+
+  // constructor(props){
+  //   super(props);
+  // }
+
+  state = {
+    visible: false,
+    placement: 'left',
+    businesses: []
+  };
+
+  fetchBusinesses = () => {
+    queryBusinessList(90813).then(res => {
+      this.setState({
+        businesses: res
+      })
+    })
+  }
+
+  componentDidMount() {
+  this.fetchBusinesses()
+  }
+
+  componentWillReceiveProps(newProps) {
+   // this.fetchBusinesses(newProps);
+    if(newProps.token){
+      this.fetchBusinesses(newProps)
+    }
+  }
 
   showDrawer = () => {
     this.setState({
@@ -26,9 +58,9 @@ class CardDrawer extends React.Component {
   render() {
     return (
       <div id='CardContainer'>
-        {/*<Button type="primary" onClick={this.showDrawer}>*/}
-          {/*Open*/}
-        {/*</Button>*/}
+        <Button type="primary" onClick={this.showDrawer}>
+          Open drawer
+        </Button>
         <Drawer
           title="Basic Drawer"
           placement={this.state.placement}
@@ -37,11 +69,12 @@ class CardDrawer extends React.Component {
           visible={this.state.visible}
           mask = {false}
           closable={true}
-          placement={'bottom'}
+          placement={'right'}
+          width = {520}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <div>
+          <BusinessList data={this.state.businesses}/> <br/>
+          </div>
         </Drawer>
       </div>
     );

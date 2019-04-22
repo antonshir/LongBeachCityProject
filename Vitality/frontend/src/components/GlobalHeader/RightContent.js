@@ -116,74 +116,18 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         />
-        {/*<Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>*/}
-          {/*<a*/}
-            {/*target="_blank"*/}
-            {/*href="https://pro.ant.design/docs/getting-started"*/}
-            {/*rel="noopener noreferrer"*/}
-            {/*className={styles.action}*/}
-          {/*>*/}
-            {/*<Icon type="question-circle-o" />*/}
-          {/*</a>*/}
-        {/*</Tooltip>*/}
-        {/*<NoticeIcon*/}
-          {/*className={styles.action}*/}
-          {/*count={currentUser.unreadCount}*/}
-          {/*onItemClick={(item, tabProps) => {*/}
-            {/*console.log(item, tabProps); // eslint-disable-line*/}
-            {/*this.changeReadState(item, tabProps);*/}
-          {/*}}*/}
-          {/*locale={{*/}
-            {/*emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),*/}
-            {/*clear: formatMessage({ id: 'component.noticeIcon.clear' }),*/}
-          {/*}}*/}
-          {/*onClear={onNoticeClear}*/}
-          {/*onPopupVisibleChange={onNoticeVisibleChange}*/}
-          {/*loading={fetchingNotices}*/}
-          {/*clearClose*/}
-        {/*>*/}
-          {/*<NoticeIcon.Tab*/}
-            {/*count={unreadMsg.notification}*/}
-            {/*list={noticeData.notification}*/}
-            {/*title={formatMessage({ id: 'component.globalHeader.notification' })}*/}
-            {/*name="notification"*/}
-            {/*emptyText={formatMessage({ id: 'component.globalHeader.notification.empty' })}*/}
-            {/*emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"*/}
-          {/*/>*/}
-          {/*<NoticeIcon.Tab*/}
-            {/*count={unreadMsg.message}*/}
-            {/*list={noticeData.message}*/}
-            {/*title={formatMessage({ id: 'component.globalHeader.message' })}*/}
-            {/*name="message"*/}
-            {/*emptyText={formatMessage({ id: 'component.globalHeader.message.empty' })}*/}
-            {/*emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"*/}
-          {/*/>*/}
-          {/*<NoticeIcon.Tab*/}
-            {/*count={unreadMsg.event}*/}
-            {/*list={noticeData.event}*/}
-            {/*title={formatMessage({ id: 'component.globalHeader.event' })}*/}
-            {/*name="event"*/}
-            {/*emptyText={formatMessage({ id: 'component.globalHeader.event.empty' })}*/}
-            {/*emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"*/}
-          {/*/>*/}
-        {/*</NoticeIcon>*/}
-        {/*{currentUser.name ? (*/}
-          {/*<HeaderDropdown overlay={menu}>*/}
-            {/*<span className={`${styles.action} ${styles.account}`}>*/}
-              {/*<Avatar*/}
-                {/*size="small"*/}
-                {/*className={styles.avatar}*/}
-                {/*src={currentUser.avatar}*/}
-                {/*alt="avatar"*/}
-              {/*/>*/}
-              {/*<span className={styles.name}>{currentUser.name}</span>*/}
-            {/*</span>*/}
-          {/*</HeaderDropdown>*/}
-        {/*) : (*/}
-          {/*<Spin size="small" style={{ marginLeft: 8, marginRight: 20 }} />*/}
-        {/*)}*/}
-
+        <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
+          <a
+            target="_blank"
+            href="https://google.com"
+            rel="noopener noreferrer"
+            className={styles.action}
+          >
+            <Icon type="question-circle-o" />
+          </a>
+        </Tooltip>
       </div>
     );
   }
 }
+

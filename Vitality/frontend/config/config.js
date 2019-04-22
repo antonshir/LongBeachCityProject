@@ -37,7 +37,6 @@ export default {
     ie: 11,
   },
 
-
   routes: [
     {
       path: '/user',
@@ -66,10 +65,8 @@ export default {
               component: './Dashboard/AdvancedProfile'
             },
 
-
           ],
         },
-
       ],
     },
   ],

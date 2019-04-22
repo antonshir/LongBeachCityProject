@@ -5,7 +5,7 @@ import django
 import sys
 
 sys.path.append(
-    "/Users/David/Documents/GitHub/LongBeachCityProject/Vitality/backend/lbvitality"
+    "/Users/Applesauce/Documents/GitHub/AprilProject/Vitality/backend/lbvitality"
 )
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
 django.setup()

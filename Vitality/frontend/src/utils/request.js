@@ -1,7 +1,4 @@
-/**
- * request
- *api : https://github.com/umijs/umi-request
- */
+
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 
@@ -38,7 +35,8 @@ const errorHandler = error => {
 
 const request = extend({
   errorHandler,
-  credentials: 'include',
+  WithCredentials: 'TRUE',
+  // credentials: 'include',
 });
 
 export default request;

@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import '@/services/api'
 import '@/utils/request'
-import { queryBusiness } from '@/services/api';
-import  axios from 'axios';
-
+import { queryBusiness, queryBusinessList, zipcoderatio } from "@/services/api";
+import axios from 'axios'
+import BusinessList from '@/components/BusinessList/BusinessList'
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
@@ -27,6 +27,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import classNames from 'classnames';
 import DescriptionList from '@/components/DescriptionList';
 import styles from './AdvancedProfile.less';
+import request from "@/utils/request";
 
 
 
@@ -51,35 +52,16 @@ const description = (
 
 class AdvancedProfile extends Component {
 
-  state = {
-    zipcode: []
-  }
   componentDidMount() {
-    var config = {
-      headers: { "content-type": "application/x-www-form-urlencoded" }
-    };
-
-    jQuery
-      .get("/api/business")
-      .then(res => {
-        const zipcode = res.data;
-        this.setState({zipcode})
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
   }
-
-
     render()
     {
         return (
             <PageHeaderWrapper
             title = "Business Name"
             content = {description}>
-
+              <CardDrawer data={90813}/>
             </PageHeaderWrapper>
-
         );
     }
 }

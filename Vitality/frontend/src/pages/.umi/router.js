@@ -52,10 +52,7 @@ let routes = [
             "path": "/dashboard/analysis",
             "name": "Analysis",
             "component": _dvaDynamic({
-  app: window.g_app,
-models: () => [
-  import('/Users/AppleSauce/Documents/GitHub/AprilProject/Vitality/frontend/src/pages/Dashboard/models/businessList.js').then(m => { return { namespace: 'businessList',...m.default}})
-],
+  
   component: () => import('../Dashboard/Analysis'),
   LoadingComponent: require('/Users/AppleSauce/Documents/GitHub/AprilProject/Vitality/frontend/src/components/PageLoading/index').default,
 }),
@@ -65,10 +62,7 @@ models: () => [
             "path": "/dashboard/advancedprofile",
             "name": "Test/Profile",
             "component": _dvaDynamic({
-  app: window.g_app,
-models: () => [
-  import('/Users/AppleSauce/Documents/GitHub/AprilProject/Vitality/frontend/src/pages/Dashboard/models/businessList.js').then(m => { return { namespace: 'businessList',...m.default}})
-],
+  
   component: () => import('../Dashboard/AdvancedProfile'),
   LoadingComponent: require('/Users/AppleSauce/Documents/GitHub/AprilProject/Vitality/frontend/src/components/PageLoading/index').default,
 }),

@@ -17,16 +17,17 @@ import zip__90831 from './model/zip_90831.json';
 import CardDrawer from "@/components/Drawer/CardDrawer";
 import Button from "antd/es/button";
 import PageHeaderWrapper from "@/pages/Dashboard/AdvancedProfile";
+import { queryBusinessList } from "@/services/api";
 
 
 
 
 var map = ''
 var ctaLayer = ''
-var self = this;
 
 
-class Map extends Component {
+
+class Map extends React.Component {
   constructor(props) {
     super(props);
     this.onScriptLoad = this.onScriptLoad.bind(this)
@@ -43,7 +44,7 @@ class Map extends Component {
       document.getElementById('map'),
       {
         center: { lat: 33.7971, lng: -118.1637 },
-        zoom: 10,
+        zoom: 18,
         gestureHandling: 'greedy',
         disableDefualtUI: true,
         mapTypeControl: false,
@@ -54,7 +55,6 @@ class Map extends Component {
       url: 'https://sites.google.com/site/longbeachprojectqwer/kml/City_Of_Long_Beach_City_Boundary.kml',
       map: map
     });
-
 
 
     var lb_boundary = new google.maps.Data();
@@ -176,7 +176,6 @@ class Map extends Component {
       infowindow1.setContent('zip code: 90802');
       infowindow1.setPosition(event.latLng);
       infowindow1.open(map);
-      self.handleDrawer();
     });
 
   }
@@ -185,6 +184,7 @@ class Map extends Component {
 
 
   componentDidMount() {
+    var self = this;
     if (!window.google) {
       var s = document.createElement('script');
       s.type = 'text/javascript';
@@ -204,7 +204,7 @@ class Map extends Component {
   render() {
     return (
       <div id = 'mapContainer'>
-      <div style={{ width: '100%', height: '86vh' }} id="map"/>
+      <div style={{ width: '100%', height:'87vh' }} id="map"/>
         <CardDrawer ref="customDrawerReference"/>
         <Button type="primary" onClick={this.handleDrawer}>
           Open
