@@ -1,22 +1,30 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import "./Map.css";
-import zip__90802 from "./model/zip_90802.json";
-import zip__90803 from "./model/zip_90803.json";
-import zip__90804 from "./model/zip_90804.json";
-import zip__90805 from "./model/zip_90805.json";
-import zip__90806 from "./model/zip_90806.json";
-import zip__90807 from "./model/zip_90807.json";
-import zip__90808 from "./model/zip_90808.json";
-import zip__90810 from "./model/zip_90810.json";
-import zip__90813 from "./model/zip_90813.json";
-import zip__90814 from "./model/zip_90814.json";
-import zip__90815 from "./model/zip_90815.json";
-import zip__90822 from "./model/zip_90822.json";
-import zip__90831 from "./model/zip_90831.json";
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import './Map.css'
+import zip__90802 from './model/zip_90802.json';
+import zip__90803 from './model/zip_90803.json';
+import zip__90804 from './model/zip_90804.json';
+import zip__90805 from './model/zip_90805.json';
+import zip__90806 from './model/zip_90806.json';
+import zip__90807 from './model/zip_90807.json';
+import zip__90808 from './model/zip_90808.json';
+import zip__90810 from './model/zip_90810.json';
+import zip__90813 from './model/zip_90813.json';
+import zip__90814 from './model/zip_90814.json';
+import zip__90815 from './model/zip_90815.json';
+import zip__90822 from './model/zip_90822.json';
+import zip__90831 from './model/zip_90831.json';
+import CardDrawer from "@/components/Drawer/CardDrawer";
+import Button from "antd/es/button";
+import PageHeaderWrapper from "@/pages/Dashboard/AdvancedProfile";
+import { queryBusinessList } from "@/services/api";
 
-var map = "";
-var ctaLayer = "";
+
+
+var map = ''
+var ctaLayer = ''
+
+
 
 class Map extends Component {
   constructor(props) {
@@ -381,33 +389,39 @@ class Map extends Component {
     return licenses;
   }
 
+
+
+
   componentDidMount() {
+    var self = this;
     if (!window.google) {
-      var s = document.createElement("script");
-      s.type = "text/javascript";
-
-      //https://maps.googleapis.com/maps/api/js?key=AIzaSyCgnZngr44c2paPyhr-cx0uRicdYNjn7WI&callback=initMap
-
-      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyCgnZngr44c2paPyhr-cx0uRicdYNjn7WI`;
-      var x = document.getElementsByTagName("script")[0];
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyCys__gg8EEH6Mor2NnnVYL8Y5qukV_mI4`;
+      var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       // Below is important.
       //We cannot access google.maps until it's finished loading
-      s.addEventListener("load", e => {
-        this.onScriptLoad();
-      });
+      s.addEventListener('load', e => {
+        this.onScriptLoad()
+      })
     } else {
-      this.onScriptLoad();
+      this.onScriptLoad()
     }
   }
 
   render() {
     return (
-      <div id="mapContainer">
-        <div style={{ width: 900, height: 600 }} id="map" />
+      <div id = 'mapContainer'>
+        <div style={{ width: '100%', height:'87vh' }} id="map"/>
+        <CardDrawer ref="customDrawerReference"/>
+        <Button type="primary" onClick={this.handleDrawer}>
+          Open
+        </Button>
       </div>
+
     );
   }
 }
 
-export default Map;
+export default Map

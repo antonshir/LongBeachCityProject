@@ -53,7 +53,7 @@ class AdvancedProfile extends Component {
     this.setScore = this.setScore.bind(this);
   }
 
-  
+
 
   // state = {
   //   obj: []
@@ -88,7 +88,7 @@ class AdvancedProfile extends Component {
       google_id: res.google.google_id
     });
 
-    console.log("from setInfo")
+    console.log("from setInfo...")
     console.log(this.state.yelp_id);
     console.log("from setInfo")
 
@@ -101,7 +101,7 @@ class AdvancedProfile extends Component {
       yelpReviewCount: res.review_count,
       yelpPriceRange: res.price
     });
-   // return res;
+    // return res;
   }
 
   setGoogleInfo = (res) => {
@@ -116,47 +116,47 @@ class AdvancedProfile extends Component {
     this.setState({
       vitalityScore:  res.score
     });
-    return res;  
+    return res;
   }
 
   componentDidMount() {
-    
-    jQuery
-    .get("http://localhost:8000/api/business/BU20357460/")
-    .then(response => {
-      // handle success
-      this.setInfo(response);
-      console.log(response);
 
-      jQuery
-      .get(yelpHistoryAPI)
+    jQuery
+      .get("http://localhost:8000/api/business/BU20357460/")
       .then(response => {
         // handle success
-        console.log("Yelp: ")
+        this.setInfo(response);
         console.log(response);
-        this.setYelpInfo(response);
-        console.log(this.state.yelp_id);
-        console.log("hello");
-      }) 
+
+        jQuery
+          .get(yelpHistoryAPI)
+          .then(response => {
+            // handle success
+            console.log("Yelp: ")
+            console.log(response);
+            this.setYelpInfo(response);
+            console.log(this.state.yelp_id);
+            console.log("hello");
+          })
+          .catch(function(error) {
+            // handle error
+            console.log("Error in AdvancedProfile");
+            console.log(error);
+          })
+          .then(function() {
+            // always executed
+          });
+
+      })
       .catch(function(error) {
         // handle error
         console.log("Error in AdvancedProfile");
         console.log(error);
-      }) 
+      })
       .then(function() {
         // always executed
-      });   
+      });
 
-    }) 
-    .catch(function(error) {
-      // handle error
-      console.log("Error in AdvancedProfile");
-      console.log(error);
-    }) 
-    .then(function() {
-      // always executed
-    });   
-    
     console.log("Yelp ID:");
     console.log(this.state.yelp_id);
     let yelpHistoryAPI = "http://localhost:8000/api/yelphistory/" + this.state.yelp_id;
@@ -170,15 +170,15 @@ class AdvancedProfile extends Component {
     //   this.setYelpInfo(response);
     //   console.log(this.state.yelp_id);
     //   console.log("hello");
-    // }) 
+    // })
     // .catch(function(error) {
     //   // handle error
     //   console.log("Error in AdvancedProfile");
     //   console.log(error);
-    // }) 
+    // })
     // .then(function() {
     //   // always executed
-    // });   
+    // });
 
   }
 
@@ -189,22 +189,22 @@ class AdvancedProfile extends Component {
     console.log("from render");
     console.log(this.state)
     const des = (
-      <div className="profile">  
+      <div className="profile">
         <a href="http://www.google.com" target="_blank">
           <img src = {this.state.yelpImageUrl} height="300" width="500"/>
         </a>
         <h1 style={{fontSize:30,fontWeight:'bold',color:'#397CE1'}}>{this.state.name}</h1>
         <h2 style={{fontSize:25,color:'#397CE1'}}>Social Media Present: </h2>
-       
+
         {/* <a href="http://www.google.com" target="_blank">
           <Icon type="google" style={{color:'brown'}}/>
         </a> */}
 
-{/* http://pluspng.com/img-png/google-logo-png-open-2000.png */}
+        {/* http://pluspng.com/img-png/google-logo-png-open-2000.png */}
         <a href={this.state.googleUrl} target="_blank">
           <img src={googleIcon} height="40" width="40"/>
         </a>
-        
+
         <a href={this.state.yelpUrl} target="_blank">
           <img src="http://www.sclance.com/pngs/yelp-logo-png/yelp_logo_png_1550416.png" height="80" width="80"/>
         </a>
@@ -223,8 +223,8 @@ class AdvancedProfile extends Component {
 
     return(
       <div>
-         {/* <PageHeaderWrapper title="Business Name" content={description} /> */}
-      
+        {/* <PageHeaderWrapper title="Business Name" content={description} /> */}
+
         <PageHeaderWrapper content={des}/>
 
       </div>

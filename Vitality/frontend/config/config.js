@@ -37,7 +37,6 @@ export default {
     ie: 11,
   },
 
-
   routes: [
     {
       path: '/user',
@@ -53,7 +52,7 @@ export default {
         {
           path: '/dashboard',
           name: 'Dashboard',
-          icon: 'area-chart',
+          icon: 'home',
           routes: [
             {
               path: '/dashboard/analysis',
@@ -66,10 +65,8 @@ export default {
               component: './Dashboard/AdvancedProfile'
             },
 
-
           ],
         },
-
       ],
     },
   ],
