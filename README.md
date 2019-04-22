@@ -33,7 +33,41 @@ Unit Test may be run on the system to verify system functionality and deployemen
 
 ## Deployment
 
+Run the Docker Engine terminal or a git bash and enter the root directory of the project. 
 
+Install requirements for the project.
+```
+docker build . 
+```
 
+Compile the container image 
+```
+docker-compose build 
+```
+
+Run unit tests on system to verify environment and application functionality. 
+```
+docker-compose run --rm sh -c "python manage.py test"
+```
+
+Bring down any running containers
+```
+docker-compose down 
+```
+
+Spin up the container
+```
+docker-compose up 
+```
 ## Built With
+ 
+ ```
+ Docker 
+ Nginx 
+ Gunicorn
+ Python 
+ Django
+ Postgres
+ ``` 
+ 
 
