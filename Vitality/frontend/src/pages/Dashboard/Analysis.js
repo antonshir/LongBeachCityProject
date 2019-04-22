@@ -6,8 +6,7 @@ import styles from './Analysis.less';
 import PageLoading from '@/components/PageLoading';
 import PriorirtDrawer from '@/components/PriorityDrawer/index'
 import Map from '@/components/Map/Map'
-
-
+import CardDrawer from '@/components/Drawer/CardDrawer'
 
 
 
@@ -28,7 +27,7 @@ class Analysis extends Component {
 
   render() {
     return (
-      <Map/>
+     <Map/>
     );
   }
 
