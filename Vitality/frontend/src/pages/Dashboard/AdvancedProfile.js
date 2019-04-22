@@ -21,7 +21,7 @@ import PageHeaderWrapper from "@/components/PageHeaderWrapper";
 import classNames from "classnames";
 import DescriptionList from "@/components/DescriptionList";
 import styles from "./AdvancedProfile.less";
-import googleIcon from "./google.png"
+import googleIcon from "../../assets/google.png"
 
 const { Step } = Steps;
 const { Description } = DescriptionList;
@@ -45,79 +45,140 @@ const description = (
 class AdvancedProfile extends Component {
 
 
-  business = "this is business";
-  // constructor(props){
-  //   super(props);
-  //   this.business;
-  // }
+  constructor(props){
+    super(props);
+    this.setInfo = this.setInfo.bind(this);
+    this.setYelpInfo = this.setYelpInfo.bind(this);
+    this.setGoogleInfo = this.setGoogleInfo.bind(this);
+    this.setScore = this.setScore.bind(this);
+  }
 
   
-
-  getInfo = (res) => {
-    console.log("from get info")
-    console.log(res);
-    console.log("from get info")
-    return res;
-  }
 
   // state = {
   //   obj: []
   // };
 
   state = {
-    name: "BEACH JEWELRY CENTER",
-    liceseNum: "",
+    name: "",
+    licenseNum: "",
     address: "",
-    phone: "",
-    vitalityScore: 3,
-    yelpUrl: "https://www.yelp.com/biz/beach-jewelry-center-long-beach?adjust_creative=OorxPpvbQO7_P_C9N1Ciwg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=OorxPpvbQO7_P_C9N1Ciwg",
-    yelpRating: 4.3,
-    yelpReviewCount: 11,
-    yelpImageUrl: "https://s3-media3.fl.yelpcdn.com/bphoto/AhGyKgEVNNQ3s_VanTO0iA/o.jpg",
-    googleUrl: "https://www.google.com/maps/place/Beach+Jewelry+Center/@33.7685104,-118.1948095,17z/data=!3m1!4b1!4m5!3m4!1s0x80dd3139940f442b:0xaf4f16d7e3f5a33c!8m2!3d33.7685104!4d-118.1926208",
-    googleRating: 4.4,
-    googleReviewCount: 13
+    vitalityScore: 0,
+    yelpUrl: "",
+    yelpRating: 0,
+    yelpReviewCount: 0,
+    yelp_id: "",
+    yelpImageUrl: "",
+    yelpPriceRange: "",
+    googleUrl: "",
+    googleRating: 0,
+    googleReviewCount: 0,
+    google_id: ""
   }
 
 
+  setInfo = (res) => {
+    this.setState({
+      name: res.name,
+      licenseNum: res.license_num,
+      address: res.address,
+      yelpUrl: res.yelp.url,
+      yelpImageUrl: res.yelp.image_url,
+      yelp_id: res.yelp.yelp_id,
+      google_id: res.google.google_id
+    });
+
+    console.log("from setInfo")
+    console.log(this.state.yelp_id);
+    console.log("from setInfo")
+
+    return res;
+  }
+
+  setYelpInfo = (res) => {
+    this.setState({
+      yelpRating: res.rating,
+      yelpReviewCount: res.review_count,
+      yelpPriceRange: res.price
+    });
+   // return res;
+  }
+
+  setGoogleInfo = (res) => {
+    this.setState({
+      googleRating: res.rating,
+      yelpPriceRange: res.price
+    });
+    return res;
+  }
+
+  setScore = (res) => {
+    this.setState({
+      vitalityScore:  res.score
+    });
+    return res;  
+  }
+
   componentDidMount() {
     
+    jQuery
+    .get("http://localhost:8000/api/business/BU20357460/")
+    .then(response => {
+      // handle success
+      this.setInfo(response);
+      console.log(response);
+
       jQuery
-      .get("http://localhost:8000/api/business/BU20357460/")
+      .get(yelpHistoryAPI)
       .then(response => {
         // handle success
+        console.log("Yelp: ")
         console.log(response);
-        this.setState({obj: response.yelp})
-        console.log(this.state.obj);
-        this.getInfo(response);
+        this.setYelpInfo(response);
+        console.log(this.state.yelp_id);
+        console.log("hello");
       }) 
-        
       .catch(function(error) {
-        console.log("Error in AdvancedProfile");
         // handle error
+        console.log("Error in AdvancedProfile");
         console.log(error);
       }) 
       .then(function() {
         // always executed
-      });
-    // console.log("hello there");
-    // console.log(this.state.obj);     
+      });   
+
+    }) 
+    .catch(function(error) {
+      // handle error
+      console.log("Error in AdvancedProfile");
+      console.log(error);
+    }) 
+    .then(function() {
+      // always executed
+    });   
     
-  
+    console.log("Yelp ID:");
+    console.log(this.state.yelp_id);
+    let yelpHistoryAPI = "http://localhost:8000/api/yelphistory/" + this.state.yelp_id;
+
     // jQuery
-    //   .get("http://localhost:8000/api/business/BU20357460/")
-    //   .then(response => this.setState({obj: response}) 
-    //     // handle success
-    //     // console.log(response);
-    //   )
-    //   .catch(function(error) {
-    //     console.log("Error in AdvancedProfile");
-    //     // handle error
-    //     console.log(error);
-    //   }) 
-    //   .then(function() {
-    //     // always executed
-    //   });
+    // .get(yelpHistoryAPI)
+    // .then(response => {
+    //   // handle success
+    //   console.log("Yelp: ")
+    //   console.log(response);
+    //   this.setYelpInfo(response);
+    //   console.log(this.state.yelp_id);
+    //   console.log("hello");
+    // }) 
+    // .catch(function(error) {
+    //   // handle error
+    //   console.log("Error in AdvancedProfile");
+    //   console.log(error);
+    // }) 
+    // .then(function() {
+    //   // always executed
+    // });   
 
   }
 
@@ -125,7 +186,8 @@ class AdvancedProfile extends Component {
 
   render() {
 
-  
+    console.log("from render");
+    console.log(this.state)
     const des = (
       <div className="profile">  
         <a href="http://www.google.com" target="_blank">
