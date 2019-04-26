@@ -24,6 +24,8 @@ import DescriptionList from "@/components/DescriptionList";
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from "./AdvancedProfile.less";
 import googleIcon from "../../assets/google.png"
+import yelpIcon from "../../assets/yelp.png"
+import StarRatings from 'react-star-ratings';
 
 const { Step } = Steps;
 const { Description } = DescriptionList;
@@ -44,19 +46,19 @@ class AdvancedProfile extends Component {
     this.setYelpInfo = this.setYelpInfo.bind(this);
     this.setGoogleInfo = this.setGoogleInfo.bind(this);
     this.setScore = this.setScore.bind(this);
+    this.formatPrice = this.formatPrice.bind(this);
+    this.getScoreColor = this.getScoreColor.bind(this);
   }
 
 
 
-  // state = {
-  //   obj: []
-  // };
-
   state = {
     name: "",
+    dba: "",
     licenseNum: "",
     address: "",
     vitalityScore: 0,
+    employeeNum: 0,
     yelpUrl: "",
     yelpRating: 0,
     yelpReviewCount: 0,
@@ -66,15 +68,27 @@ class AdvancedProfile extends Component {
     googleUrl: "",
     googleRating: 0,
     googleReviewCount: 0,
-    google_id: ""
+    google_id: "",
+    googlePriceRange: ""
   }
 
 
+  formatPrice = (price) => {
+    let dollarSign = "";
+    for(let i=0; i<price; i++){
+      dollarSign += "$";
+    }
+    return dollarSign;
+  }
+
   setInfo = (res) => {
     this.setState({
-      name: res.dba_name,
+      name: res.name,
+      dba: res.dba_name,
       licenseNum: res.license_num,
-      address: res.address,
+      address: res.google.formatted_address,
+      employeeNum: res.employee_num,
+      businessType: res.business_type,
       yelpUrl: res.yelp.url,
       yelpImageUrl: res.yelp.image_url,
       yelp_id: res.yelp.yelp_id,
@@ -94,9 +108,10 @@ class AdvancedProfile extends Component {
   }
 
   setGoogleInfo = (res) => {
+    let price = this.formatPrice(parseInt(res.price))
     this.setState({
       googleRating: res.rating,
-      yelpPriceRange: res.price
+      googlePriceRange: price
     });
     return res;
   }
@@ -108,30 +123,84 @@ class AdvancedProfile extends Component {
     return res;
   }
 
+  getScoreColor = (score) => {
+    switch(score){
+      case 0: return '#ef0a02';
+      case 1: return '#f7cc0c';
+      default: return '#65e006';
+    }
+  }
+
+ 
+
   componentDidMount() {
 
+    let licenseNum = "BU20535520";
+    let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
+    let scoreAPI = "http://localhost:8000/api/socialmediascore/" + licenseNum;
+
+
     jQuery
-      .get("http://localhost:8000/api/business/BU20357460/")
+      .get(businessAPI)
       .then(response => {
         // handle success
         this.setInfo(response);
         console.log(response);
 
+        let yelpHistoryAPI = "http://localhost:8000/api/yelphistory/" + this.state.yelp_id;
+        let googleHistoryAPI = "http://localhost:8000/api/googlehistory/" + this.state.google_id;
+
         jQuery
-          .get(yelpHistoryAPI)
+          .get(scoreAPI)
           .then(response => {
             // handle success
-            this.setYelpInfo(response);
+            console.log("Score: ")
+            console.log(response);
+            this.setScore(response);
           })
           .catch(function(error) {
             // handle error
-            console.log("Error in AdvancedProfile");
+            console.log("Error in Score API call");
             console.log(error);
           })
           .then(function() {
             // always executed
           });
 
+        jQuery
+          .get(yelpHistoryAPI)
+          .then(response => {
+            // handle success
+            console.log("Yelp: ")
+            console.log(response);
+            this.setYelpInfo(response);
+          })
+          .catch(function(error) {
+            // handle error
+            console.log("Error in yelp history API call");
+            console.log(error);
+          })
+          .then(function() {
+            // always executed
+          });
+        
+        jQuery
+          .get(googleHistoryAPI)
+          .then(response => {
+            // handle success
+            console.log("Google: ")
+            console.log(response);
+            this.setGoogleInfo(response);
+          })
+          .catch(function(error) {
+            // handle error
+            console.log("Error in google history API call");
+            console.log(error);
+          })
+          .then(function() {
+            // always executed
+          });
+        
       })
       .catch(function(error) {
         // handle error
@@ -142,124 +211,135 @@ class AdvancedProfile extends Component {
         // always executed
       });
 
-    console.log("Yelp ID:");
-    console.log(this.state.yelp_id);
-    let yelpHistoryAPI = "http://localhost:8000/api/yelphistory/" + this.state.yelp_id;
-
-    // jQuery
-    // .get(yelpHistoryAPI)
-    // .then(response => {
-    //   // handle success
-    //   console.log("Yelp: ")
-    //   console.log(response);
-    //   this.setYelpInfo(response);
-    //   console.log(this.state.yelp_id);
-    //   console.log("hello");
-    // })
-    // .catch(function(error) {
-    //   // handle error
-    //   console.log("Error in AdvancedProfile");
-    //   console.log(error);
-    // })
-    // .then(function() {
-    //   // always executed
-    // });
-
   }
 
 
 
 
   render() {
-    const description = (
-      <div>
-      {/*<a href="http://www.google.com" target="_blank">*/}
-        {/*<img src = {this.state.yelpImageUrl} height="300" width="500"/>*/}
-      {/*</a>*/}
-      <DescriptionList className={styles.headerList} size="medium" col="2">
-        {/*<img width={140} alt="logo" src={this.state.yelpImageUrl} />*/}
-        {/*<a href="http://www.google.com" target="_blank">*/}
-          {/*<img width = {140} alt = "" src = {this.state.yelpImageUrl} height="140"/>*/}
-        {/*</a>*/}
-        <Description term="Business Name">{this.state.name}</Description>
-        <Description term="Social Media Rating:">{this.state.vitalityScore}</Description>
-        <Description term="License Number:">{this.state.licenseNum}</Description>
-        <Description term="Address:" > {this.state.address}</Description>
-        <Description term="Yelp Rating: ">{this.state.yelpRating}</Description>
-        <Description term="Reviews: ">{this.state.yelpReviewCount}</Description>
-      </DescriptionList>
-      </div>
-    );
 
+    var busName = this.state.name;
+    if(this.state.dba !== ""){
+      busName = this.state.dba;
+    }
+    var scoreColor = this.getScoreColor(this.state.vitalityScore);
 
-    const des = (
-      <div className="profile">
-        <a href="http://www.google.com" target="_blank">
-          <img src = {this.state.yelpImageUrl} height="300" width="500"/>
-        </a>
-        <h1 style={{fontSize:30,fontWeight:'bold',color:'#397CE1'}}>{this.state.name}</h1>
-        <h2 style={{fontSize:25,color:'#397CE1'}}>Social Media Present: </h2>
+    // const description = (
+    //   <div>
+    //   <DescriptionList className={styles.headerList} size="medium" col="2">
+    //     <Description term="Business Name">{this.state.name}</Description>
+    //     <Description term="Social Media Rating:">{this.state.vitalityScore}</Description>
+    //     <Description term="License Number:">{this.state.licenseNum}</Description>
+    //     <Description term="Address:" > {this.state.address}</Description>
+    //     <Description term="Yelp Rating: ">{this.state.yelpRating}</Description>
+    //     <Description term="Reviews: ">{this.state.yelpReviewCount}</Description>
+    //   </DescriptionList>
+    //   </div>
+    // );
 
-        {/* <a href="http://www.google.com" target="_blank">
-          <Icon type="google" style={{color:'brown'}}/>
-        </a> */}
-
-        {/* http://pluspng.com/img-png/google-logo-png-open-2000.png */}
-        <a href={this.state.googleUrl} target="_blank">
-          <img src={googleIcon} height="40" width="40"/>
-        </a>
-
-        {/*<a href={this.state.yelpUrl} target="_blank">*/}
-          {/*<img src="http://www.sclance.com/pngs/yelp-logo-png/yelp_logo_png_1550416.png" height="80" width="80"/>*/}
-        {/*</a>*/}
-        <DescriptionList className={styles.headerList} size="small" col="3">
-          <Description term="Business Name">Something</Description>
-          <Description term="Rating?">Something</Description>
-          <Description term="?">Something</Description>
-          <Description term="?" />
-          <Description term="?">Placeholder</Description>
-          <Description term="?">Placeholder</Description>
-        </DescriptionList>
-      </div>
-    );
 
     return(
-        <PageHeaderWrapper
-        title = {this.state.name}
-        backIcon = {<Icon type="arrow-left" />}
-        content = {description}
-        logo = {
-          <img width={140} alt="logo" src={this.state.yelpImageUrl} />
-        }
-        >
-          <GridContent>
-            <Row gutter={24}>
-              <Col xl={18} lg={24} md={24} sm={24} xs={24} style={{ marginBottom: 24 }}>
-          <Card title="Card" style={{ marginBottom: 24 }} bordered={true}>
-            <DescriptionList >
-              <Description term="??">?</Description>
-              <Description term="??">?</Description>
-              <Description term="??">?</Description>
-              <Description term="??">?</Description>
-              <Description term="??">
-                ??
-              </Description>
-            </DescriptionList>
-          </Card>
-              </Col>
-              <Row>
-                <Col md={6} sm={12} xs={24}>
+      <PageHeaderWrapper
+        // title = {this.state.name}
+        // backIcon = {<Icon type="arrow-left" />}
+        // content = {description}
+        // logo = {
+        //   <img width="500px" alt="logo" src={this.state.yelpImageUrl} />
+        // }
+      >
+
+        
+        <Row gutter={24} style={{marginBottom: 24, marginLeft:0, marginRight: 0, paddingLeft:0}}>
           <Card
-            bodyStyle={{ paddingTop: 12, paddingBottom: 12, paddingRight:12 }}
-            bordered={false}
-            title="Card"
-          >
-          </Card>
-                </Col>
-              </Row>
-            </Row>
-          </GridContent>
-        </PageHeaderWrapper>
+                bodyStyle={{ paddingTop: 12, paddingBottom: 12, paddingRight:0, paddingLeft:0}}
+                bordered={false}
+                // title="Card"
+          > 
+            <Col xl={6} >
+              <img src = {this.state.yelpImageUrl} height="250" width="250"/>
+            </Col>
+            <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}> 
+              <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
+              <h2 style={{fontSize:20,fontWeight:'bold',color:'#397CE1'}}>
+                Social Media Score: <Badge count={this.state.vitalityScore} style={{ fontSize:24, fontWeight:'bold', width:30, height: 20, backgroundColor: scoreColor}} />
+              </h2>
+              
+              <h2 style={{fontSize: 18, fontWeight:'bold', color:'#545451'}}>Employee Number: {this.state.employeeNum}</h2>
+              <h4 style={{fontSize: 15, color:'#545451'}}>License:  {this.state.licenseNum}</h4>
+              <h4 style={{fontSize: 15, color:'#545451'}}>Business Type:  {this.state.businessType}</h4>
+              <h4 style={{fontSize: 15, color:'#545451'}}>Address:  {this.state.address}</h4>
+             
+            </Col>
+          </Card>  
+        </Row>
+        
+        
+        <GridContent>
+          <Row gutter={24} >
+         
+            <Col xl={8} lg={12} md={12} sm={12} xs={12} style={{ marginBottom: 24 }}>
+              <Card
+                bodyStyle={{ height:200,  paddingTop: 12, paddingBottom: 12, paddingRight:12, paddingLeft:12 }}
+                bordered={false}
+                // title="Card"
+              >
+                <a href={this.state.yelpUrl} target="_blank">
+                <img src={yelpIcon} height="60" width="100"/><br/><br/>
+                </a>
+                <StarRatings
+                  rating={this.state.yelpRating}
+                  starRatedColor="#f2de30"
+                  starDimension="20px"
+                  starSpacing="4px"
+                  numberOfStars={5}
+                  name='yelpRating'
+                />
+                <h4 style={{fontSize:16, color:'#545451'}}>Reviews: {this.state.yelpReviewCount}</h4>
+                <h2 style={{fontSize:20, color:'#545451'}}>Price Range: {this.state.yelpPriceRange}</h2>
+
+              </Card>
+            </Col>
+          
+            <Col xl={8} lg={12} md={12} sm={12} xs={12} style={{ marginBottom: 24 }}>
+              <Card
+                bodyStyle={{ height:200, paddingTop: 12, paddingBottom: 12, paddingRight:12, paddingLeft:12 }}
+                bordered={false}
+                // title="Card"
+              >
+                <a href={this.state.googleUrl} target="_blank">
+                  <img src={googleIcon} height="60" width="60"/><br/><br/>
+                </a>
+                <StarRatings
+                  rating={this.state.googleRating}
+                  starRatedColor="#f2de30"
+                  starDimension="20px"
+                  starSpacing="4px"
+                  numberOfStars={5}
+                  name='googleRating'
+                />
+                <h2 style={{fontSize:20, color:'#545451'}}>Price Range: {this.state.googlePriceRange}</h2>
+
+              </Card>
+            </Col>
+
+            <Col xl={8} lg={24} md={24} sm={24} xs={24} style={{ marginBottom: 24 }}>
+              <Card title="Chart" style={{ height:200, marginBottom: 24 }} bordered={true}>
+                <DescriptionList >
+                  <Description term="??">To the rivers</Description>
+                  <Description term="??">and the lakes</Description>
+                  <Description term="??">you're use to</Description>
+                  <Description term="??">??????</Description>
+                  <Description term="??">??</Description>
+                </DescriptionList>
+              </Card>
+            </Col>
+
+
+          
+          </Row>
+        </GridContent>
+
+      </PageHeaderWrapper>
 
     ) ;
   }
