@@ -2,14 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-class SocialMediaScoreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SocialMediaScore
-        fields = '__all__'
-        lookup_field = 'business'
-        extra_kwargs = {'url': {'lookup_field': 'business'}}
-
-
 class YelpSerializer(serializers.ModelSerializer):
     class Meta:
         model = Yelp
@@ -55,3 +47,13 @@ class AllBusinessInfoSerializer(serializers.ModelSerializer):
                   'processed_date', 'start_date', 'expire_date',
                   'employee_num', 'company_type', 'business_type',
                   'property_type', 'address', 'zipcode', 'yelp', 'google')
+
+
+class SocialMediaScoreSerializer(serializers.ModelSerializer):
+    business = AllBusinessInfoSerializer()
+
+    class Meta:
+        model = SocialMediaScore
+        fields = ('date', 'score', 'business')
+        lookup_field = 'business'
+        extra_kwargs = {'url': {'lookup_field': 'business'}}
