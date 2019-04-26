@@ -1,4 +1,3 @@
-// ref: https://umijs.org/config/
 import { primaryColor } from '../src/defaultSettings';
 
 export default {

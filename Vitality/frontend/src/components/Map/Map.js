@@ -25,13 +25,32 @@ var map = ''
 var ctaLayer = ''
 
 
+function addListener (zip) {
+console.log(zip);
+}
+
 
 class Map extends Component {
   constructor(props) {
     super(props);
     this.onScriptLoad = this.onScriptLoad.bind(this);
+    this.drawer = React.createRef();
+    var self = this;
     //this.check_zipcode = this.check_zipcode.bind(this);
   }
+
+  onZip = (zip) => {
+    //this.onMe(zip);
+    this.drawer.current.showDrawer();
+  };
+
+  onMe= (zipC) =>{
+
+  };
+
+
+
+
 
   onScriptLoad() {
     map = new window.google.maps.Map(document.getElementById("map"), {
@@ -78,6 +97,16 @@ class Map extends Component {
     zip_90815.addGeoJson(zip__90815);
     zip_90822.addGeoJson(zip__90822);
     zip_90831.addGeoJson(zip__90831);
+
+  //  var infowwindow1 = google.maps.data.
+
+    google.maps.event.addListener(zip_90813, 'click', function(event) {
+      // infowindow1.setContent('zip code: 90813');
+      // infowindow1.setPosition(event.latLng);
+      // infowindow1.open(map);
+    });
+
+    this.onZip(90813);
 
     var zip_codes = [
       90802,
@@ -332,6 +361,8 @@ class Map extends Component {
     zip_90831.setMap(map);
   }
 
+
+
   set_color(active, delinquent) {
     //  console.log(active);
     //  console.log(delinquent);
@@ -390,14 +421,11 @@ class Map extends Component {
   }
 
 
-
-
   componentDidMount() {
-    var self = this;
     if (!window.google) {
       var s = document.createElement('script');
       s.type = 'text/javascript';
-      s.src = `https://maps.google.com/maps/api/js?key=API_KEY_HERE`;
+      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyCys__gg8EEH6Mor2NnnVYL8Y5qukV_mI4`;
       var x = document.getElementsByTagName('script')[0];
       x.parentNode.insertBefore(s, x);
       // Below is important.
@@ -412,12 +440,11 @@ class Map extends Component {
 
   render() {
     return (
+      <div style={{ margin: '-24px -24px 0' }}>
       <div id = 'mapContainer'>
-        <div style={{ width: '100%', height:'87vh' }} id="map"/>
-        <CardDrawer ref="customDrawerReference"/>
-        <Button type="primary" onClick={this.handleDrawer}>
-          Open
-        </Button>
+        <div style={{ width: '100%', height:'92vh' }} id="map"/>
+      </div>
+        <CardDrawer ref={this.drawer} zipcode={90813}/>
       </div>
 
     );
