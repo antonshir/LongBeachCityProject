@@ -7,14 +7,14 @@ http://localhost:8000/api/zipcoderatio
 return active/delinquent ratio for each zipcode
 
 http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
-returns a list of businesses of zipcode with the top worst scores and num of employees affected
+returns a list of businesses of zipcode randomly of that zipcode
 startindex and endindex indicates how many and the ranks of businesses returned
 
 ex. http://localhost:8000/api/businesslist/?zipcode=90813&startindex=0&endindex=10
 it will return a list of top 10 worst businesses of zipcode 90813 
 
 http://localhost:8000/api/socialmediascore/{license_num}/
-returns the most recent social media score of the business 
+returns the most recent social media score of the business and basic business information
 ex. http://localhost:8000/api/socialmediascore/BU20357460/
 it will return the most recent social media score of business with license_num of BU20357460
 
