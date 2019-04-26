@@ -66,9 +66,6 @@ class CardDrawer extends React.Component {
   render() {
     return (
       <div id='CardContainer'>
-        <Button type="primary" onClick={this.showDrawer}>
-          Open drawer
-        </Button>
         <Drawer
           title="Basic Drawer"
           placement={this.state.placement}
@@ -78,7 +75,7 @@ class CardDrawer extends React.Component {
           mask = {false}
           closable={true}
           placement={'right'}
-          width = {520}
+          width = {420}
         >
           <div>
           {/*<BusinessList data={this.state.businesses}/> <br/>*/}
