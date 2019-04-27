@@ -138,6 +138,7 @@ class Map extends Component {
     google.maps.event.addListener(zip_90813, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90813");
+      map.setZoom(15);
     });
     google.maps.event.addListener(zip_90814, "click", function(event) {
       self.onZip(90813);
@@ -245,7 +246,8 @@ class Map extends Component {
             //  };
             zip_colors.push({
               zipcode: zip_codes[i],
-              color: "#fdffe1"
+              color: "#f1f3d6"
+              //color: "#fdffe1"
             });
 
             //count_out++;
@@ -453,17 +455,17 @@ class Map extends Component {
     //    console.log(ratio);
     var color = "#000000";
     if (ratio > 0.3) {
-      color = "#ff0000";
+      color = "#d60000";
     } else if (ratio > 0.2) {
-      color = "#990000";
+      color = "#b36a00";
     } else if (ratio > 0.15) {
-      color = "#b45f06";
+      color = "#b69a48";
     } else if (ratio > 0.1) {
-      color = "#bf9000";
+      color = "#d2d200";
     } else if (ratio > 0.05) {
-      color = "#f1c232";
+      color = "#99bc57";
     } else {
-      color = "#ffe599";
+      color = "#6b915b";
     }
     return color;
   }
