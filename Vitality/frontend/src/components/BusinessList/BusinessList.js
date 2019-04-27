@@ -18,6 +18,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 const BusinessList = (props)  => {
+  console.log(props);
   return(
   <List
     itemLayout="vertical"
@@ -33,16 +34,17 @@ const BusinessList = (props)  => {
     // footer={<div><b>ant design</b> footer part</div>}
     renderItem={item => (
       <List.Item
-        key={item.id}
+        key={item.address}
         actions={[<IconText type="star-o" text="156" />]}
         extra={<img width={140} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
       >
         <List.Item.Meta
-          title={<a> {item.business}</a>}
+          title={<a> {item.name}</a>}
           // title={<a href={item.href}>{item.title}</a>}
-          description={item.date}
+          description={"hello"}
         />
-        {item.score}
+        {/*{item.score}*/}
+        {item.status}
       </List.Item>
     )}
   />

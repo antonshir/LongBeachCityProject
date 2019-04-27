@@ -8,9 +8,9 @@ const RadioGroup = Radio.Group;
 
 class CardDrawer extends React.Component {
 
-  // constructor(props){
-  //   super(props);
-  // }
+  constructor(props){
+    super(props);
+  }
 
   state = {
     visible: false,
@@ -18,24 +18,32 @@ class CardDrawer extends React.Component {
     businesses: []
   };
 
-  fetchBusinesses = () => {
-    queryBusinessList(90813).then(res => {
-      this.setState({
-        businesses: res
+  fetchBusinesses = (zip) => {
+    console.log(zip.zipcode);
+    queryBusinessList(zip.zipcode).then(res => {
+      // this.setState({
+      //   businesses: res
+      // })
+      console.log("Hi");
+      console.log(res);
+
+      queryBusiness(res.business).then(result => {
+        console.log(result);
+        this.setState({
+          businesses: result
+        })
       })
+
     })
   }
 
-  componentDidMount() {
-  this.fetchBusinesses()
-  }
-
-  componentWillReceiveProps(newProps) {
-   // this.fetchBusinesses(newProps);
-    if(newProps.token){
-      this.fetchBusinesses(newProps)
+  componentDidUpdate(nextProps) {
+    if (this.props !== nextProps) {
+      console.log("Yes");
+      this.fetchBusinesses(this.props);
     }
   }
+
 
   showDrawer = () => {
     this.setState({
@@ -58,9 +66,6 @@ class CardDrawer extends React.Component {
   render() {
     return (
       <div id='CardContainer'>
-        <Button type="primary" onClick={this.showDrawer}>
-          Open drawer
-        </Button>
         <Drawer
           title="Basic Drawer"
           placement={this.state.placement}
@@ -70,10 +75,10 @@ class CardDrawer extends React.Component {
           mask = {false}
           closable={true}
           placement={'right'}
-          width = {520}
+          width = {420}
         >
           <div>
-          <BusinessList data={this.state.businesses}/> <br/>
+          {/*<BusinessList data={this.state.businesses}/> <br/>*/}
           </div>
         </Drawer>
       </div>

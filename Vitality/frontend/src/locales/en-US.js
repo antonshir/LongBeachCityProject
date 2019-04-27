@@ -1,6 +1,6 @@
 import globalHeader from './en-US/globalHeader';
-import menu from './en-US/menu';
-import settings from './en-US/settings';
+// import menu from './en-US/menu';
+// import settings from './en-US/settings';
 
 export default {
   'navBar.lang': 'Languages',
@@ -9,6 +9,6 @@ export default {
   'layout.user.link.terms': 'Terms',
   'app.home.introduce': 'introduce',
   ...globalHeader,
-  ...menu,
-  ...settings,
+  // ...menu,
+  // ...settings,
 };

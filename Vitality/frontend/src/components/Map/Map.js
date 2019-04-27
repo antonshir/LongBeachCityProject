@@ -26,12 +26,27 @@ var ctaLayer = ''
 
 
 
+
 class Map extends Component {
   constructor(props) {
     super(props);
     this.onScriptLoad = this.onScriptLoad.bind(this);
-    //this.check_zipcode = this.check_zipcode.bind(this);
+    this.drawer = React.createRef();
+    var self = this;
   }
+
+  onZip (zip) {
+    console.log(zip);
+    this.drawer.current.showDrawer();
+  };
+
+  onMe= (zipC) => {
+
+  };
+
+
+
+
 
   onScriptLoad() {
     map = new window.google.maps.Map(document.getElementById("map"), {
@@ -45,6 +60,7 @@ class Map extends Component {
         "https://sites.google.com/site/longbeachprojectqwer/kml/City_Of_Long_Beach_City_Boundary.kml",
       map: map
     });
+    let self = this;
 
     var lb_boundary = new google.maps.Data();
     var zip_90802 = new google.maps.Data();
@@ -60,6 +76,7 @@ class Map extends Component {
     var zip_90815 = new google.maps.Data();
     var zip_90822 = new google.maps.Data();
     var zip_90831 = new google.maps.Data();
+
 
     //  var lb_boundary = new google.maps.Data();
 
@@ -78,6 +95,54 @@ class Map extends Component {
     zip_90815.addGeoJson(zip__90815);
     zip_90822.addGeoJson(zip__90822);
     zip_90831.addGeoJson(zip__90831);
+
+    // map.data.addGeoJson(zip__90813);
+
+  //  var infowwindow1 = google.maps.data.
+
+    google.maps.event.addListener(zip_90813, 'click', function(event) {
+      self.onZip(90813);
+    });
+    google.maps.event.addListener(zip_90814, 'click', function(event) {
+      self.onZip(90813);
+    });
+    google.maps.event.addListener(zip_90808, 'click', function(event) {
+      self.onZip(90813);
+    });
+
+    google.maps.event.addListener(zip_90807, 'click', function(event) {
+      self.onZip(90813);
+    });
+    google.maps.event.addListener(zip_90822, 'click', function(event) {
+      self.onZip(90813);
+    });
+
+    google.maps.event.addListener(zip_90831, 'click', function(event) {
+      self.onZip(90831);
+    });
+
+    google.maps.event.addListener(zip_90802, 'click', function(event) {
+      self.onZip(90831);
+    });
+    google.maps.event.addListener(zip_90803, 'click', function(event) {
+      self.onZip(90831);
+    });
+    google.maps.event.addListener(zip_90804, 'click', function(event) {
+      self.onZip(90831);
+    });
+    google.maps.event.addListener(zip_90805, 'click', function(event) {
+      self.onZip(90831);
+    });
+    google.maps.event.addListener(zip_90806, 'click', function(event) {
+      self.onZip(90831);
+    });
+
+    // infowindow1.setContent('zip code: 90813');
+      // infowindow1.setPosition(
+    //   self.onZip(90813);
+    // });
+
+    // this.onZip(90813);
 
     var zip_codes = [
       90802,
@@ -332,6 +397,8 @@ class Map extends Component {
     zip_90831.setMap(map);
   }
 
+
+
   set_color(active, delinquent) {
     //  console.log(active);
     //  console.log(delinquent);
@@ -390,10 +457,7 @@ class Map extends Component {
   }
 
 
-
-
   componentDidMount() {
-    var self = this;
     if (!window.google) {
       var s = document.createElement('script');
       s.type = 'text/javascript';
@@ -412,12 +476,11 @@ class Map extends Component {
 
   render() {
     return (
+      <div style={{ margin: '-24px -24px 0' }}>
       <div id = 'mapContainer'>
-        <div style={{ width: '100%', height:'87vh' }} id="map"/>
-        <CardDrawer ref="customDrawerReference"/>
-        <Button type="primary" onClick={this.handleDrawer}>
-          Open
-        </Button>
+        <div style={{ width: '100%', height:'92vh' }} id="map"/>
+      </div>
+        <CardDrawer ref={this.drawer} zipcode={90813}/>
       </div>
 
     );

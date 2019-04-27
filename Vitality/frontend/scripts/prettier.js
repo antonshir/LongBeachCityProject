@@ -1,9 +1,5 @@
 /**
- * copy to https://github.com/facebook/react/blob/master/scripts/prettier/index.js
- * prettier api doc https://prettier.io/docs/en/api.html
- *----------*****--------------
- *  prettier all js and all ts.
- *----------*****--------------
+
  */
 
 const glob = require('glob');
