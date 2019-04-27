@@ -134,54 +134,86 @@ class Map extends Component {
     // map.data.addGeoJson(zip__90813);
 
     //  var infowwindow1 = google.maps.data.
-
+    google.maps.event.addListener(zip_90815, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90815");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.795, lng: -118.118 });
+    });
+    google.maps.event.addListener(zip_90810, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90810");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.816, lng: -118.215 });
+    });
     google.maps.event.addListener(zip_90813, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90813");
-      map.setZoom(15);
+      map.setZoom(14);
+      map.setCenter({ lat: 33.781, lng: -118.175 });
     });
     google.maps.event.addListener(zip_90814, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90814");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.771, lng: -118.145 });
     });
     google.maps.event.addListener(zip_90808, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90808");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.823, lng: -118.113 });
     });
 
     google.maps.event.addListener(zip_90807, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90807");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.828, lng: -118.182 });
     });
     google.maps.event.addListener(zip_90822, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90822");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.776, lng: -118.118 });
     });
 
     google.maps.event.addListener(zip_90831, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90831");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.768, lng: -118.199 });
     });
 
     google.maps.event.addListener(zip_90802, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90802");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.769, lng: -118.192 });
     });
     google.maps.event.addListener(zip_90803, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90803");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.761, lng: -118.13 });
     });
     google.maps.event.addListener(zip_90804, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90804");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.783, lng: -118.152 });
     });
     google.maps.event.addListener(zip_90805, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90805");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.866, lng: -118.184 });
     });
     google.maps.event.addListener(zip_90806, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90806");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.802, lng: -118.186 });
     });
 
     // infowindow1.setContent('zip code: 90813');
