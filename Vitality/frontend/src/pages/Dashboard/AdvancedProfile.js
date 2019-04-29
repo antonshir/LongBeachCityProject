@@ -25,6 +25,7 @@ import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from "./AdvancedProfile.less";
 import googleIcon from "../../assets/google.png"
 import yelpIcon from "../../assets/yelp.png"
+import noImage from "../../assets/no_image.png"
 import StarRatings from 'react-star-ratings';
 
 const { Step } = Steps;
@@ -147,7 +148,7 @@ class AdvancedProfile extends Component {
 
   componentDidMount() {
 
-    let licenseNum = "BU20622970";
+    let licenseNum = "BU20537350";
     let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
     let scoreAPI = "http://localhost:8000/api/socialmediascore/" + licenseNum;
 
@@ -234,24 +235,13 @@ class AdvancedProfile extends Component {
 
   render() {
 
-    var busName = this.state.name;
+    let busName = this.state.name;
     if(this.state.dba !== ""){
       busName = this.state.dba;
     }
-    var scoreColor = this.getScoreColor(this.state.vitalityScore);
+    let scoreColor = this.getScoreColor(this.state.vitalityScore);
+    let busImage = this.state.yelpImageUrl === ""? noImage : this.state.yelpImageUrl ;
 
-    // const description = (
-    //   <div>
-    //   <DescriptionList className={styles.headerList} size="medium" col="2">
-    //     <Description term="Business Name">{this.state.name}</Description>
-    //     <Description term="Social Media Rating:">{this.state.vitalityScore}</Description>
-    //     <Description term="License Number:">{this.state.licenseNum}</Description>
-    //     <Description term="Address:" > {this.state.address}</Description>
-    //     <Description term="Yelp Rating: ">{this.state.yelpRating}</Description>
-    //     <Description term="Reviews: ">{this.state.yelpReviewCount}</Description>
-    //   </DescriptionList>
-    //   </div>
-    // );
 
 
     return(
@@ -272,7 +262,7 @@ class AdvancedProfile extends Component {
                 // title="Card"
           > 
             <Col xl={6} >
-              <img src = {this.state.yelpImageUrl} height="250" width="250"/>
+              <img src = {busImage} height="250" width="250"/>
             </Col>
             <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}> 
               <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
