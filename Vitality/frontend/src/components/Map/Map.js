@@ -21,6 +21,7 @@ import { queryBusinessList } from "@/services/api";
 
 var map = "";
 var ctaLayer = "";
+var legend = "";
 
 class Map extends Component {
   constructor(props) {
@@ -36,8 +37,6 @@ class Map extends Component {
   }
 
   onMe = zipC => {};
-
-  generate_marker(lat, lon) {}
 
   addMarker(props) {
     console.log(props);
@@ -81,13 +80,13 @@ class Map extends Component {
     var url =
       "http://localhost:8000/api/businesslist/?zipcode=" +
       zip +
-      "&startindex=0&endindex=10";
+      "&startindex=0&endindex=200";
     jQuery
       .get(url, config)
       .then(res => {
         console.log(res[0].business.google.latitude);
         console.log(res[0].business.google.longtitude);
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 200; i++) {
           //  console.log(i);
           //  console.log(res[i].business.google.latitude);
           //  console.log(res[i].business.google.longtitude);
@@ -111,6 +110,7 @@ class Map extends Component {
   }
 
   onScriptLoad() {
+    legend = document.getElementById("legend");
     map = new window.google.maps.Map(document.getElementById("map"), {
       center: { lat: 33.7971, lng: -118.1637 },
       zoom: 10,
@@ -504,6 +504,89 @@ class Map extends Component {
     zip_90815.setMap(map);
     zip_90822.setMap(map);
     zip_90831.setMap(map);
+
+    var icons = [
+      {
+        name: "ratio",
+        url: "https://sites.google.com/site/longbeachprojectqwer/kml/red.png"
+      },
+      {
+        name: "ratio",
+        icon:
+          "https://sites.google.com/site/longbeachprojectqwer/kml/orange.png"
+      },
+      {
+        name: "ratio",
+        icon:
+          "https://sites.google.com/site/longbeachprojectqwer/kml/dark_yellow.png"
+      },
+      {
+        name: "ratio",
+        icon:
+          "https://sites.google.com/site/longbeachprojectqwer/kml/yellow.png"
+      },
+      {
+        name: "ratio",
+        icon:
+          "https://sites.google.com/site/longbeachprojectqwer/kml/light_green.png"
+      },
+      {
+        name: "ratio",
+        icon:
+          "https://sites.google.com/site/longbeachprojectqwer/kml/dark_green.png"
+      }
+    ];
+
+    //  for (var ico in icons) {
+    //    var div = document.createElement("div");
+    //    div.innerHTML = '<img src="' + ico.icon + '"> ' + ico.name;
+    //    legend.appendChild(div);
+    //  }
+
+    var div = document.createElement("div");
+    var div1 = document.createElement("div");
+    var div2 = document.createElement("div");
+    var div3 = document.createElement("div");
+    var div4 = document.createElement("div");
+    var div5 = document.createElement("div");
+    div.innerHTML =
+      '<img src="' +
+      "https://sites.google.com/site/longbeachprojectqwer/kml/red.png" +
+      '"> ' +
+      "ratio";
+    legend.appendChild(div);
+    div1.innerHTML =
+      '<img src="' +
+      "https://sites.google.com/site/longbeachprojectqwer/kml/orange.png" +
+      '"> ' +
+      "ratio";
+    legend.appendChild(div1);
+    div2.innerHTML =
+      '<img src="' +
+      "https://sites.google.com/site/longbeachprojectqwer/kml/dark_yellow.png" +
+      '"> ' +
+      "ratio";
+    legend.appendChild(div2);
+    div3.innerHTML =
+      '<img src="' +
+      "https://sites.google.com/site/longbeachprojectqwer/kml/yellow.png" +
+      '"> ' +
+      "ratio";
+    legend.appendChild(div3);
+    div4.innerHTML =
+      '<img src="' +
+      "https://sites.google.com/site/longbeachprojectqwer/kml/light_green.png" +
+      '"> ' +
+      "ratio";
+    legend.appendChild(div4);
+    div5.innerHTML =
+      '<img src="' +
+      "https://sites.google.com/site/longbeachprojectqwer/kml/dark_green.png" +
+      '"> ' +
+      "ratio";
+    legend.appendChild(div5);
+
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
   }
 
   set_color(active, delinquent) {
@@ -515,13 +598,13 @@ class Map extends Component {
     if (ratio > 0.3) {
       color = "#d60000";
     } else if (ratio > 0.2) {
-      color = "#b36a00";
+      color = "#ff9900";
     } else if (ratio > 0.15) {
-      color = "#b69a48";
+      color = "#ffd966";
     } else if (ratio > 0.1) {
-      color = "#d2d200";
+      color = "#f7f700";
     } else if (ratio > 0.05) {
-      color = "#99bc57";
+      color = "#c9f772";
     } else {
       color = "#6b915b";
     }
@@ -607,6 +690,18 @@ class Map extends Component {
       <div style={{ margin: "-24px -24px 0" }}>
         <div id="mapContainer">
           <div style={{ width: "100%", height: "92vh" }} id="map" />
+          <div
+            style={{
+              background: "#fff",
+              padding: "10px",
+              margin: "10px",
+              border: "3px solid #000"
+            }}
+            id="legend"
+          >
+            <h3>HEATMAP LEGEND</h3>
+            <h4>Ratio = delinquent / active</h4>
+          </div>
         </div>
         <CardDrawer ref={this.drawer} zipcode={90813} />
       </div>
