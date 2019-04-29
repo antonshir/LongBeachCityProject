@@ -42,11 +42,18 @@ class Map extends Component {
   addMarker(props) {
     console.log(props);
 
+    var infowindow = new google.maps.InfoWindow();
+
     var marker = new google.maps.Marker({
       position: props.coords,
       map: map,
       icon: props.markerImage
       //icon: "http://maps.google.com/mapfiles/ms/micons/yellow.png"
+    });
+    marker.addListener("click", function() {
+      infowindow.setContent(props.business_name);
+      infowindow.setPosition(event.latLng);
+      infowindow.open(map, marker);
     });
   }
 
@@ -91,7 +98,8 @@ class Map extends Component {
               lat: parseFloat(res[i].business.google.latitude),
               lng: parseFloat(res[i].business.google.longtitude)
             },
-            markerImage: this.determine_marker_color(res[i].score)
+            markerImage: this.determine_marker_color(res[i].score),
+            business_name: res[i].business.dba_name
           });
 
           //generate_marker(res[i].business.google.latitude, res[i].business.google.longtitude);
