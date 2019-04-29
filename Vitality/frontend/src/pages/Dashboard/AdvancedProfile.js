@@ -25,6 +25,7 @@ import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from "./AdvancedProfile.less";
 import googleIcon from "../../assets/google.png"
 import yelpIcon from "../../assets/yelp.png"
+import defaultImage from "../../assets/no_image.png"
 import StarRatings from 'react-star-ratings';
 
 const { Step } = Steps;
@@ -179,7 +180,7 @@ class AdvancedProfile extends Component {
           .get(scoreAPI)
           .then(response => {
             // handle success
-            console.log("Score:");
+            console.log("Score: ")
             console.log(response);
             this.setScore(response);
           })
@@ -192,7 +193,8 @@ class AdvancedProfile extends Component {
             // always executed
           });
 
-        jQuery
+        if(this.state.yelp_id !== ""){
+          jQuery
           .get(yelpHistoryAPI)
           .then(response => {
             // handle success
@@ -208,8 +210,10 @@ class AdvancedProfile extends Component {
           .then(function() {
             // always executed
           });
-        
-        jQuery
+        }
+
+        if(this.state.google_id !== ""){
+          jQuery
           .get(googleHistoryAPI)
           .then(response => {
             // handle success
@@ -225,6 +229,7 @@ class AdvancedProfile extends Component {
           .then(function() {
             // always executed
           });
+        }
         
       })
       .catch(function(error) {
@@ -244,25 +249,14 @@ class AdvancedProfile extends Component {
   render() {
 
     let busName = this.state.name;
+    let busImage = this.state.yelpImageUrl === ""? defaultImage : this.state.yelpImageUrl ;
+
     if(this.state.dba !== ""){
       busName = this.state.dba;
     }
     let scoreColor = this.getScoreColor(this.state.vitalityScore);
-    let busImage = this.state.yelpImageUrl === ""? noImage : this.state.yelpImageUrl ;
 
 
-    // const description = (
-    //   <div>
-    //   <DescriptionList className={styles.headerList} size="medium" col="2">
-    //     <Description term="Business Name">{this.state.name}</Description>
-    //     <Description term="Social Media Rating:">{this.state.vitalityScore}</Description>
-    //     <Description term="License Number:">{this.state.licenseNum}</Description>
-    //     <Description term="Address:" > {this.state.address}</Description>
-    //     <Description term="Yelp Rating: ">{this.state.yelpRating}</Description>
-    //     <Description term="Reviews: ">{this.state.yelpReviewCount}</Description>
-    //   </DescriptionList>
-    //   </div>
-    // );
 
 
     return(
@@ -283,7 +277,7 @@ class AdvancedProfile extends Component {
                 // title="Card"
           > 
             <Col xl={6} >
-              <img src = {this.state.yelpImageUrl} height="250" width="250"/>
+              <img src = {busImage} height="250" width="250"/>
             </Col>
             <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}> 
               <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
