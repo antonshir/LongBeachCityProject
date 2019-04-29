@@ -82,18 +82,30 @@ class AdvancedProfile extends Component {
   }
 
   setInfo = (res) => {
+    let addr = res.address + ", Long Beach, CA " + res.zipcode;
+
     this.setState({
       name: res.name,
       dba: res.dba_name,
       licenseNum: res.license_num,
-      address: res.google.formatted_address,
+      address: addr,
       employeeNum: res.employee_num,
-      businessType: res.business_type,
-      yelpUrl: res.yelp.url,
-      yelpImageUrl: res.yelp.image_url,
-      yelp_id: res.yelp.yelp_id,
-      google_id: res.google.google_id
+      businessType: res.business_type
     });
+
+    if(res.yelp != null){
+      this.setState({
+        yelpUrl: res.yelp.url,
+        yelpImageUrl: res.yelp.image_url,
+        yelp_id: res.yelp.yelp_id
+      });
+    }
+
+    if(res.google != null){
+      this.setState({
+        google_id: res.google.google_id
+      });
+    }
 
     return res;
   }
@@ -135,7 +147,7 @@ class AdvancedProfile extends Component {
 
   componentDidMount() {
 
-    let licenseNum = "BU20535520";
+    let licenseNum = "BU20622970";
     let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
     let scoreAPI = "http://localhost:8000/api/socialmediascore/" + licenseNum;
 
@@ -167,7 +179,8 @@ class AdvancedProfile extends Component {
             // always executed
           });
 
-        jQuery
+        if(this.state.yelp_id !== ""){
+          jQuery
           .get(yelpHistoryAPI)
           .then(response => {
             // handle success
@@ -183,8 +196,10 @@ class AdvancedProfile extends Component {
           .then(function() {
             // always executed
           });
-        
-        jQuery
+        }
+
+        if(this.state.google_id !== ""){
+          jQuery
           .get(googleHistoryAPI)
           .then(response => {
             // handle success
@@ -200,6 +215,7 @@ class AdvancedProfile extends Component {
           .then(function() {
             // always executed
           });
+        }
         
       })
       .catch(function(error) {
