@@ -60,7 +60,7 @@ export default {
             },
             {
               path: '/dashboard/advancedprofile',
-              name: 'Test/Profile',
+              // name: 'Test/Profile',
               component: './Dashboard/AdvancedProfile'
             },
 
