@@ -5,7 +5,9 @@ import sys
 
 sys.path.append('/'.join((os.path.dirname(os.path.abspath(__file__)) +
                           '').split('/')[0:-5]) +
-                'Vitality/backend/lbvitality')
+                '/Vitality/backend/lbvitality')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
+django.setup()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
 django.setup()
 
