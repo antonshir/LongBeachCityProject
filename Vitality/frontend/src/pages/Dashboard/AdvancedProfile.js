@@ -40,7 +40,7 @@ const getWindowWidth = () =>
 class AdvancedProfile extends Component {
 
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.setInfo = this.setInfo.bind(this);
     this.setYelpInfo = this.setYelpInfo.bind(this);
@@ -82,18 +82,30 @@ class AdvancedProfile extends Component {
   }
 
   setInfo = (res) => {
+    let addr = res.address + ", Long Beach, CA " + res.zipcode;
+
     this.setState({
       name: res.name,
       dba: res.dba_name,
       licenseNum: res.license_num,
-      address: res.google.formatted_address,
+      address: addr,
       employeeNum: res.employee_num,
-      businessType: res.business_type,
-      yelpUrl: res.yelp.url,
-      yelpImageUrl: res.yelp.image_url,
-      yelp_id: res.yelp.yelp_id,
-      google_id: res.google.google_id
+      businessType: res.business_type
     });
+
+    if(res.yelp != null){
+      this.setState({
+        yelpUrl: res.yelp.url,
+        yelpImageUrl: res.yelp.image_url,
+        yelp_id: res.yelp.yelp_id
+      });
+    }
+
+    if(res.google != null){
+      this.setState({
+        google_id: res.google.google_id
+      });
+    }
 
     return res;
   }
@@ -130,12 +142,25 @@ class AdvancedProfile extends Component {
       default: return '#65e006';
     }
   }
-
- 
-
   componentDidMount() {
+    const {licenseNum} = this.props.location.state
+    this.retrieveInfo(licenseNum);
+  }
 
-    let licenseNum = "BU20535520";
+
+  // componentDidUpdate(prevProps) {
+  //   console.log("Hi");
+  //   console.log(this.props);
+  //   console.log(this.state.business.licenseNum);
+  //   if (this.props !== prevProps && this.props !==null) {
+  //     console.log("Hello");
+  //     this.retrieveInfo(this.props);
+  //   }
+  // }
+
+  retrieveInfo(buss) {
+    let licenseNum = buss;
+    //let licenseNum = "BU20535520";
     let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
     let scoreAPI = "http://localhost:8000/api/socialmediascore/" + licenseNum;
 
@@ -154,7 +179,7 @@ class AdvancedProfile extends Component {
           .get(scoreAPI)
           .then(response => {
             // handle success
-            console.log("Score: ")
+            console.log("Score:");
             console.log(response);
             this.setScore(response);
           })
@@ -218,11 +243,13 @@ class AdvancedProfile extends Component {
 
   render() {
 
-    var busName = this.state.name;
+    let busName = this.state.name;
     if(this.state.dba !== ""){
       busName = this.state.dba;
     }
-    var scoreColor = this.getScoreColor(this.state.vitalityScore);
+    let scoreColor = this.getScoreColor(this.state.vitalityScore);
+    let busImage = this.state.yelpImageUrl === ""? noImage : this.state.yelpImageUrl ;
+
 
     // const description = (
     //   <div>

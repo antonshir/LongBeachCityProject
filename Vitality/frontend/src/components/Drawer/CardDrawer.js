@@ -19,28 +19,16 @@ class CardDrawer extends React.Component {
   };
 
   fetchBusinesses = (zip) => {
-    console.log(zip.zipcode);
     queryBusinessList(zip.zipcode).then(res => {
-      // this.setState({
-      //   businesses: res
-      // })
-      console.log("Hi");
-      console.log(res);
-
-      queryBusiness(res.business).then(result => {
-        console.log(result);
-        this.setState({
-          businesses: result
-        })
+      this.setState({
+        businesses: res
       })
-
     })
   }
 
-  componentDidUpdate(nextProps) {
-    if (this.props !== nextProps) {
-      console.log("Yes");
-      this.fetchBusinesses(this.props);
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps && this.props !==null) {
+     this.fetchBusinesses(this.props);
     }
   }
 
@@ -67,18 +55,17 @@ class CardDrawer extends React.Component {
     return (
       <div id='CardContainer'>
         <Drawer
-          title="Basic Drawer"
+          title="Businesses"
           placement={this.state.placement}
-          closable={false}
           onClose={this.onClose}
           visible={this.state.visible}
-          mask = {false}
-          closable={true}
+          mask = {true}
+          closable={false}
           placement={'right'}
           width = {420}
         >
           <div>
-          {/*<BusinessList data={this.state.businesses}/> <br/>*/}
+          <BusinessList data={this.state.businesses}/> <br/>
           </div>
         </Drawer>
       </div>

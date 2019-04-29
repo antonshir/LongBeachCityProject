@@ -8,7 +8,7 @@ export async function queryBusiness() {
 
 
 export async function queryBusinessList(zip) {
-  return request(`http://localhost:8000/api/businesslist/?endindex=10&startindex=0&zipcode=${zip}`);
+  return request(`http://localhost:8000/api/businesslist/?zipcode=${zip}&startindex=0&endindex=10`);
 }
 
 
