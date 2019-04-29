@@ -1,31 +1,26 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import './Map.css'
-import zip__90802 from './model/zip_90802.json';
-import zip__90803 from './model/zip_90803.json';
-import zip__90804 from './model/zip_90804.json';
-import zip__90805 from './model/zip_90805.json';
-import zip__90806 from './model/zip_90806.json';
-import zip__90807 from './model/zip_90807.json';
-import zip__90808 from './model/zip_90808.json';
-import zip__90810 from './model/zip_90810.json';
-import zip__90813 from './model/zip_90813.json';
-import zip__90814 from './model/zip_90814.json';
-import zip__90815 from './model/zip_90815.json';
-import zip__90822 from './model/zip_90822.json';
-import zip__90831 from './model/zip_90831.json';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import "./Map.css";
+import zip__90802 from "./model/zip_90802.json";
+import zip__90803 from "./model/zip_90803.json";
+import zip__90804 from "./model/zip_90804.json";
+import zip__90805 from "./model/zip_90805.json";
+import zip__90806 from "./model/zip_90806.json";
+import zip__90807 from "./model/zip_90807.json";
+import zip__90808 from "./model/zip_90808.json";
+import zip__90810 from "./model/zip_90810.json";
+import zip__90813 from "./model/zip_90813.json";
+import zip__90814 from "./model/zip_90814.json";
+import zip__90815 from "./model/zip_90815.json";
+import zip__90822 from "./model/zip_90822.json";
+import zip__90831 from "./model/zip_90831.json";
 import CardDrawer from "@/components/Drawer/CardDrawer";
 import Button from "antd/es/button";
 import PageHeaderWrapper from "@/pages/Dashboard/AdvancedProfile";
 import { queryBusinessList } from "@/services/api";
 
-
-
-var map = ''
-var ctaLayer = ''
-
-
-
+var map = "";
+var ctaLayer = "";
 
 class Map extends Component {
   constructor(props) {
@@ -35,18 +30,85 @@ class Map extends Component {
     var self = this;
   }
 
-  onZip (zip) {
+  onZip(zip) {
     console.log(zip);
     this.drawer.current.showDrawer();
-  };
+  }
 
-  onMe= (zipC) => {
+  onMe = zipC => {};
 
-  };
+  generate_marker(lat, lon) {}
 
+  addMarker(props) {
+    console.log(props);
 
+    var infowindow = new google.maps.InfoWindow();
 
+    var marker = new google.maps.Marker({
+      position: props.coords,
+      map: map,
+      icon: props.markerImage
+      //icon: "http://maps.google.com/mapfiles/ms/micons/yellow.png"
+    });
+    marker.addListener("click", function() {
+      infowindow.setContent(props.business_name);
+      infowindow.setPosition(event.latLng);
+      infowindow.open(map, marker);
+    });
+  }
 
+  determine_marker_color(score) {
+    var marker_color = "";
+    if (score == 1 || score == 2 || score == 3 || score == 4) {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
+    } else if (score == 5 || score == 6 || score == 7) {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/yellow.png";
+    } else {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
+    }
+    //console.log(score);
+    //var color_url = "http://maps.google.com/mapfiles/ms/micons/red.png"
+
+    return marker_color;
+  }
+
+  set_markers(zip) {
+    var config = {
+      headers: { "content-type": "application/x-www-form-urlencoded" }
+    };
+    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
+    //returns a list of businesses of zipcode randomly of that zipcode
+    var url =
+      "http://localhost:8000/api/businesslist/?zipcode=" +
+      zip +
+      "&startindex=0&endindex=10";
+    jQuery
+      .get(url, config)
+      .then(res => {
+        console.log(res[0].business.google.latitude);
+        console.log(res[0].business.google.longtitude);
+        for (var i = 0; i < 10; i++) {
+          //  console.log(i);
+          //  console.log(res[i].business.google.latitude);
+          //  console.log(res[i].business.google.longtitude);
+          //this.determine_marker_color(res[i].score);
+          //console.log(score);
+          this.addMarker({
+            coords: {
+              lat: parseFloat(res[i].business.google.latitude),
+              lng: parseFloat(res[i].business.google.longtitude)
+            },
+            markerImage: this.determine_marker_color(res[i].score),
+            business_name: res[i].business.dba_name
+          });
+
+          //generate_marker(res[i].business.google.latitude, res[i].business.google.longtitude);
+        }
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+  }
 
   onScriptLoad() {
     map = new window.google.maps.Map(document.getElementById("map"), {
@@ -77,7 +139,6 @@ class Map extends Component {
     var zip_90822 = new google.maps.Data();
     var zip_90831 = new google.maps.Data();
 
-
     //  var lb_boundary = new google.maps.Data();
 
     //  lb_boundary.loadGeoJson('Long_Beach.json');
@@ -98,47 +159,91 @@ class Map extends Component {
 
     // map.data.addGeoJson(zip__90813);
 
-  //  var infowwindow1 = google.maps.data.
+    //  var infowwindow1 = google.maps.data.
+    google.maps.event.addListener(zip_90815, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90815");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.795, lng: -118.118 });
+    });
+    google.maps.event.addListener(zip_90810, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90810");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.816, lng: -118.215 });
+    });
+    google.maps.event.addListener(zip_90813, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90813");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.781, lng: -118.175 });
+    });
+    google.maps.event.addListener(zip_90814, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90814");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.771, lng: -118.145 });
+    });
+    google.maps.event.addListener(zip_90808, "click", function(event) {
+      self.onZip(90813);
+      self.set_markers("90808");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.823, lng: -118.113 });
+    });
 
-    google.maps.event.addListener(zip_90813, 'click', function(event) {
+    google.maps.event.addListener(zip_90807, "click", function(event) {
       self.onZip(90813);
+      self.set_markers("90807");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.828, lng: -118.182 });
     });
-    google.maps.event.addListener(zip_90814, 'click', function(event) {
+    google.maps.event.addListener(zip_90822, "click", function(event) {
       self.onZip(90813);
-    });
-    google.maps.event.addListener(zip_90808, 'click', function(event) {
-      self.onZip(90813);
+      self.set_markers("90822");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.776, lng: -118.118 });
     });
 
-    google.maps.event.addListener(zip_90807, 'click', function(event) {
-      self.onZip(90813);
-    });
-    google.maps.event.addListener(zip_90822, 'click', function(event) {
-      self.onZip(90813);
+    google.maps.event.addListener(zip_90831, "click", function(event) {
+      self.onZip(90831);
+      self.set_markers("90831");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.768, lng: -118.199 });
     });
 
-    google.maps.event.addListener(zip_90831, 'click', function(event) {
+    google.maps.event.addListener(zip_90802, "click", function(event) {
       self.onZip(90831);
+      self.set_markers("90802");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.769, lng: -118.192 });
     });
-
-    google.maps.event.addListener(zip_90802, 'click', function(event) {
+    google.maps.event.addListener(zip_90803, "click", function(event) {
       self.onZip(90831);
+      self.set_markers("90803");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.761, lng: -118.13 });
     });
-    google.maps.event.addListener(zip_90803, 'click', function(event) {
+    google.maps.event.addListener(zip_90804, "click", function(event) {
       self.onZip(90831);
+      self.set_markers("90804");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.783, lng: -118.152 });
     });
-    google.maps.event.addListener(zip_90804, 'click', function(event) {
+    google.maps.event.addListener(zip_90805, "click", function(event) {
       self.onZip(90831);
+      self.set_markers("90805");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.866, lng: -118.184 });
     });
-    google.maps.event.addListener(zip_90805, 'click', function(event) {
+    google.maps.event.addListener(zip_90806, "click", function(event) {
       self.onZip(90831);
-    });
-    google.maps.event.addListener(zip_90806, 'click', function(event) {
-      self.onZip(90831);
+      self.set_markers("90806");
+      map.setZoom(14);
+      map.setCenter({ lat: 33.802, lng: -118.186 });
     });
 
     // infowindow1.setContent('zip code: 90813');
-      // infowindow1.setPosition(
+    // infowindow1.setPosition(
     //   self.onZip(90813);
     // });
 
@@ -173,6 +278,9 @@ class Map extends Component {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     };
 
+    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
+    //returns a list of businesses of zipcode randomly of that zipcode
+
     //.get("api.json", config)
     jQuery
       .get("http://127.0.0.1:8000/api/zipcoderatio/", config)
@@ -196,7 +304,8 @@ class Map extends Component {
             //  };
             zip_colors.push({
               zipcode: zip_codes[i],
-              color: "#fdffe1"
+              color: "#f1f3d6"
+              //color: "#fdffe1"
             });
 
             //count_out++;
@@ -397,8 +506,6 @@ class Map extends Component {
     zip_90831.setMap(map);
   }
 
-
-
   set_color(active, delinquent) {
     //  console.log(active);
     //  console.log(delinquent);
@@ -406,17 +513,17 @@ class Map extends Component {
     //    console.log(ratio);
     var color = "#000000";
     if (ratio > 0.3) {
-      color = "#ff0000";
+      color = "#d60000";
     } else if (ratio > 0.2) {
-      color = "#990000";
+      color = "#b36a00";
     } else if (ratio > 0.15) {
-      color = "#b45f06";
+      color = "#b69a48";
     } else if (ratio > 0.1) {
-      color = "#bf9000";
+      color = "#d2d200";
     } else if (ratio > 0.05) {
-      color = "#f1c232";
+      color = "#99bc57";
     } else {
-      color = "#ffe599";
+      color = "#6b915b";
     }
     return color;
   }
@@ -456,35 +563,55 @@ class Map extends Component {
     return licenses;
   }
 
+  /*
+  set_markers(zip) {
+    var config = {
+      headers: { "content-type": "application/x-www-form-urlencoded" }
+    };
+    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
+    //returns a list of businesses of zipcode randomly of that zipcode
+    var url =
+      "http://localhost:8000/api/buinesslist/?zipcode={" +
+      zip +
+      "}&startindex={1}&endindex={10}";
+    jQuery
+      .get(url, config)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+  }
+  */
 
   componentDidMount() {
     if (!window.google) {
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
+      var s = document.createElement("script");
+      s.type = "text/javascript";
       s.src = `https://maps.google.com/maps/api/js?key=AIzaSyCys__gg8EEH6Mor2NnnVYL8Y5qukV_mI4`;
-      var x = document.getElementsByTagName('script')[0];
+      var x = document.getElementsByTagName("script")[0];
       x.parentNode.insertBefore(s, x);
       // Below is important.
       //We cannot access google.maps until it's finished loading
-      s.addEventListener('load', e => {
-        this.onScriptLoad()
-      })
+      s.addEventListener("load", e => {
+        this.onScriptLoad();
+      });
     } else {
-      this.onScriptLoad()
+      this.onScriptLoad();
     }
   }
 
   render() {
     return (
-      <div style={{ margin: '-24px -24px 0' }}>
-      <div id = 'mapContainer'>
-        <div style={{ width: '100%', height:'92vh' }} id="map"/>
+      <div style={{ margin: "-24px -24px 0" }}>
+        <div id="mapContainer">
+          <div style={{ width: "100%", height: "92vh" }} id="map" />
+        </div>
+        <CardDrawer ref={this.drawer} zipcode={90813} />
       </div>
-        <CardDrawer ref={this.drawer} zipcode={90813}/>
-      </div>
-
     );
   }
 }
 
-export default Map
+export default Map;
