@@ -44,9 +44,25 @@ class Map extends Component {
 
     var marker = new google.maps.Marker({
       position: props.coords,
-      map: map
-      //icon:props.iconImage
+      map: map,
+      icon: props.markerImage
+      //icon: "http://maps.google.com/mapfiles/ms/micons/yellow.png"
     });
+  }
+
+  determine_marker_color(score) {
+    var marker_color = "";
+    if (score == 1 || score == 2 || score == 3 || score == 4) {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
+    } else if (score == 5 || score == 6 || score == 7) {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/yellow.png";
+    } else {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
+    }
+    //console.log(score);
+    //var color_url = "http://maps.google.com/mapfiles/ms/micons/red.png"
+
+    return marker_color;
   }
 
   set_markers(zip) {
@@ -68,12 +84,14 @@ class Map extends Component {
           //  console.log(i);
           //  console.log(res[i].business.google.latitude);
           //  console.log(res[i].business.google.longtitude);
-
+          //this.determine_marker_color(res[i].score);
+          //console.log(score);
           this.addMarker({
             coords: {
               lat: parseFloat(res[i].business.google.latitude),
               lng: parseFloat(res[i].business.google.longtitude)
-            }
+            },
+            markerImage: this.determine_marker_color(res[i].score)
           });
 
           //generate_marker(res[i].business.google.latitude, res[i].business.google.longtitude);
