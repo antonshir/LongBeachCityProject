@@ -1,33 +1,27 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import './Map.css'
-import zip__90802 from './model/zip_90802.json';
-import zip__90803 from './model/zip_90803.json';
-import zip__90804 from './model/zip_90804.json';
-import zip__90805 from './model/zip_90805.json';
-import zip__90806 from './model/zip_90806.json';
-import zip__90807 from './model/zip_90807.json';
-import zip__90808 from './model/zip_90808.json';
-import zip__90810 from './model/zip_90810.json';
-import zip__90813 from './model/zip_90813.json';
-import zip__90814 from './model/zip_90814.json';
-import zip__90815 from './model/zip_90815.json';
-import zip__90822 from './model/zip_90822.json';
-import zip__90831 from './model/zip_90831.json';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import "./Map.css";
+import zip__90802 from "./model/zip_90802.json";
+import zip__90803 from "./model/zip_90803.json";
+import zip__90804 from "./model/zip_90804.json";
+import zip__90805 from "./model/zip_90805.json";
+import zip__90806 from "./model/zip_90806.json";
+import zip__90807 from "./model/zip_90807.json";
+import zip__90808 from "./model/zip_90808.json";
+import zip__90810 from "./model/zip_90810.json";
+import zip__90813 from "./model/zip_90813.json";
+import zip__90814 from "./model/zip_90814.json";
+import zip__90815 from "./model/zip_90815.json";
+import zip__90822 from "./model/zip_90822.json";
+import zip__90831 from "./model/zip_90831.json";
 import CardDrawer from "@/components/Drawer/CardDrawer";
 import Button from "antd/es/button";
 import PageHeaderWrapper from "@/pages/Dashboard/AdvancedProfile";
 import { queryBusinessList } from "@/services/api";
 
-
-
-var map = ''
-var ctaLayer = ''
+var map = "";
+var ctaLayer = "";
 var legend = "";
-
-
-
-
 
 class Map extends Component {
   constructor(props) {
@@ -40,14 +34,12 @@ class Map extends Component {
     };
   }
 
-
-
-  onZip (zip) {
-    this.setState ({
+  onZip(zip) {
+    this.setState({
       zipcode: zip
     });
     this.drawer.current.showDrawer();
-  };
+  }
 
   addMarker(props) {
     console.log(props);
@@ -69,9 +61,9 @@ class Map extends Component {
 
   determine_marker_color(score) {
     var marker_color = "";
-    if (score == 1 || score == 2 || score == 3 || score == 4) {
+    if (score == 0) {
       marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
-    } else if (score == 5 || score == 6 || score == 7) {
+    } else if (score == 1) {
       marker_color = "http://maps.google.com/mapfiles/ms/micons/yellow.png";
     } else {
       marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
@@ -101,6 +93,17 @@ class Map extends Component {
           //  console.log(res[i].business.google.longtitude);
           //this.determine_marker_color(res[i].score);
           //console.log(score);
+          if (res[i].business.google != null) {
+            this.addMarker({
+              coords: {
+                lat: parseFloat(res[i].business.google.latitude),
+                lng: parseFloat(res[i].business.google.longtitude)
+              },
+              markerImage: this.determine_marker_color(res[i].score),
+              business_name: res[i].business.dba_name
+            });
+          }
+          /*
           this.addMarker({
             coords: {
               lat: parseFloat(res[i].business.google.latitude),
@@ -109,6 +112,7 @@ class Map extends Component {
             markerImage: this.determine_marker_color(res[i].score),
             business_name: res[i].business.dba_name
           });
+          */
 
           //generate_marker(res[i].business.google.latitude, res[i].business.google.longtitude);
         }
@@ -117,11 +121,6 @@ class Map extends Component {
         console.log("error", error);
       });
   }
-
-
-
-
-
 
   onScriptLoad() {
     legend = document.getElementById("legend");
@@ -660,47 +659,45 @@ class Map extends Component {
     return licenses;
   }
 
-
   componentDidMount() {
     if (!window.google) {
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.src = `https://maps.google.com/maps/api/js?key=API_KEY`;
-      var x = document.getElementsByTagName('script')[0];
+      var s = document.createElement("script");
+      s.type = "text/javascript";
+      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyCys__gg8EEH6Mor2NnnVYL8Y5qukV_mI4`;
+      var x = document.getElementsByTagName("script")[0];
       x.parentNode.insertBefore(s, x);
       // Below is important.
       //We cannot access google.maps until it's finished loading
-      s.addEventListener('load', e => {
-        this.onScriptLoad()
-      })
+      s.addEventListener("load", e => {
+        this.onScriptLoad();
+      });
     } else {
-      this.onScriptLoad()
+      this.onScriptLoad();
     }
   }
 
   render() {
     return (
-      <div style={{ margin: '-24px -24px 0' }}>
-      <div id = 'mapContainer'>
-        <div style={{ width: '100%', height:'92vh' }} id="map"/>
-        <div
-          style={{
-            background: "#fff",
-            padding: "10px",
-            margin: "10px",
-            border: "3px solid #000"
-          }}
-          id="legend"
-        >
-          <h3>HEATMAP LEGEND</h3>
-          <h4>Ratio = delinquent / active</h4>
+      <div style={{ margin: "-24px -24px 0" }}>
+        <div id="mapContainer">
+          <div style={{ width: "100%", height: "92vh" }} id="map" />
+          <div
+            style={{
+              background: "#fff",
+              padding: "10px",
+              margin: "10px",
+              border: "3px solid #000"
+            }}
+            id="legend"
+          >
+            <h3>HEATMAP LEGEND</h3>
+            <h4>Ratio = delinquent / active</h4>
+          </div>
         </div>
+        <CardDrawer ref={this.drawer} zipcode={this.state.zipcode} />
       </div>
-        <CardDrawer ref={this.drawer} zipcode={this.state.zipcode}/>
-      </div>
-
     );
   }
 }
 
-export default Map
+export default Map;
