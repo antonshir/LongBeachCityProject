@@ -83,11 +83,11 @@ class Map extends Component {
     var url =
       "http://localhost:8000/api/businesslist/?zipcode=" +
       zip +
-      "&startindex=0&endindex=200";
+      "&startindex=0&endindex=1200";
     jQuery
       .get(url, config)
       .then(res => {
-        for (var i = 0; i < 200; i++) {
+        for (var i = 0; i < 1200; i++) {
           //  console.log(i);
           //  console.log(res[i].business.google.latitude);
           //  console.log(res[i].business.google.longtitude);
@@ -174,13 +174,13 @@ class Map extends Component {
 
     //  var infowwindow1 = google.maps.data.
     google.maps.event.addListener(zip_90815, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90815);
       self.set_markers("90815");
       map.setZoom(14);
       map.setCenter({ lat: 33.795, lng: -118.118 });
     });
     google.maps.event.addListener(zip_90810, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90810);
       self.set_markers("90810");
       map.setZoom(14);
       map.setCenter({ lat: 33.816, lng: -118.215 });
@@ -192,26 +192,26 @@ class Map extends Component {
       map.setCenter({ lat: 33.781, lng: -118.175 });
     });
     google.maps.event.addListener(zip_90814, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90814);
       self.set_markers("90814");
       map.setZoom(14);
       map.setCenter({ lat: 33.771, lng: -118.145 });
     });
     google.maps.event.addListener(zip_90808, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90808);
       self.set_markers("90808");
       map.setZoom(14);
       map.setCenter({ lat: 33.823, lng: -118.113 });
     });
 
     google.maps.event.addListener(zip_90807, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90807);
       self.set_markers("90807");
       map.setZoom(14);
       map.setCenter({ lat: 33.828, lng: -118.182 });
     });
     google.maps.event.addListener(zip_90822, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90822);
       self.set_markers("90822");
       map.setZoom(14);
       map.setCenter({ lat: 33.776, lng: -118.118 });
@@ -225,31 +225,31 @@ class Map extends Component {
     });
 
     google.maps.event.addListener(zip_90802, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90802);
       self.set_markers("90802");
       map.setZoom(14);
       map.setCenter({ lat: 33.769, lng: -118.192 });
     });
     google.maps.event.addListener(zip_90803, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90803);
       self.set_markers("90803");
       map.setZoom(14);
       map.setCenter({ lat: 33.761, lng: -118.13 });
     });
     google.maps.event.addListener(zip_90804, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90804);
       self.set_markers("90804");
       map.setZoom(14);
       map.setCenter({ lat: 33.783, lng: -118.152 });
     });
     google.maps.event.addListener(zip_90805, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90805);
       self.set_markers("90805");
       map.setZoom(14);
       map.setCenter({ lat: 33.866, lng: -118.184 });
     });
     google.maps.event.addListener(zip_90806, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90806);
       self.set_markers("90806");
       map.setZoom(14);
       map.setCenter({ lat: 33.802, lng: -118.186 });
