@@ -1,4 +1,7 @@
 import { List, Avatar, Icon } from 'antd';
+import { Link } from "react-router-dom";
+import logo from '../../assets/yelp.png'
+import defaultImage from "../../assets/no_image.png"
 
 const listData = [];
 
@@ -18,7 +21,8 @@ const IconText = ({ type, text }) => (
   </span>
 );
 const BusinessList = (props)  => {
-  console.log(props);
+ 
+  console.log(props.data);
   return(
   <List
     itemLayout="vertical"
@@ -31,17 +35,24 @@ const BusinessList = (props)  => {
     //   pageSize: 2,
     // }}
     dataSource={props.data}
-    // footer={<div><b>ant design</b> footer part</div>}
     renderItem={item => (
       <List.Item
-        key={item.address}
-        actions={[<IconText type="star-o" text="156" />]}
-        extra={<img width={140} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+        key={item.id}
+        actions={[<Icon type="frown" theme="twoTone" width = '3em' height = '3em' style = {{color: '#ff0000'}} text={item.score} />]}
+        extra={<img width={140} src={item.business.yelp == null? defaultImage : item.business.yelp.image_url} />}
       >
         <List.Item.Meta
-          title={<a> {item.name}</a>}
-          // title={<a href={item.href}>{item.title}</a>}
-          description={"hello"}
+          title={<Link to= {{
+            pathname: '/dashboard/advancedprofile',
+          state: {
+            licenseNum: item.business.license_num
+          }
+          }}>
+            {item.business.dba_name === ""? item.business.name : item.business.dba_name}
+          </Link>
+          }
+
+          description={<b>Category: {item.business.business_type}</b>}
         />
         {/*{item.score}*/}
         {item.status}

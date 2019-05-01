@@ -29,14 +29,17 @@ class Map extends Component {
     this.onScriptLoad = this.onScriptLoad.bind(this);
     this.drawer = React.createRef();
     var self = this;
+    this.state = {
+      zipcode: null
+    };
   }
 
   onZip(zip) {
-    console.log(zip);
+    this.setState({
+      zipcode: zip
+    });
     this.drawer.current.showDrawer();
   }
-
-  onMe = zipC => {};
 
   addMarker(props) {
     console.log(props);
@@ -58,9 +61,9 @@ class Map extends Component {
 
   determine_marker_color(score) {
     var marker_color = "";
-    if (score == 1 || score == 2 || score == 3 || score == 4) {
+    if (score == 0) {
       marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
-    } else if (score == 5 || score == 6 || score == 7) {
+    } else if (score == 1) {
       marker_color = "http://maps.google.com/mapfiles/ms/micons/yellow.png";
     } else {
       marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
@@ -80,18 +83,27 @@ class Map extends Component {
     var url =
       "http://localhost:8000/api/businesslist/?zipcode=" +
       zip +
-      "&startindex=0&endindex=200";
+      "&startindex=0&endindex=1200";
     jQuery
       .get(url, config)
       .then(res => {
-        console.log(res[0].business.google.latitude);
-        console.log(res[0].business.google.longtitude);
-        for (var i = 0; i < 200; i++) {
+        for (var i = 0; i < 1200; i++) {
           //  console.log(i);
           //  console.log(res[i].business.google.latitude);
           //  console.log(res[i].business.google.longtitude);
           //this.determine_marker_color(res[i].score);
           //console.log(score);
+          if (res[i].business.google != null) {
+            this.addMarker({
+              coords: {
+                lat: parseFloat(res[i].business.google.latitude),
+                lng: parseFloat(res[i].business.google.longtitude)
+              },
+              markerImage: this.determine_marker_color(res[i].score),
+              business_name: res[i].business.dba_name
+            });
+          }
+          /*
           this.addMarker({
             coords: {
               lat: parseFloat(res[i].business.google.latitude),
@@ -100,6 +112,7 @@ class Map extends Component {
             markerImage: this.determine_marker_color(res[i].score),
             business_name: res[i].business.dba_name
           });
+          */
 
           //generate_marker(res[i].business.google.latitude, res[i].business.google.longtitude);
         }
@@ -161,13 +174,13 @@ class Map extends Component {
 
     //  var infowwindow1 = google.maps.data.
     google.maps.event.addListener(zip_90815, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90815);
       self.set_markers("90815");
       map.setZoom(14);
       map.setCenter({ lat: 33.795, lng: -118.118 });
     });
     google.maps.event.addListener(zip_90810, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90810);
       self.set_markers("90810");
       map.setZoom(14);
       map.setCenter({ lat: 33.816, lng: -118.215 });
@@ -179,26 +192,26 @@ class Map extends Component {
       map.setCenter({ lat: 33.781, lng: -118.175 });
     });
     google.maps.event.addListener(zip_90814, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90814);
       self.set_markers("90814");
       map.setZoom(14);
       map.setCenter({ lat: 33.771, lng: -118.145 });
     });
     google.maps.event.addListener(zip_90808, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90808);
       self.set_markers("90808");
       map.setZoom(14);
       map.setCenter({ lat: 33.823, lng: -118.113 });
     });
 
     google.maps.event.addListener(zip_90807, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90807);
       self.set_markers("90807");
       map.setZoom(14);
       map.setCenter({ lat: 33.828, lng: -118.182 });
     });
     google.maps.event.addListener(zip_90822, "click", function(event) {
-      self.onZip(90813);
+      self.onZip(90822);
       self.set_markers("90822");
       map.setZoom(14);
       map.setCenter({ lat: 33.776, lng: -118.118 });
@@ -212,31 +225,31 @@ class Map extends Component {
     });
 
     google.maps.event.addListener(zip_90802, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90802);
       self.set_markers("90802");
       map.setZoom(14);
       map.setCenter({ lat: 33.769, lng: -118.192 });
     });
     google.maps.event.addListener(zip_90803, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90803);
       self.set_markers("90803");
       map.setZoom(14);
       map.setCenter({ lat: 33.761, lng: -118.13 });
     });
     google.maps.event.addListener(zip_90804, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90804);
       self.set_markers("90804");
       map.setZoom(14);
       map.setCenter({ lat: 33.783, lng: -118.152 });
     });
     google.maps.event.addListener(zip_90805, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90805);
       self.set_markers("90805");
       map.setZoom(14);
       map.setCenter({ lat: 33.866, lng: -118.184 });
     });
     google.maps.event.addListener(zip_90806, "click", function(event) {
-      self.onZip(90831);
+      self.onZip(90806);
       self.set_markers("90806");
       map.setZoom(14);
       map.setCenter({ lat: 33.802, lng: -118.186 });
@@ -285,6 +298,7 @@ class Map extends Component {
     jQuery
       .get("http://127.0.0.1:8000/api/zipcoderatio/", config)
       .then(res => {
+        console.log(res);
         //for (var j = 0; j < res.length; i++) {
         //  rest.push(res.data[i]);
         // }
@@ -588,7 +602,6 @@ class Map extends Component {
 
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
   }
-
   set_color(active, delinquent) {
     //  console.log(active);
     //  console.log(delinquent);
@@ -646,28 +659,6 @@ class Map extends Component {
     return licenses;
   }
 
-  /*
-  set_markers(zip) {
-    var config = {
-      headers: { "content-type": "application/x-www-form-urlencoded" }
-    };
-    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
-    //returns a list of businesses of zipcode randomly of that zipcode
-    var url =
-      "http://localhost:8000/api/buinesslist/?zipcode={" +
-      zip +
-      "}&startindex={1}&endindex={10}";
-    jQuery
-      .get(url, config)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
-  }
-  */
-
   componentDidMount() {
     if (!window.google) {
       var s = document.createElement("script");
@@ -703,7 +694,7 @@ class Map extends Component {
             <h4>Ratio = delinquent / active</h4>
           </div>
         </div>
-        <CardDrawer ref={this.drawer} zipcode={90813} />
+        <CardDrawer ref={this.drawer} zipcode={this.state.zipcode} />
       </div>
     );
   }

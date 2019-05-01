@@ -25,6 +25,7 @@ import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from "./AdvancedProfile.less";
 import googleIcon from "../../assets/google.png"
 import yelpIcon from "../../assets/yelp.png"
+import defaultImage from "../../assets/no_image.png"
 import StarRatings from 'react-star-ratings';
 
 const { Step } = Steps;
@@ -40,7 +41,7 @@ const getWindowWidth = () =>
 class AdvancedProfile extends Component {
 
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.setInfo = this.setInfo.bind(this);
     this.setYelpInfo = this.setYelpInfo.bind(this);
@@ -82,18 +83,30 @@ class AdvancedProfile extends Component {
   }
 
   setInfo = (res) => {
+    let addr = res.address + ", Long Beach, CA " + res.zipcode;
+
     this.setState({
       name: res.name,
       dba: res.dba_name,
       licenseNum: res.license_num,
-      address: res.google.formatted_address,
+      address: addr,
       employeeNum: res.employee_num,
-      businessType: res.business_type,
-      yelpUrl: res.yelp.url,
-      yelpImageUrl: res.yelp.image_url,
-      yelp_id: res.yelp.yelp_id,
-      google_id: res.google.google_id
+      businessType: res.business_type
     });
+
+    if(res.yelp != null){
+      this.setState({
+        yelpUrl: res.yelp.url,
+        yelpImageUrl: res.yelp.image_url,
+        yelp_id: res.yelp.yelp_id
+      });
+    }
+
+    if(res.google != null){
+      this.setState({
+        google_id: res.google.google_id
+      });
+    }
 
     return res;
   }
@@ -130,12 +143,25 @@ class AdvancedProfile extends Component {
       default: return '#65e006';
     }
   }
-
- 
-
   componentDidMount() {
+    const {licenseNum} = this.props.location.state
+    this.retrieveInfo(licenseNum);
+  }
 
-    let licenseNum = "BU20535520";
+
+  // componentDidUpdate(prevProps) {
+  //   console.log("Hi");
+  //   console.log(this.props);
+  //   console.log(this.state.business.licenseNum);
+  //   if (this.props !== prevProps && this.props !==null) {
+  //     console.log("Hello");
+  //     this.retrieveInfo(this.props);
+  //   }
+  // }
+
+  retrieveInfo(buss) {
+    let licenseNum = buss;
+    //let licenseNum = "BU20535520";
     let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
     let scoreAPI = "http://localhost:8000/api/socialmediascore/" + licenseNum;
 
@@ -167,7 +193,8 @@ class AdvancedProfile extends Component {
             // always executed
           });
 
-        jQuery
+        if(this.state.yelp_id !== ""){
+          jQuery
           .get(yelpHistoryAPI)
           .then(response => {
             // handle success
@@ -183,8 +210,10 @@ class AdvancedProfile extends Component {
           .then(function() {
             // always executed
           });
-        
-        jQuery
+        }
+
+        if(this.state.google_id !== ""){
+          jQuery
           .get(googleHistoryAPI)
           .then(response => {
             // handle success
@@ -200,6 +229,7 @@ class AdvancedProfile extends Component {
           .then(function() {
             // always executed
           });
+        }
         
       })
       .catch(function(error) {
@@ -218,24 +248,15 @@ class AdvancedProfile extends Component {
 
   render() {
 
-    var busName = this.state.name;
+    let busName = this.state.name;
+    let busImage = this.state.yelpImageUrl === ""? defaultImage : this.state.yelpImageUrl ;
+
     if(this.state.dba !== ""){
       busName = this.state.dba;
     }
-    var scoreColor = this.getScoreColor(this.state.vitalityScore);
+    let scoreColor = this.getScoreColor(this.state.vitalityScore);
 
-    // const description = (
-    //   <div>
-    //   <DescriptionList className={styles.headerList} size="medium" col="2">
-    //     <Description term="Business Name">{this.state.name}</Description>
-    //     <Description term="Social Media Rating:">{this.state.vitalityScore}</Description>
-    //     <Description term="License Number:">{this.state.licenseNum}</Description>
-    //     <Description term="Address:" > {this.state.address}</Description>
-    //     <Description term="Yelp Rating: ">{this.state.yelpRating}</Description>
-    //     <Description term="Reviews: ">{this.state.yelpReviewCount}</Description>
-    //   </DescriptionList>
-    //   </div>
-    // );
+
 
 
     return(
@@ -256,7 +277,7 @@ class AdvancedProfile extends Component {
                 // title="Card"
           > 
             <Col xl={6} >
-              <img src = {this.state.yelpImageUrl} height="250" width="250"/>
+              <img src = {busImage} height="250" width="250"/>
             </Col>
             <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}> 
               <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
