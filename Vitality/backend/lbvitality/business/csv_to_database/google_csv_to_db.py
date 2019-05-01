@@ -12,11 +12,13 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
 django.setup()
 
 from business.models import *
+Google.objects.all().delete()
+GoogleHistory.objects.all().delete()
 
 with open(
         '/'.join(
             (os.path.dirname(os.path.abspath(__file__)) + '').split('/')[0:-5])
-        + '/Data/social_media/yelpToGoogle.csv', 'r') as f:
+        + '/Data/social_media/yelpToGoogle2.csv', 'r') as f:
     reader = csv.reader(f)
     next(reader)  # Skip the header row.
 
