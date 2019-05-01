@@ -7,7 +7,7 @@ export async function queryBusiness(business) {
 }
 
 export async function queryBusinessList(zip) {
-  return request(`http://localhost:8000/api/businesslist/?zipcode=${zip}&startindex=0&endindex=10`);
+  return request(`http://localhost:8000/api/businesslist/?zipcode=${zip}&startindex=0&endindex=200`);
 }
 
 export async function querySocialMediaScore(bus) {

@@ -90,11 +90,11 @@ class Map extends Component {
     var url =
       "http://localhost:8000/api/businesslist/?zipcode=" +
       zip +
-      "&startindex=0&endindex=1200";
+      "&startindex=0&endindex=200";
     jQuery
       .get(url, config)
       .then(res => {
-        for (var i = 0; i < 1200; i++) {
+        for (var i = 0; i < 200; i++) {
           //  console.log(i);
           //  console.log(res[i].business.google.latitude);
           //  console.log(res[i].business.google.longtitude);
@@ -125,7 +125,6 @@ class Map extends Component {
         }
       })
       .catch(error => {
-        console.log("error", error);
       });
   }
 

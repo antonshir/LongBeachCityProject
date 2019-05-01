@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8090efcb-ce16-45b4-b926-913fe84e1069" name="Default Changelist" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/../frontend/src/components/BusinessList/BusinessList.less" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/BusinessList/BusinessList.js" afterPath="$PROJECT_DIR$/../frontend/src/components/BusinessList/BusinessList.js" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/Drawer/CardDrawer.js" afterPath="$PROJECT_DIR$/../frontend/src/components/Drawer/CardDrawer.js" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/document.ejs" afterPath="$PROJECT_DIR$/../frontend/src/pages/document.ejs" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Map/Map.js" afterPath="$PROJECT_DIR$/../frontend/src/components/Map/Map.js" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Dashboard/AdvancedProfile.js" afterPath="$PROJECT_DIR$/../frontend/src/pages/Dashboard/AdvancedProfile.js" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/services/api.js" afterPath="$PROJECT_DIR$/../frontend/src/services/api.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,7 +83,7 @@
         <entry file="file://$PROJECT_DIR$/lbvitality/business/csv_to_database/google_csv_to_db.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+              <caret line="21" column="26" lean-forward="false" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -88,8 +92,8 @@
       <file leaf-file-name="yelp_csv_to_db.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lbvitality/business/csv_to_database/yelp_csv_to_db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="18" column="51" lean-forward="false" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
+            <state relative-caret-position="270">
+              <caret line="21" column="51" lean-forward="false" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -557,8 +561,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lbvitality/business/csv_to_database/yelp_csv_to_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="18" column="51" lean-forward="false" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
+        <state relative-caret-position="270">
+          <caret line="21" column="51" lean-forward="false" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
           <folding />
         </state>
       </provider>
@@ -582,7 +586,7 @@
     <entry file="file://$PROJECT_DIR$/lbvitality/business/csv_to_database/google_csv_to_db.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+          <caret line="21" column="26" lean-forward="false" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
           <folding />
         </state>
       </provider>

@@ -275,7 +275,9 @@ class AdvancedProfile extends Component {
             // title="Card"
           >
             <Col xl={6} >
-              <img src = {busImage} height="250" width="250"/>
+              <Card bordered ={false}
+                    cover = {<img src = {busImage} height="250" width="250"/>}>
+              </Card>
             </Col>
             <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}>
               <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
