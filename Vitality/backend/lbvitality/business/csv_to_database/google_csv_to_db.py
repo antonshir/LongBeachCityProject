@@ -33,7 +33,7 @@ with open(
         google.save()
 
         #give a date of 2019-04-01 since it was wrong formatted
-        date_temp = '2019-04-01'
+        date_temp = '2019-04-30'
         google_history = GoogleHistory(date=date_temp,
                                        price=row[7],
                                        rating=row[8],
