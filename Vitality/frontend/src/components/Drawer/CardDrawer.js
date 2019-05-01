@@ -5,6 +5,7 @@ import { queryBusiness, queryBusinessList, zipcoderatio } from "@/services/api";
 
 
 const RadioGroup = Radio.Group;
+var list = [];
 
 class CardDrawer extends React.Component {
 
@@ -20,15 +21,21 @@ class CardDrawer extends React.Component {
 
   fetchBusinesses = (zip) => {
     queryBusinessList(zip.zipcode).then(res => {
+      res.forEach(singles => {
+        if(singles.business.yelp !== null) {
+          list.push(singles);
+        }
+      });
       this.setState({
-        businesses: res
+        businesses: list
       })
+      list =[];
     })
   }
 
   componentDidUpdate(prevProps) {
     if (this.props !== prevProps && this.props.zipcode !== null) {
-     this.fetchBusinesses(this.props);
+      this.fetchBusinesses(this.props);
     }
   }
 
@@ -62,10 +69,13 @@ class CardDrawer extends React.Component {
           mask = {false}
           closable={true}
           placement={'right'}
-          width = {420}
+          width = {320}
         >
           <div>
-          <BusinessList data={this.state.businesses}/> <br/>
+            <BusinessList
+              data={this.state.businesses}
+              loading = {true}
+            /> <br/>
           </div>
         </Drawer>
       </div>
