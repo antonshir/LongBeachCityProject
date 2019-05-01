@@ -48,6 +48,7 @@ class AdvancedProfile extends Component {
     this.setGoogleInfo = this.setGoogleInfo.bind(this);
     this.setScore = this.setScore.bind(this);
     this.formatPrice = this.formatPrice.bind(this);
+    this.formatScore = this.formatScore.bind(this);
     this.getScoreColor = this.getScoreColor.bind(this);
   }
 
@@ -80,6 +81,11 @@ class AdvancedProfile extends Component {
       dollarSign += "$";
     }
     return dollarSign;
+  }
+
+  formatScore = (score) => {
+    let format_score = ['UNSATISFACTORY', 'ACCEPTABLE', 'SATISFACTORY'];
+    return format_score[score];
   }
 
   setInfo = (res) => {
@@ -117,7 +123,7 @@ class AdvancedProfile extends Component {
       yelpReviewCount: res.review_count,
       yelpPriceRange: res.price
     });
-    // return res;
+    return res;
   }
 
   setGoogleInfo = (res) => {
@@ -260,14 +266,7 @@ class AdvancedProfile extends Component {
 
 
     return(
-      <PageHeaderWrapper
-        // title = {this.state.name}
-        // backIcon = {<Icon type="arrow-left" />}
-        // content = {description}
-        // logo = {
-        //   <img width="500px" alt="logo" src={this.state.yelpImageUrl} />
-        // }
-      >
+      <PageHeaderWrapper>
 
         
         <Row gutter={24} style={{marginBottom: 24, marginLeft:0, marginRight: 0, paddingLeft:0}}>
@@ -282,7 +281,8 @@ class AdvancedProfile extends Component {
             <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}> 
               <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
               <h2 style={{fontSize:20,fontWeight:'bold',color:'#397CE1'}}>
-                Social Media Score: <Badge count={this.state.vitalityScore} style={{ fontSize:24, fontWeight:'bold', width:30, height: 20, backgroundColor: scoreColor}} />
+                Social Media Score: <Badge count={this.formatScore(this.state.vitalityScore)} 
+                style={{ fontSize:24, fontWeight:'bold', backgroundColor: scoreColor, width: '105%', marginBottom:'4%', marginLeft:'5%'}} />
               </h2>
               
               <h2 style={{fontSize: 18, fontWeight:'bold', color:'#545451'}}>Employee Number: {this.state.employeeNum}</h2>
