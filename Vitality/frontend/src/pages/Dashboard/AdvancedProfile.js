@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import {queryBusiness} from "@/services/api";
 import Debounce from "lodash-decorators/debounce";
 import Bind from "lodash-decorators/bind";
 import { connect } from "dva";
@@ -16,7 +17,8 @@ import {
   Badge,
   Table,
   Tooltip,
-  Divider
+  Divider,
+  PageHeader
 } from "antd";
 import PageHeaderWrapper from "@/components/PageHeaderWrapper";
 import classNames from "classnames";
@@ -27,6 +29,7 @@ import googleIcon from "../../assets/google.png"
 import yelpIcon from "../../assets/yelp.png"
 import defaultImage from "../../assets/no_image.png"
 import StarRatings from 'react-star-ratings';
+import { queryBusinessList, querySocialMediaScore } from "@/services/api";
 
 const { Step } = Steps;
 const { Description } = DescriptionList;
@@ -77,7 +80,7 @@ class AdvancedProfile extends Component {
 
   formatPrice = (price) => {
     let dollarSign = "";
-    for(let i=0; i<price; i++){
+    for(let i=0; i < price; i++){
       dollarSign += "$";
     }
     return dollarSign;
@@ -113,7 +116,6 @@ class AdvancedProfile extends Component {
         google_id: res.google.google_id
       });
     }
-
     return res;
   }
 
@@ -168,75 +170,72 @@ class AdvancedProfile extends Component {
   retrieveInfo(buss) {
     let licenseNum = buss;
     //let licenseNum = "BU20535520";
-    let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
+    // let businessAPI = "http://localhost:8000/api/business/" + licenseNum;
     let scoreAPI = "http://localhost:8000/api/socialmediascore/" + licenseNum;
 
 
-    jQuery
-      .get(businessAPI)
+      queryBusiness(licenseNum)
       .then(response => {
         // handle success
         this.setInfo(response);
-        console.log(response);
 
         let yelpHistoryAPI = "http://localhost:8000/api/yelphistory/" + this.state.yelp_id;
         let googleHistoryAPI = "http://localhost:8000/api/googlehistory/" + this.state.google_id;
 
-        jQuery
-          .get(scoreAPI)
+          querySocialMediaScore(buss)
           .then(response => {
             // handle success
             console.log("Score: ")
             console.log(response);
             this.setScore(response);
-          })
-          .catch(function(error) {
-            // handle error
-            console.log("Error in Score API call");
-            console.log(error);
-          })
-          .then(function() {
-            // always executed
           });
+          // .catch(function(error) {
+          //   // handle error
+          //   console.log("Error in Score API call");
+          //   console.log(error);
+          // })
+          // .then(function() {
+          //   // always executed
+          // });
 
         if(this.state.yelp_id !== ""){
           jQuery
-          .get(yelpHistoryAPI)
-          .then(response => {
-            // handle success
-            console.log("Yelp: ")
-            console.log(response);
-            this.setYelpInfo(response);
-          })
-          .catch(function(error) {
-            // handle error
-            console.log("Error in yelp history API call");
-            console.log(error);
-          })
-          .then(function() {
-            // always executed
-          });
+            .get(yelpHistoryAPI)
+            .then(response => {
+              // handle success
+              console.log("Yelp: ")
+              console.log(response);
+              this.setYelpInfo(response);
+            })
+            .catch(function(error) {
+              // handle error
+              console.log("Error in yelp history API call");
+              console.log(error);
+            })
+            .then(function() {
+              // always executed
+            });
         }
 
         if(this.state.google_id !== ""){
           jQuery
-          .get(googleHistoryAPI)
-          .then(response => {
-            // handle success
-            console.log("Google: ")
-            console.log(response);
-            this.setGoogleInfo(response);
-          })
-          .catch(function(error) {
-            // handle error
-            console.log("Error in google history API call");
-            console.log(error);
-          })
-          .then(function() {
-            // always executed
-          });
+            .get(googleHistoryAPI)
+            .then(response => {
+              // handle success
+              console.log("Google: ")
+              console.log(response);
+              this.setGoogleInfo(response);
+            })
+            .catch(function(error) {
+              // handle error
+              console.log("Error in google history API call");
+              console.log(error);
+            })
+            .then(function() {
+              // always executed
+            });
         }
-        
+
       })
       .catch(function(error) {
         // handle error
@@ -268,36 +267,36 @@ class AdvancedProfile extends Component {
     return(
       <PageHeaderWrapper>
 
-        
+
         <Row gutter={24} style={{marginBottom: 24, marginLeft:0, marginRight: 0, paddingLeft:0}}>
           <Card
-                bodyStyle={{ paddingTop: 12, paddingBottom: 12, paddingRight:0, paddingLeft:0}}
-                bordered={false}
-                // title="Card"
-          > 
+            bodyStyle={{ paddingTop: 12, paddingBottom: 12, paddingRight:0, paddingLeft:0}}
+            bordered={false}
+            // title="Card"
+          >
             <Col xl={6} >
               <img src = {busImage} height="250" width="250"/>
             </Col>
-            <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}> 
+            <Col xl={16} style={{marginLeft:0, marginRight:0, paddingLeft: 12}}>
               <h1 style={{fontSize:24,fontWeight:'bold',color:'#397CE1'}}>{busName}</h1>
               <h2 style={{fontSize:20,fontWeight:'bold',color:'#397CE1'}}>
-                Social Media Score: <Badge count={this.formatScore(this.state.vitalityScore)} 
+                Social Media Score: <Badge count={this.formatScore(this.state.vitalityScore)}
                 style={{ fontSize:24, fontWeight:'bold', backgroundColor: scoreColor, width: '105%', marginBottom:'4%', marginLeft:'5%'}} />
               </h2>
-              
+
               <h2 style={{fontSize: 18, fontWeight:'bold', color:'#545451'}}>Employee Number: {this.state.employeeNum}</h2>
               <h4 style={{fontSize: 15, color:'#545451'}}>License:  {this.state.licenseNum}</h4>
               <h4 style={{fontSize: 15, color:'#545451'}}>Business Type:  {this.state.businessType}</h4>
               <h4 style={{fontSize: 15, color:'#545451'}}>Address:  {this.state.address}</h4>
-             
+
             </Col>
-          </Card>  
+          </Card>
         </Row>
-        
-        
+
+
         <GridContent>
           <Row gutter={24} >
-         
+
             <Col xl={8} lg={12} md={12} sm={12} xs={12} style={{ marginBottom: 24 }}>
               <Card
                 bodyStyle={{ height:200,  paddingTop: 12, paddingBottom: 12, paddingRight:12, paddingLeft:12 }}
@@ -305,7 +304,7 @@ class AdvancedProfile extends Component {
                 // title="Card"
               >
                 <a href={this.state.yelpUrl} target="_blank">
-                <img src={yelpIcon} height="60" width="100"/><br/><br/>
+                  <img src={yelpIcon} height="60" width="100"/><br/><br/>
                 </a>
                 <StarRatings
                   rating={this.state.yelpRating}
@@ -320,7 +319,7 @@ class AdvancedProfile extends Component {
 
               </Card>
             </Col>
-          
+
             <Col xl={8} lg={12} md={12} sm={12} xs={12} style={{ marginBottom: 24 }}>
               <Card
                 bodyStyle={{ height:200, paddingTop: 12, paddingBottom: 12, paddingRight:12, paddingLeft:12 }}
@@ -344,26 +343,21 @@ class AdvancedProfile extends Component {
             </Col>
 
             <Col xl={8} lg={24} md={24} sm={24} xs={24} style={{ marginBottom: 24 }}>
-              <Card title="Chart" style={{ height:200, marginBottom: 24 }} bordered={true}>
-                <DescriptionList >
-                  <Description term="??">To the rivers</Description>
-                  <Description term="??">and the lakes</Description>
-                  <Description term="??">you're use to</Description>
-                  <Description term="??">??????</Description>
-                  <Description term="??">??</Description>
-                </DescriptionList>
-              </Card>
+              {/*<Card title="Chart" style={{ height:200, marginBottom: 24 }} bordered={true}>*/}
+                {/*<DescriptionList >*/}
+                  {/*<Description term="??">To the rivers</Description>*/}
+                  {/*<Description term="??">and the lakes</Description>*/}
+                  {/*<Description term="??">you're use to</Description>*/}
+                  {/*<Description term="??">??????</Description>*/}
+                  {/*<Description term="??">??</Description>*/}
+                {/*</DescriptionList>*/}
+              {/*</Card>*/}
             </Col>
 
-
-          
           </Row>
         </GridContent>
-
-      </PageHeaderWrapper>
-
+    </div>
     ) ;
   }
 }
-
 export default AdvancedProfile;
