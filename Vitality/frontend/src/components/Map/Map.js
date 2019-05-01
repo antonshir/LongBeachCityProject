@@ -49,7 +49,6 @@ class Map extends Component {
   }
 
   addMarker(props) {
-    console.log(props);
 
     var infowindow = new google.maps.InfoWindow();
 
@@ -134,8 +133,8 @@ class Map extends Component {
     legend = document.getElementById("legend");
     map = new window.google.maps.Map(document.getElementById("map"), {
       center: { lat: 33.7971, lng: -118.1637 },
-      zoom: 10,
-      gestureHandling: "greedy",
+      zoom: 12,
+      gestureHandling: "cooperative",
       disableDefualtUI: true
     });
     ctaLayer = new google.maps.KmlLayer({
@@ -184,83 +183,84 @@ class Map extends Component {
     google.maps.event.addListener(zip_90815, "click", function(event) {
       self.onZip(90815);
       self.set_markers("90815");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.795, lng: -118.118 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.795, lng: -118.118 });
     });
     google.maps.event.addListener(zip_90810, "click", function(event) {
       self.onZip(90810);
       self.set_markers("90810");
-      map.setZoom(14);
+      map.setZoom(13);
       map.setCenter({ lat: 33.816, lng: -118.215 });
     });
     google.maps.event.addListener(zip_90813, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90813");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.781, lng: -118.175 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.781, lng: -118.175 });
     });
     google.maps.event.addListener(zip_90814, "click", function(event) {
       self.onZip(90814);
       self.set_markers("90814");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.771, lng: -118.145 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.771, lng: -118.145 });
     });
     google.maps.event.addListener(zip_90808, "click", function(event) {
       self.onZip(90808);
       self.set_markers("90808");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.823, lng: -118.113 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.823, lng: -118.113 });
     });
 
     google.maps.event.addListener(zip_90807, "click", function(event) {
       self.onZip(90807);
       self.set_markers("90807");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.828, lng: -118.182 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.828, lng: -118.182 });
     });
     google.maps.event.addListener(zip_90822, "click", function(event) {
       self.onZip(90822);
       self.set_markers("90822");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.776, lng: -118.118 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.776, lng: -118.118 });
     });
 
     google.maps.event.addListener(zip_90831, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90831");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.768, lng: -118.199 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.768, lng: -118.199 });
     });
 
     google.maps.event.addListener(zip_90802, "click", function(event) {
       self.onZip(90802);
       self.set_markers("90802");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.769, lng: -118.192 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.769, lng: -118.192 });
     });
     google.maps.event.addListener(zip_90803, "click", function(event) {
       self.onZip(90803);
       self.set_markers("90803");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.761, lng: -118.13 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.761, lng: -118.13 });
+      //.setCenter
     });
     google.maps.event.addListener(zip_90804, "click", function(event) {
       self.onZip(90804);
       self.set_markers("90804");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.783, lng: -118.152 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.783, lng: -118.152 });
     });
     google.maps.event.addListener(zip_90805, "click", function(event) {
       self.onZip(90805);
       self.set_markers("90805");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.866, lng: -118.184 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.866, lng: -118.184 });
     });
     google.maps.event.addListener(zip_90806, "click", function(event) {
       self.onZip(90806);
       self.set_markers("90806");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.802, lng: -118.186 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.802, lng: -118.186 });
     });
 
     // infowindow1.setContent('zip code: 90813');
@@ -306,7 +306,6 @@ class Map extends Component {
     jQuery
       .get("http://127.0.0.1:8000/api/zipcoderatio/", config)
       .then(res => {
-        console.log(res);
         //for (var j = 0; j < res.length; i++) {
         //  rest.push(res.data[i]);
         // }
@@ -746,6 +745,10 @@ class Map extends Component {
     // console.log(licenses);
     return licenses;
   }
+
+  // componentDidMount(){
+  //   this.initMap()
+  // }
 
   componentDidMount() {
     if (!window.google) {

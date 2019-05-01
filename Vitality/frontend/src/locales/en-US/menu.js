@@ -6,4 +6,9 @@ export default {
   'menu.account.settings': 'Account Settings',
   'menu.account.trigger': 'Trigger Error',
   'menu.account.logout': 'Logout',
+
+  'menu.Dashboard': 'Dashboard',
+  'menu.Dashboard.Analysis': 'Analysis',
+
+
 };

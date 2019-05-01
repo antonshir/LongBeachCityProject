@@ -38,4 +38,4 @@ const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...r
 
 export default connect(({ setting }) => ({
   contentWidth: setting.contentWidth,
-}))(PageHeaderWrapper);
+})) (PageHeaderWrapper);
