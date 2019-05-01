@@ -1,5 +1,6 @@
 import globalHeader from './en-US/globalHeader';
-// import menu from './en-US/menu';
+import menu from './en-US/menu';
+import analysis from './en-US/analysis'
 // import settings from './en-US/settings';
 
 export default {
@@ -9,6 +10,8 @@ export default {
   'layout.user.link.terms': 'Terms',
   'app.home.introduce': 'introduce',
   ...globalHeader,
+  ...menu,
+  ...analysis,
   // ...menu,
   // ...settings,
 };

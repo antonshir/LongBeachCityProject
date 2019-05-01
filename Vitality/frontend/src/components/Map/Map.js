@@ -22,6 +22,7 @@ import { queryBusinessList } from "@/services/api";
 var map = "";
 var ctaLayer = "";
 var legend = "";
+var markers = [];
 
 class Map extends Component {
   constructor(props) {
@@ -41,8 +42,13 @@ class Map extends Component {
     this.drawer.current.showDrawer();
   }
 
+  setAllMarkers(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
   addMarker(props) {
-    console.log(props);
 
     var infowindow = new google.maps.InfoWindow();
 
@@ -57,6 +63,7 @@ class Map extends Component {
       infowindow.setPosition(event.latLng);
       infowindow.open(map, marker);
     });
+    markers.push(marker);
   }
 
   determine_marker_color(score) {
@@ -126,8 +133,8 @@ class Map extends Component {
     legend = document.getElementById("legend");
     map = new window.google.maps.Map(document.getElementById("map"), {
       center: { lat: 33.7971, lng: -118.1637 },
-      zoom: 10,
-      gestureHandling: "greedy",
+      zoom: 12,
+      gestureHandling: "cooperative",
       disableDefualtUI: true
     });
     ctaLayer = new google.maps.KmlLayer({
@@ -176,83 +183,84 @@ class Map extends Component {
     google.maps.event.addListener(zip_90815, "click", function(event) {
       self.onZip(90815);
       self.set_markers("90815");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.795, lng: -118.118 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.795, lng: -118.118 });
     });
     google.maps.event.addListener(zip_90810, "click", function(event) {
       self.onZip(90810);
       self.set_markers("90810");
-      map.setZoom(14);
+      map.setZoom(13);
       map.setCenter({ lat: 33.816, lng: -118.215 });
     });
     google.maps.event.addListener(zip_90813, "click", function(event) {
       self.onZip(90813);
       self.set_markers("90813");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.781, lng: -118.175 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.781, lng: -118.175 });
     });
     google.maps.event.addListener(zip_90814, "click", function(event) {
       self.onZip(90814);
       self.set_markers("90814");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.771, lng: -118.145 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.771, lng: -118.145 });
     });
     google.maps.event.addListener(zip_90808, "click", function(event) {
       self.onZip(90808);
       self.set_markers("90808");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.823, lng: -118.113 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.823, lng: -118.113 });
     });
 
     google.maps.event.addListener(zip_90807, "click", function(event) {
       self.onZip(90807);
       self.set_markers("90807");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.828, lng: -118.182 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.828, lng: -118.182 });
     });
     google.maps.event.addListener(zip_90822, "click", function(event) {
       self.onZip(90822);
       self.set_markers("90822");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.776, lng: -118.118 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.776, lng: -118.118 });
     });
 
     google.maps.event.addListener(zip_90831, "click", function(event) {
       self.onZip(90831);
       self.set_markers("90831");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.768, lng: -118.199 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.768, lng: -118.199 });
     });
 
     google.maps.event.addListener(zip_90802, "click", function(event) {
       self.onZip(90802);
       self.set_markers("90802");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.769, lng: -118.192 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.769, lng: -118.192 });
     });
     google.maps.event.addListener(zip_90803, "click", function(event) {
       self.onZip(90803);
       self.set_markers("90803");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.761, lng: -118.13 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.761, lng: -118.13 });
+      //.setCenter
     });
     google.maps.event.addListener(zip_90804, "click", function(event) {
       self.onZip(90804);
       self.set_markers("90804");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.783, lng: -118.152 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.783, lng: -118.152 });
     });
     google.maps.event.addListener(zip_90805, "click", function(event) {
       self.onZip(90805);
       self.set_markers("90805");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.866, lng: -118.184 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.866, lng: -118.184 });
     });
     google.maps.event.addListener(zip_90806, "click", function(event) {
       self.onZip(90806);
       self.set_markers("90806");
-      map.setZoom(14);
-      map.setCenter({ lat: 33.802, lng: -118.186 });
+      map.setZoom(13);
+      map.panTo({ lat: 33.802, lng: -118.186 });
     });
 
     // infowindow1.setContent('zip code: 90813');
@@ -298,7 +306,6 @@ class Map extends Component {
     jQuery
       .get("http://127.0.0.1:8000/api/zipcoderatio/", config)
       .then(res => {
-        console.log(res);
         //for (var j = 0; j < res.length; i++) {
         //  rest.push(res.data[i]);
         // }
@@ -601,7 +608,87 @@ class Map extends Component {
     legend.appendChild(div5);
 
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
+
+    var centerControlDiv = document.createElement("div");
+    var centerControl = new this.CenterControl(centerControlDiv, map);
+
+    // centerControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
+      centerControlDiv
+    );
+    var markerControlDiv = document.createElement("div");
+    var markerControl = new this.MarkerControl(markerControlDiv, map);
+    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
+      markerControlDiv
+    );
   }
+
+  CenterControl(controlDiv, map) {
+    // Set CSS for the control border.
+    var controlUI = document.createElement("div");
+    controlUI.style.backgroundColor = "#fff";
+    controlUI.style.border = "2px solid #fff";
+    controlUI.style.borderRadius = "3px";
+    controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+    controlUI.style.cursor = "pointer";
+    controlUI.style.marginLeft = "0px";
+    controlUI.style.marginBottom = "5px";
+    controlUI.style.textAlign = "center";
+    controlUI.title = "Click to recenter the map";
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement("div");
+    controlText.style.color = "rgb(25,25,25)";
+    controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+    controlText.style.fontSize = "16px";
+    controlText.style.lineHeight = "38px";
+    controlText.style.paddingLeft = "5px";
+    controlText.style.paddingRight = "5px";
+    controlText.innerHTML = "ORIGINAL VIEW";
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener("click", function() {
+      map.setCenter({ lat: 33.7971, lng: -118.1637 });
+      map.setZoom(12);
+    });
+  }
+
+  MarkerControl(controlDiv, map) {
+    // Set CSS for the control border.
+    var controlUI = document.createElement("div");
+    controlUI.style.backgroundColor = "#fff";
+    controlUI.style.border = "2px solid #fff";
+    controlUI.style.borderRadius = "3px";
+    controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+    controlUI.style.cursor = "pointer";
+    controlUI.style.marginLeft = "10px";
+    controlUI.style.marginBottom = "5px";
+    controlUI.style.textAlign = "center";
+    controlUI.title = "Click to recenter the map";
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement("div");
+    controlText.style.color = "rgb(25,25,25)";
+    controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+    controlText.style.fontSize = "16px";
+    controlText.style.lineHeight = "38px";
+    controlText.style.paddingLeft = "5px";
+    controlText.style.paddingRight = "5px";
+    controlText.innerHTML = "REMOVE MARKERS";
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener("click", function() {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      markers = [];
+    });
+  }
+
   set_color(active, delinquent) {
     //  console.log(active);
     //  console.log(delinquent);
@@ -658,6 +745,10 @@ class Map extends Component {
     // console.log(licenses);
     return licenses;
   }
+
+  // componentDidMount(){
+  //   this.initMap()
+  // }
 
   componentDidMount() {
     if (!window.google) {

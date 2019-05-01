@@ -27,7 +27,7 @@ class CardDrawer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps && this.props !==null) {
+    if (this.props !== prevProps && this.props.zipcode !== null) {
      this.fetchBusinesses(this.props);
     }
   }
@@ -59,8 +59,8 @@ class CardDrawer extends React.Component {
           placement={this.state.placement}
           onClose={this.onClose}
           visible={this.state.visible}
-          mask = {true}
-          closable={false}
+          mask = {false}
+          closable={true}
           placement={'right'}
           width = {420}
         >
