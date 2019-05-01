@@ -356,7 +356,7 @@ class AdvancedProfile extends Component {
 
           </Row>
         </GridContent>
-    </div>
+    </PageHeaderWrapper>
     ) ;
   }
 }
