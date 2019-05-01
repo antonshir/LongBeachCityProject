@@ -1,4 +1,4 @@
-#Gets first 200 matching businesses in active.csv and stores info in yelp.csv
+#Gets matching businesses in active.csv and stores info in yelp.csv
 
 from __future__ import print_function
 
@@ -133,14 +133,16 @@ if __name__ == '__main__':
         count = 0
         total = 0
         for row in businesses:
-            if count >= 200:
-                break
-
             total = total + 1
+            if total >= 4900:
+                break
+            print(total)
+            #4435
             business = search(API_KEY, row[2], row[-2])
             try:
                 if len(business['businesses']) != 0:
                     count = count + 1
+                    print("count")
                     print(count)
                     info = get_business(API_KEY,
                                         business['businesses'][0]['id'])
