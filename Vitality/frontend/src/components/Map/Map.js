@@ -22,6 +22,7 @@ import { queryBusinessList } from "@/services/api";
 var map = "";
 var ctaLayer = "";
 var legend = "";
+var markers = [];
 
 class Map extends Component {
   constructor(props) {
@@ -41,6 +42,12 @@ class Map extends Component {
     this.drawer.current.showDrawer();
   }
 
+  setAllMarkers(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
   addMarker(props) {
     console.log(props);
 
@@ -57,6 +64,7 @@ class Map extends Component {
       infowindow.setPosition(event.latLng);
       infowindow.open(map, marker);
     });
+    markers.push(marker);
   }
 
   determine_marker_color(score) {
@@ -601,7 +609,87 @@ class Map extends Component {
     legend.appendChild(div5);
 
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(legend);
+
+    var centerControlDiv = document.createElement("div");
+    var centerControl = new this.CenterControl(centerControlDiv, map);
+
+    // centerControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
+      centerControlDiv
+    );
+    var markerControlDiv = document.createElement("div");
+    var markerControl = new this.MarkerControl(markerControlDiv, map);
+    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(
+      markerControlDiv
+    );
   }
+
+  CenterControl(controlDiv, map) {
+    // Set CSS for the control border.
+    var controlUI = document.createElement("div");
+    controlUI.style.backgroundColor = "#fff";
+    controlUI.style.border = "2px solid #fff";
+    controlUI.style.borderRadius = "3px";
+    controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+    controlUI.style.cursor = "pointer";
+    controlUI.style.marginLeft = "0px";
+    controlUI.style.marginBottom = "5px";
+    controlUI.style.textAlign = "center";
+    controlUI.title = "Click to recenter the map";
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement("div");
+    controlText.style.color = "rgb(25,25,25)";
+    controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+    controlText.style.fontSize = "16px";
+    controlText.style.lineHeight = "38px";
+    controlText.style.paddingLeft = "5px";
+    controlText.style.paddingRight = "5px";
+    controlText.innerHTML = "ORIGINAL VIEW";
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener("click", function() {
+      map.setCenter({ lat: 33.7971, lng: -118.1637 });
+      map.setZoom(12);
+    });
+  }
+
+  MarkerControl(controlDiv, map) {
+    // Set CSS for the control border.
+    var controlUI = document.createElement("div");
+    controlUI.style.backgroundColor = "#fff";
+    controlUI.style.border = "2px solid #fff";
+    controlUI.style.borderRadius = "3px";
+    controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+    controlUI.style.cursor = "pointer";
+    controlUI.style.marginLeft = "10px";
+    controlUI.style.marginBottom = "5px";
+    controlUI.style.textAlign = "center";
+    controlUI.title = "Click to recenter the map";
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement("div");
+    controlText.style.color = "rgb(25,25,25)";
+    controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+    controlText.style.fontSize = "16px";
+    controlText.style.lineHeight = "38px";
+    controlText.style.paddingLeft = "5px";
+    controlText.style.paddingRight = "5px";
+    controlText.innerHTML = "REMOVE MARKERS";
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener("click", function() {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      markers = [];
+    });
+  }
+
   set_color(active, delinquent) {
     //  console.log(active);
     //  console.log(delinquent);
