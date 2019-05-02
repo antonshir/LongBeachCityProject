@@ -86,6 +86,7 @@ class BusinessListViewSet(viewsets.ModelViewSet):
         #         'business__employee_num')[startindex:endIndex]
         self.queryset = SocialMediaScore.objects.select_related(
             'business').filter(business__zipcode=zipcode).exclude(
-                business__yelp=None).order_by('-date',
-                                              'score')[startindex:endIndex]
+                business__yelp=None).order_by(
+                    '-date', 'score',
+                    '-business__start_date')[startindex:endIndex]
         return self.queryset
