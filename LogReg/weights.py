@@ -13,15 +13,15 @@ import numpy as np
 
 def get_weights():
     colnames = ['target']
-    colnames1 = ['days_in_business', 'yelp_review_count', 'yelp_rating', 'google_rating']
+    colnames1 = ['yelp_review_count', 'yelp_rating', 'google_rating']
     
-    df = pd.read_csv("/Users/antonshirokov/Downloads/target1.csv", names = colnames)
-    df1 = pd.read_csv("/Users/antonshirokov/Downloads/features3.csv", names = colnames1)
+    df = pd.read_csv("/Users/antonshirokov/Downloads/new_tar.csv", names = colnames)
+    df1 = pd.read_csv("/Users/antonshirokov/downloads/new_standardized_data.csv", names = colnames1)
         
     y = np.array(df.target.tolist())
     X = np.array(df1)
         
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=0)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0, random_state=0)
     logreg = LogisticRegression()
     logreg.fit(X_train, y_train)
         
