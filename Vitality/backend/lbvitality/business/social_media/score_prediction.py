@@ -19,17 +19,15 @@ from business.models import *
 
 def get_weights():
     colnames = ['target']
-    colnames1 = [
-        'days_in_business', 'yelp_review_count', 'yelp_rating', 'google_rating'
-    ]
+    colnames1 = ['yelp_review_count', 'yelp_rating', 'google_rating']
 
     df = pd.read_csv('/'.join(
         (os.path.dirname(os.path.abspath(__file__)) + '').split('/')[0:-5]) +
-                     '/LogReg/Targets_3_class.csv',
+                     '/LogReg/new_tar.csv',
                      names=colnames)
     df1 = pd.read_csv('/'.join(
         (os.path.dirname(os.path.abspath(__file__)) + '').split('/')[0:-5]) +
-                      '/LogReg/Features_Standardized.csv',
+                      '/LogReg/new_standardized_data.csv',
                       names=colnames1)
 
     y = np.array(df.target.tolist())
@@ -37,7 +35,7 @@ def get_weights():
 
     X_train, X_test, y_train, y_test = train_test_split(X,
                                                         y,
-                                                        test_size=0.4,
+                                                        test_size=0,
                                                         random_state=0)
     logreg = LogisticRegression()
     logreg.fit(X_train, y_train)
@@ -111,7 +109,6 @@ if __name__ == "__main__":
                                                            google=b.google)
 
                 features = [
-                    (temp_days_in_business.days - 6751.322222) / 3478.709033,
                     (yelp_history.review_count - 121.4111111) / 252.1274822,
                     (yelp_history.rating - 4.027777778) / 0.9521150645,
                     (google_history.rating - 3.915555556) / 1.436358622
@@ -128,7 +125,6 @@ if __name__ == "__main__":
             #no google, make the google features 0
             except:
                 features = [
-                    (temp_days_in_business.days - 6751.322222) / 3478.709033,
                     (yelp_history.review_count - 121.4111111) / 252.1274822,
                     (yelp_history.rating - 4.027777778) / 0.9521150645, 0
                 ]
