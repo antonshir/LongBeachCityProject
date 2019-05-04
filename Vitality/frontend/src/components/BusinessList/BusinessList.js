@@ -50,13 +50,13 @@ const BusinessList = (props)  => {
       // grid={{ gutter: 24, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
 
 
-      // grid={{ gutter: 0, column: 1 }}
-      // pagination={{
-      //   onChange: (page) => {
-      //     console.log(page);
-      //   },
-      //   pageSize: 2,
-      // }}
+    //  grid={{ gutter: 0, column: 1 }}
+      pagination={{
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      }}
       dataSource={props.data}
       renderItem={item => (
         <List.Item>
@@ -64,7 +64,7 @@ const BusinessList = (props)  => {
           <Card
             className={styles.card}
             hoverable
-            cover={<img height="150" width="125" src={item.business.yelp == null? defaultImage : item.business.yelp.image_url} />}
+            cover={<img height="200" width="200" src={item.business.yelp == null? defaultImage : item.business.yelp.image_url} />}
             actions={[<Tag color={me(item.score)}> {formatScore(item.score)} </Tag>]}
 
           >

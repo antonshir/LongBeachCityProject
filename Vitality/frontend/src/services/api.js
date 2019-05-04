@@ -11,6 +11,12 @@ export async function queryBusinessList(zip) {
   );
 }
 
+export async function queryBusinessListMarkers(zip) {
+  return request(
+    `http://localhost:8000/api/businesslist/?zipcode=${zip}&startindex=0&endindex=1200`
+  );
+}
+
 export async function querySocialMediaScore(bus) {
   return request(`http://localhost:8000/api/socialmediascore/${bus}`);
 }

@@ -17,7 +17,7 @@ import zip__90831 from "./model/zip_90831.json";
 import CardDrawer from "@/components/Drawer/CardDrawer";
 import Button from "antd/es/button";
 import PageHeaderWrapper from "@/pages/Dashboard/AdvancedProfile";
-import { queryBusinessList } from "@/services/api";
+import { queryBusinessList, queryBusinessListMarkers } from "@/services/api";
 
 var map = "";
 var ctaLayer = "";
@@ -69,6 +69,11 @@ class Map extends Component {
     var marker_color = "";
     if (count < 11) {
       marker_color =
+        //  "https://sites.google.com/site/longbeachprojectqwer/kml/num_1.png";
+        //https://sites.google.com/site/longbeachprojectqwer/kml/NUM_1.png
+
+        //http://maps.google.com/mapfiles/kml/pal3/icon1.png
+
         "https://sites.google.com/site/longbeachprojectqwer/kml/num_" +
         count.toString() +
         ".png";
@@ -81,6 +86,18 @@ class Map extends Component {
         marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
       }
     }
+    /*
+    if (score == 0) {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
+    } else if (score == 1) {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/yellow.png";
+    } else {
+      marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
+    }
+    */
+    //console.log(score);
+    //var color_url = "http://maps.google.com/mapfiles/ms/micons/red.png"
+
     return marker_color;
   }
 
@@ -89,28 +106,53 @@ class Map extends Component {
     var config = {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     };
+    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
+    //returns a list of businesses of zipcode randomly of that zipcode
     var url =
       "http://localhost:8000/api/businesslist/?zipcode=" +
       zip +
       "&startindex=0&endindex=1200";
-    jQuery
-      .get(url, config)
-      .then(res => {
-        for (var i = 0; i < 1200; i++) {
-          if (res[i].business.google != null) {
-            count++;
-            this.addMarker({
-              coords: {
-                lat: parseFloat(res[i].business.google.latitude),
-                lng: parseFloat(res[i].business.google.longtitude)
-              },
-              markerImage: this.determine_marker_color(res[i].score, count),
-              business_name: res[i].business.dba_name
-            });
-          }
+
+    queryBusinessListMarkers(zip).then(res => {
+      res.forEach(results => {
+        if(results.business.google !== null) {
+          count++;
+          this.addMarker({
+            coords: {
+              lat: parseFloat(results.business.google.latitude),
+              lng: parseFloat(results.business.google.longtitude)
+            },
+            markerImage: this.determine_marker_color(results.score, count),
+            business_name: results.business.dba_name
+          });
         }
       })
-      .catch(error => {});
+    } )
+    // jQuery
+    //   .get(url, config)
+    //   .then(res => {
+    //     for (var i = 0; i < 1200; i++) {
+    //       //  console.log(i);
+    //       //  console.log(res[i].business.google.latitude);
+    //       //  console.log(res[i].business.google.longtitude);
+    //       //this.determine_marker_color(res[i].score);
+    //       //console.log(score);
+    //       if (res[i].business.google != null) {
+    //         count++;
+    //         this.addMarker({
+    //           coords: {
+    //             lat: parseFloat(res[i].business.google.latitude),
+    //             lng: parseFloat(res[i].business.google.longtitude)
+    //           },
+    //           markerImage: this.determine_marker_color(res[i].score, count),
+    //           business_name: res[i].business.dba_name
+    //         });
+    //       }
+    //     }
+    //   })
+    //   .catch(error => {});
+
+    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
   }
 
   onScriptLoad() {
@@ -274,31 +316,78 @@ class Map extends Component {
       90822,
       90831
     ];
+
+    //var zip_colors = new Map();
+
     var zip_colors = new Array();
+
+    // var obj = {
+    //   zipcode: 98098,
+    //   color: "ssdf"
+    //  };
 
     var config = {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     };
+
+    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
+    //returns a list of businesses of zipcode randomly of that zipcode
+
+    //.get("api.json", config)
     jQuery
       .get("http://127.0.0.1:8000/api/zipcoderatio/", config)
       .then(res => {
+        //for (var j = 0; j < res.length; i++) {
+        //  rest.push(res.data[i]);
+        // }
+        //rest = res.data;
+        //yikes(res);
         for (var i = 0; i < zip_codes.length; i++) {
+          //let zip = api[i];
+          //let zip = rest[i];
           let data = [];
+          //      console.log(zip);
+
           if (this.check_zipcode(zip_codes[i], res) == false) {
+            //  console.log("yay");
+            //  let zip_color_obj = {
+            //    zipcode: zip_codes[i],
+            //    color: "#fdffe1"
+            //  };
             zip_colors.push({
               zipcode: zip_codes[i],
               color: "#f1f3d6"
+              //color: "#fdffe1"
             });
+
+            //count_out++;
+            //zip_colors.set(zip_codes[i], "#fdffe1");
           } else {
+            //count_in++;
             data = this.get_license_status(zip_codes[i], res);
+            //   console.log(data);
             let color = this.set_color(data[1], data[0]);
+            //   let zip_color_obj = {
+            //     zipcode: zip_codes[i],
+            //     color: color
+            //   };
             zip_colors.push({
               zipcode: zip_codes[i],
               color: color
             });
+
+            //zip_colors.set(zip_codes[i], color);
           }
         }
+        //    console.log(zip_colors);
+        //    console.log(zip_colors.length);
+        //    console.log(zip_colors[0]);
+        //    console.log(zip_colors[0].zipcode);
+
         for (var i = 0; i < zip_colors.length; i++) {
+          //      console.log(zip_colors[i].zipcode);
+          //      console.log(key);
+          //      console.log(value);
           if (zip_colors[i].zipcode == 90802) {
             zip_90802.setStyle({
               strokeColor: "black",
@@ -390,6 +479,70 @@ class Map extends Component {
         console.log("error", error);
       });
 
+    /*
+    zip_90802.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "green"
+    });
+    zip_90803.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2
+    });
+    zip_90804.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2
+    });
+    zip_90805.setStyle({
+      strokeColor: "black",
+      strokeWeight: 1,
+      fillColor: "yellow"
+    });
+    zip_90806.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "red"
+    });
+    zip_90807.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "dark blue"
+    });
+    zip_90808.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "orange"
+    });
+    zip_90810.setStyle({
+      strokeColor: "black",
+      strokeWeight: 1,
+      fillColor: "blue"
+    });
+    zip_90813.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "black"
+    });
+    zip_90814.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "brown"
+    });
+    zip_90815.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2,
+      fillColor: "purple"
+    });
+    zip_90822.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2
+    });
+    zip_90831.setStyle({
+      strokeColor: "black",
+      strokeWeight: 2
+    });
+    */
+    //  lb_boundary.setMap(map);
     zip_90802.setMap(map);
     zip_90803.setMap(map);
     zip_90804.setMap(map);
@@ -669,3 +822,4 @@ class Map extends Component {
 }
 
 export default Map;
+
