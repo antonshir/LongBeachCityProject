@@ -21,16 +21,11 @@ class CardDrawer extends React.Component {
 
   fetchBusinesses = (zip) => {
     queryBusinessList(zip.zipcode).then(res => {
-      res.forEach(singles => {
-        if(singles.business.yelp !== null) {
-          list.push(singles);
-        }
-      });
       this.setState({
-        businesses: list
+        businesses: res
       })
-      list =[];
-    })
+    });
+
   }
 
   componentDidUpdate(prevProps) {
