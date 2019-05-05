@@ -29,6 +29,9 @@ with open(
                         formatted_address=row[4],
                         latitude=row[5],
                         longtitude=row[6],
+                        url=row[9],
+                        website=row[10],
+                        phone=row[11],
                         business=business)
         google.save()
 

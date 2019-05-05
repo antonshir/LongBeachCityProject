@@ -73,6 +73,10 @@ class Google(models.Model):
     formatted_address = models.CharField(max_length=1000)
     latitude = models.CharField(max_length=100)
     longtitude = models.CharField(max_length=100)
+    url = models.CharField(max_length=1000)
+    website = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=100)
+
 
     business = models.OneToOneField('Business', on_delete=models.CASCADE)
 

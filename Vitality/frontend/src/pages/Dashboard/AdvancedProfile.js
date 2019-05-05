@@ -71,6 +71,8 @@ class AdvancedProfile extends Component {
     yelpImageUrl: "",
     yelpPriceRange: "",
     googleUrl: "",
+    googleWebsite: "",
+    googlePhone: "",
     googleRating: 0,
     googleReviewCount: 0,
     google_id: "",
@@ -113,7 +115,10 @@ class AdvancedProfile extends Component {
 
     if(res.google != null){
       this.setState({
-        google_id: res.google.google_id
+        google_id: res.google.google_id,
+        googleUrl: res.google.url,
+        googleWebsite: res.google.website,
+        googlePhone: res.google.phone
       });
     }
     return res;
