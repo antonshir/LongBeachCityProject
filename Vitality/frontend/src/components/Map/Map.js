@@ -42,42 +42,43 @@ class Map extends Component {
     this.drawer.current.showDrawer();
   }
 
+  //adds all of the markers onto the map
   setAllMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(map);
     }
   }
 
+  //creates markers
   addMarker(props) {
     var infowindow = new google.maps.InfoWindow();
-
+    //marker with properties created
     var marker = new google.maps.Marker({
       position: props.coords,
       map: map,
       icon: props.markerImage
-      //icon: "http://maps.google.com/mapfiles/ms/micons/yellow.png"
     });
+    //marker event listener is attached
     marker.addListener("click", function() {
       infowindow.setContent(props.business_name);
       infowindow.setPosition(event.latLng);
       infowindow.open(map, marker);
     });
+    //marker added to marker list
     markers.push(marker);
   }
 
+  //this function deretmines marker color
   determine_marker_color(score, count) {
     var marker_color = "";
+    //numbered markers
     if (count < 11) {
       marker_color =
-        //  "https://sites.google.com/site/longbeachprojectqwer/kml/num_1.png";
-        //https://sites.google.com/site/longbeachprojectqwer/kml/NUM_1.png
-
-        //http://maps.google.com/mapfiles/kml/pal3/icon1.png
-
         "https://sites.google.com/site/longbeachprojectqwer/kml/num_" +
         count.toString() +
         ".png";
     } else {
+      //color-based markers
       if (score == 0) {
         marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
       } else if (score == 1) {
@@ -86,36 +87,26 @@ class Map extends Component {
         marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
       }
     }
-    /*
-    if (score == 0) {
-      marker_color = "http://maps.google.com/mapfiles/ms/micons/red.png";
-    } else if (score == 1) {
-      marker_color = "http://maps.google.com/mapfiles/ms/micons/yellow.png";
-    } else {
-      marker_color = "http://maps.google.com/mapfiles/ms/micons/green.png";
-    }
-    */
-    //console.log(score);
-    //var color_url = "http://maps.google.com/mapfiles/ms/micons/red.png"
 
     return marker_color;
   }
 
+  //this function calls API info to create markers
   set_markers(zip) {
     var count = 0;
     var config = {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     };
-    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
-    //returns a list of businesses of zipcode randomly of that zipcode
+    //API url
     var url =
       "http://localhost:8000/api/businesslist/?zipcode=" +
       zip +
       "&startindex=0&endindex=1200";
 
+    //looks for markers with social media
     queryBusinessListMarkers(zip).then(res => {
       res.forEach(results => {
-        if(results.business.google !== null) {
+        if (results.business.google !== null) {
           count++;
           this.addMarker({
             coords: {
@@ -126,37 +117,14 @@ class Map extends Component {
             business_name: results.business.dba_name
           });
         }
-      })
-    } )
-    // jQuery
-    //   .get(url, config)
-    //   .then(res => {
-    //     for (var i = 0; i < 1200; i++) {
-    //       //  console.log(i);
-    //       //  console.log(res[i].business.google.latitude);
-    //       //  console.log(res[i].business.google.longtitude);
-    //       //this.determine_marker_color(res[i].score);
-    //       //console.log(score);
-    //       if (res[i].business.google != null) {
-    //         count++;
-    //         this.addMarker({
-    //           coords: {
-    //             lat: parseFloat(res[i].business.google.latitude),
-    //             lng: parseFloat(res[i].business.google.longtitude)
-    //           },
-    //           markerImage: this.determine_marker_color(res[i].score, count),
-    //           business_name: res[i].business.dba_name
-    //         });
-    //       }
-    //     }
-    //   })
-    //   .catch(error => {});
-
-    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
+      });
+    });
   }
 
   onScriptLoad() {
+    //heatmap legend initialization
     legend = document.getElementById("legend");
+    //google map initialization
     map = new window.google.maps.Map(document.getElementById("map"), {
       center: { lat: 33.7971, lng: -118.1637 },
       zoom: 12,
@@ -168,6 +136,7 @@ class Map extends Component {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
       }
     });
+    //Long Beach City map border, not used in demo
     ctaLayer = new google.maps.KmlLayer({
       url:
         "https://sites.google.com/site/longbeachprojectqwer/kml/City_Of_Long_Beach_City_Boundary.kml",
@@ -175,6 +144,7 @@ class Map extends Component {
     });
     let self = this;
 
+    //implementing zip code jsons
     var lb_boundary = new google.maps.Data();
     var zip_90802 = new google.maps.Data();
     var zip_90803 = new google.maps.Data();
@@ -190,10 +160,6 @@ class Map extends Component {
     var zip_90822 = new google.maps.Data();
     var zip_90831 = new google.maps.Data();
 
-    //  var lb_boundary = new google.maps.Data();
-
-    //  lb_boundary.loadGeoJson('Long_Beach.json');
-
     zip_90802.addGeoJson(zip__90802);
     zip_90803.addGeoJson(zip__90803);
     zip_90804.addGeoJson(zip__90804);
@@ -208,9 +174,7 @@ class Map extends Component {
     zip_90822.addGeoJson(zip__90822);
     zip_90831.addGeoJson(zip__90831);
 
-    // map.data.addGeoJson(zip__90813);
-
-    //  var infowwindow1 = google.maps.data.
+    //adding event listeners to zip code areas
     google.maps.event.addListener(zip_90815, "click", function(event) {
       self.onZip(90815);
       self.set_markers("90815");
@@ -294,13 +258,6 @@ class Map extends Component {
       map.panTo({ lat: 33.802, lng: -118.186 });
     });
 
-    // infowindow1.setContent('zip code: 90813');
-    // infowindow1.setPosition(
-    //   self.onZip(90813);
-    // });
-
-    // this.onZip(90813);
-
     var zip_codes = [
       90802,
       90803,
@@ -317,77 +274,35 @@ class Map extends Component {
       90831
     ];
 
-    //var zip_colors = new Map();
-
     var zip_colors = new Array();
-
-    // var obj = {
-    //   zipcode: 98098,
-    //   color: "ssdf"
-    //  };
 
     var config = {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     };
 
-    //http://localhost:8000/api/buinesslist/?zipcode={zipcode}&startindex={startindex}&endindex={endindex}
-    //returns a list of businesses of zipcode randomly of that zipcode
-
-    //.get("api.json", config)
+    // extracting API delinquent/active zip business list for heatmap colors
     jQuery
       .get("http://127.0.0.1:8000/api/zipcoderatio/", config)
       .then(res => {
-        //for (var j = 0; j < res.length; i++) {
-        //  rest.push(res.data[i]);
-        // }
-        //rest = res.data;
-        //yikes(res);
         for (var i = 0; i < zip_codes.length; i++) {
-          //let zip = api[i];
-          //let zip = rest[i];
           let data = [];
-          //      console.log(zip);
-
           if (this.check_zipcode(zip_codes[i], res) == false) {
-            //  console.log("yay");
-            //  let zip_color_obj = {
-            //    zipcode: zip_codes[i],
-            //    color: "#fdffe1"
-            //  };
             zip_colors.push({
               zipcode: zip_codes[i],
               color: "#f1f3d6"
-              //color: "#fdffe1"
             });
-
-            //count_out++;
-            //zip_colors.set(zip_codes[i], "#fdffe1");
           } else {
-            //count_in++;
             data = this.get_license_status(zip_codes[i], res);
-            //   console.log(data);
             let color = this.set_color(data[1], data[0]);
-            //   let zip_color_obj = {
-            //     zipcode: zip_codes[i],
-            //     color: color
-            //   };
             zip_colors.push({
               zipcode: zip_codes[i],
               color: color
             });
-
-            //zip_colors.set(zip_codes[i], color);
           }
         }
-        //    console.log(zip_colors);
-        //    console.log(zip_colors.length);
-        //    console.log(zip_colors[0]);
-        //    console.log(zip_colors[0].zipcode);
 
+        //determining heatmap colors
         for (var i = 0; i < zip_colors.length; i++) {
-          //      console.log(zip_colors[i].zipcode);
-          //      console.log(key);
-          //      console.log(value);
           if (zip_colors[i].zipcode == 90802) {
             zip_90802.setStyle({
               strokeColor: "black",
@@ -479,70 +394,6 @@ class Map extends Component {
         console.log("error", error);
       });
 
-    /*
-    zip_90802.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "green"
-    });
-    zip_90803.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2
-    });
-    zip_90804.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2
-    });
-    zip_90805.setStyle({
-      strokeColor: "black",
-      strokeWeight: 1,
-      fillColor: "yellow"
-    });
-    zip_90806.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "red"
-    });
-    zip_90807.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "dark blue"
-    });
-    zip_90808.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "orange"
-    });
-    zip_90810.setStyle({
-      strokeColor: "black",
-      strokeWeight: 1,
-      fillColor: "blue"
-    });
-    zip_90813.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "black"
-    });
-    zip_90814.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "brown"
-    });
-    zip_90815.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2,
-      fillColor: "purple"
-    });
-    zip_90822.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2
-    });
-    zip_90831.setStyle({
-      strokeColor: "black",
-      strokeWeight: 2
-    });
-    */
-    //  lb_boundary.setMap(map);
     zip_90802.setMap(map);
     zip_90803.setMap(map);
     zip_90804.setMap(map);
@@ -557,6 +408,7 @@ class Map extends Component {
     zip_90822.setMap(map);
     zip_90831.setMap(map);
 
+    /*
     var icons = [
       {
         name: "ratio",
@@ -588,13 +440,9 @@ class Map extends Component {
           "https://sites.google.com/site/longbeachprojectqwer/kml/dark_green.png"
       }
     ];
+    */
 
-    //  for (var ico in icons) {
-    //    var div = document.createElement("div");
-    //    div.innerHTML = '<img src="' + ico.icon + '"> ' + ico.name;
-    //    legend.appendChild(div);
-    //  }
-
+    //creating heatmap legend components
     var div = document.createElement("div");
     var div1 = document.createElement("div");
     var div2 = document.createElement("div");
@@ -643,17 +491,14 @@ class Map extends Component {
     var centerControlDiv = document.createElement("div");
     var centerControl = new this.CenterControl(centerControlDiv, map);
 
-    // centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
     var markerControlDiv = document.createElement("div");
     var markerControl = new this.MarkerControl(markerControlDiv, map);
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(markerControlDiv);
-
-    //map.addControl(new GLargeMapControl3D());
   }
 
+  //this function creates the "Original" button that return map to its original view
   CenterControl(controlDiv, map) {
-    // Set CSS for the control border.
     var controlUI = document.createElement("div");
     controlUI.style.backgroundColor = "#fff";
     controlUI.style.border = "2px solid #000";
@@ -667,7 +512,6 @@ class Map extends Component {
     controlUI.title = "Click to recenter the map";
     controlDiv.appendChild(controlUI);
 
-    // Set CSS for the control interior.
     var controlText = document.createElement("div");
     controlText.style.color = "rgb(25,25,25)";
     controlText.style.fontFamily = "Roboto,Arial,sans-serif";
@@ -678,15 +522,14 @@ class Map extends Component {
     controlText.innerHTML = "ORIGINAL VIEW";
     controlUI.appendChild(controlText);
 
-    // Setup the click event listeners: simply set the map to Chicago.
     controlUI.addEventListener("click", function() {
       map.setCenter({ lat: 33.7971, lng: -118.1637 });
       map.setZoom(12);
     });
   }
 
+  // This function creates the "Clear Markers" button that clears markers pn the map
   MarkerControl(controlDiv, map) {
-    // Set CSS for the control border.
     var controlUI = document.createElement("div");
     controlUI.style.backgroundColor = "#fff";
     controlUI.style.border = "2px solid #000";
@@ -696,10 +539,8 @@ class Map extends Component {
     controlUI.style.marginLeft = "10px";
     controlUI.style.marginBottom = "5px";
     controlUI.style.textAlign = "center";
-    //controlUI.title = "Click to recenter the map";
     controlDiv.appendChild(controlUI);
 
-    // Set CSS for the control interior.
     var controlText = document.createElement("div");
     controlText.style.color = "rgb(25,25,25)";
     controlText.style.fontFamily = "Roboto,Arial,sans-serif";
@@ -710,7 +551,6 @@ class Map extends Component {
     controlText.innerHTML = "CLEAR MARKERS";
     controlUI.appendChild(controlText);
 
-    // Setup the click event listeners: simply set the map to Chicago.
     controlUI.addEventListener("click", function() {
       for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
@@ -719,11 +559,10 @@ class Map extends Component {
     });
   }
 
+  //this function determines the zip colors on the map
   set_color(active, delinquent) {
-    //  console.log(active);
-    //  console.log(delinquent);
     var ratio = delinquent / active;
-    //    console.log(ratio);
+
     var color = "#000000";
     if (ratio > 0.3) {
       color = "#d60000";
@@ -741,10 +580,9 @@ class Map extends Component {
     return color;
   }
 
+  //this function checks if API returns data a zip code
   check_zipcode(zip, zip_list) {
-    // console.log(zip_list);
     var present = false;
-    //console.log(zip_list.length);
     for (var k = 0; k < zip_list.length; k++) {
       if (zip == zip_list[k].zipcode) {
         present = true;
@@ -754,12 +592,9 @@ class Map extends Component {
     return present;
   }
 
+  //this function identifies delinquent and active business count for zip
+  //from the data returned by API
   get_license_status(zip, api) {
-    //  console.log("api");
-    //  console.log(api);
-    //  console.log(api[0]);
-    //  console.log(api[0].zipcode);
-    //  console.log(api[0].business_count);
     var licenses = [];
     var index = 0;
     for (var m = 0; m < api.length; m++) {
@@ -770,15 +605,8 @@ class Map extends Component {
         break;
       }
     }
-    // console.log("licenses");
-    // console.log(api[m].delinquent_count);
-    // console.log(licenses);
     return licenses;
   }
-
-  // componentDidMount(){
-  //   this.initMap()
-  // }
 
   componentDidMount() {
     if (!window.google) {
@@ -822,4 +650,3 @@ class Map extends Component {
 }
 
 export default Map;
-
