@@ -8,22 +8,15 @@ import PriorirtDrawer from '@/components/PriorityDrawer/index'
 import Map from '@/components/Map/Map'
 import CardDrawer from '@/components/Drawer/CardDrawer'
 
+/**
+ *  Simple Page that renders our Map Component.
+ *  Functionality of Map is implemented in the components section.
+ *
+ * **/
+
 
 
 class Analysis extends Component {
-  state = { visible: false };
-
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-  };
 
   render() {
     return (

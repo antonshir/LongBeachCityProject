@@ -39,8 +39,6 @@ const getWindowWidth = () =>
   window.innerWidth || document.documentElement.clientWidth;
 
 
-
-
 class AdvancedProfile extends Component {
 
 

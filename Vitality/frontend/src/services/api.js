@@ -1,4 +1,9 @@
+//UmiJS, these API calls are based on fetch requests.
+
 import { stringify } from "qs";
+
+
+
 import request from "@/utils/request";
 
 export async function queryBusiness(business) {

@@ -13,6 +13,8 @@ class CardDrawer extends React.Component {
     super(props);
   }
 
+  //I
+
   state = {
     visible: false,
     placement: 'left',
@@ -25,7 +27,6 @@ class CardDrawer extends React.Component {
         businesses: res
       })
     });
-
   }
 
   componentDidUpdate(prevProps) {

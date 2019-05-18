@@ -1,4 +1,5 @@
-
+//When request return an exception, catch that error and return a message.
+//To notify the user if there was an error with a request.
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 
