@@ -1,5 +1,11 @@
 /**
- * Sample React Native App
+ * CityPulse Cross-Platform app
+ * CSULB team 
+ * Fall 2019
+ * Andre Barajas
+ * Ernest Arreola
+ * Anton Shirokov 
+ * Sovathana Hend 
  * https://github.com/facebook/react-native
  *
  * @format
