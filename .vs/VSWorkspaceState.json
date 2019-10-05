@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Vitality",
+    "\\Vitality\\frontend",
+    "\\Vitality\\frontend\\scripts",
+    "\\Vitality\\frontend\\src",
+    "\\Vitality\\frontend\\src\\components",
+    "\\Vitality\\frontend\\src\\components\\Map",
+    "\\Vitality\\frontend\\src\\models",
+    "\\Vitality\\frontend\\src\\pages\\Dashboard",
+    "\\Vitality\\frontend\\src\\services"
+  ],
+  "SelectedNode": "\\Vitality\\frontend\\src\\components\\Map\\Map.js",
+  "PreviewInSolutionExplorer": false
+}

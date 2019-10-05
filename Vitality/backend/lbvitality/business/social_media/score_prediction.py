@@ -8,9 +8,8 @@ import django
 import sys
 from datetime import datetime
 
-sys.path.append('/'.join((os.path.dirname(os.path.abspath(__file__)) +
-                          '').split('/')[0:-5]) +
-                '/Vitality/backend/lbvitality')
+sys.path.append('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject\\Vitality\\backend\\lbvitality')
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
 django.setup()
 
@@ -21,13 +20,9 @@ def get_weights():
     colnames = ['target']
     colnames1 = ['yelp_review_count', 'yelp_rating', 'google_rating']
 
-    df = pd.read_csv('/'.join(
-        (os.path.dirname(os.path.abspath(__file__)) + '').split('/')[0:-5]) +
-                     '/LogReg/new_tar.csv',
+    df = pd.read_csv('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject\\LogReg\\new_tar.csv',
                      names=colnames)
-    df1 = pd.read_csv('/'.join(
-        (os.path.dirname(os.path.abspath(__file__)) + '').split('/')[0:-5]) +
-                      '/LogReg/new_standardized_data.csv',
+    df1 = pd.read_csv('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject\\LogReg\\new_standardized_data.csv',
                       names=colnames1)
 
     y = np.array(df.target.tolist())

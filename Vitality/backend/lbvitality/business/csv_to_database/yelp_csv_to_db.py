@@ -4,9 +4,8 @@ import os
 import django
 import sys
 
-sys.path.append('/'.join((os.path.dirname(os.path.abspath(__file__)) +
-                          '').split('/')[0:-5]) +
-                '/Vitality/backend/lbvitality')
+sys.path.append('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject\\Vitality\\backend\\lbvitality')
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lbvitality.settings')
 django.setup()
 
@@ -16,10 +15,7 @@ Yelp.objects.all().delete()
 YelpHistory.objects.all().delete()
 
 #yelp.csv
-with open(
-        '/'.join(
-            (os.path.dirname(os.path.abspath(__file__)) + '').split('/')[0:-5])
-        + '/Data/social_media/yelp_507_4435.csv', 'r') as f:
+with open('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject\\Data\\social_media\\yelp_507_4435.csv', 'r') as f:
     reader = csv.reader(f)
     next(reader)  # Skip the header row.
 
