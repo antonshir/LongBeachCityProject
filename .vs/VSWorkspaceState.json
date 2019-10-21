@@ -1,16 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\android",
     "\\android\\app",
     "\\android\\app\\src",
-    "\\components",
-    "\\constants",
-    "\\models",
-    "\\navigation",
-    "\\screens",
-    "\\store"
+    "\\android\\app\\src\\main",
+    "\\android\\app\\src\\main\\java",
+    "\\android\\app\\src\\main\\java\\com",
+    "\\android\\app\\src\\main\\java\\com\\citypulse",
+    "\\assets"
   ],
-  "SelectedNode": "\\App.js",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }
