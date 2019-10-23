@@ -1,0 +1,62 @@
+  version: "2.4"
+
+  services:
+    lbvitality:
+      build:
+        context: ./backend/
+      ports:
+          - "8000:8000"
+      volumes:
+          - ./lbvitality:/lbvitality
+      environment:
+        - DJANGO_SECRET_KEY=superdupersecretpassword
+        - DJANGO_DEBUG=True
+        - DJANGO_DB_HOST=db
+        - DJANGO_DB_NAME=postgres
+        - DJANGO__WEB_HOST=lbvitality
+        - DB_USER=postgres
+        - DB_PASS=superdupersecretpassword
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=superdupersecretpassword
+        - DJANGO_SU_NAME=admin
+        - DJANGO_SU_EMAIL=admin@admin.com
+        - DJANGO_SU_PASSWORD=Password123
+      command: >
+        sh -c "cd ./Vitality/backend/lbvitality/ &&
+               python manage.py runserver &&
+               python manage.py migrate"
+      depends_on:
+        db:
+          condition: service_healthy
+    db:
+      image: postgres:10-alpine
+      environment:
+        - POSTGRES_DB=lbvitality
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=superdupersecretpassword
+      ports:
+        - "5432:5432"
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+      healthcheck:
+        test: pg_isready -U postgres -h 127.0.0.1
+    db-admin:
+      image: dpage/pgadmin4
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+        - PGADMIN_DEFAULT_PASSWORD=password
+      depends_on:
+        db:
+          condition: service_healthy
+      ports:
+        - "8080:80"
+    node:
+      build:
+        context: ./frontend/
+      ports:
+        - "3000:3000"
+      depends_on:
+        db:
+          condition: service_healthy
+  volumes:
+    pgdata:
