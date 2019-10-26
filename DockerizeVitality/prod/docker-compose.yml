@@ -1,0 +1,76 @@
+  version: "3"
+
+  services:
+    nginx:
+      image: nginx:latest
+      ports:
+        - 8088:80
+      networks:
+        - backend
+      volumes:
+        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        - ./vitality_app/static:/code/static
+      environment:
+        - DJANGO_WEB_HOST=vitality_app
+      depends_on:
+        - vitality_app
+
+    vitality_app:
+      build:
+        context: .
+      ports:
+          - "8000:8000"
+      volumes:
+          - ./vitality_app:/vitality_app
+      command: >
+        sh -c "python manage.py wait_for_db &&
+               python manage.py migrate &&"
+      command: gunicorn vitality_app.wsgi --bind 0.0.0.0:8000
+      environment:
+        - DJANGO_SECRET_KEY=superdupersecretpassword
+        - DJANGO_DEBUG=True
+        - DJANGO_DB_HOST=db
+        - DJANGO_DB_NAME=postgres
+        - DJANGO__WEB_HOST=vitality_app
+        - DB_USER=postgres
+        - DB_PASS=superdupersecretpassword
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=superdupersecretpassword
+        - DJANGO_SU_NAME=admin
+        - DJANGO_SU_EMAIL=admin@admin.com
+        - DJANGO_SU_PASSWORD=Password123
+      depends_on:
+        - db
+      networks:
+        - backend
+    db:
+      image: postgres:10-alpine
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=superdupersecretpassword
+      networks:
+        - backend
+      ports:
+        - "5432:5432"
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+
+    db-admin:
+      image: dpage/pgadmin4
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+        - PGADMIN_DEFAULT_PASSWORD=password
+      depends_on:
+        - db
+      ports:
+        - "8080:80"
+      networks:
+        - backend
+
+  networks:
+    backend:
+      driver:
+        bridge
+  volumes:
+    pgdata:
