@@ -4,6 +4,7 @@
 1. Drop businessdb, add create it again.
 2. Go to backend/lbvitiality/, run python manage.py makemigrationsth, then python manage.py migrate
 3. Go to backend/lbvitality/business/csv_to_database/
+3.1 Run python company_to_db.py
 4. Run python lb_data.py
 5. Run python yelp_csv_to_db.py
 6. Run python google_csv_to_db.py
