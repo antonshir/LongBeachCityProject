@@ -7,6 +7,7 @@ from django.db.models import Count, Q
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from django.http import JsonResponse
 from django.core import serializers
 from django.contrib.auth.models import User
@@ -17,16 +18,14 @@ from django.shortcuts import get_object_or_404
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-
+    authentication_classes = (TokenAuthentication, )
 #decorating method with extra values. detail(needs one specific comp)
     @action(detail=True, methods=['POST'])
     def rate_company(self, request, pk='id'):
         if 'stars' in request.data:
             comp = Company.objects.get(id=pk)
             stars = request.data['stars']
-            #user = request.user
-            user = User.objects.get(id=1)
-            print('user', user.username)
+            user = request.user
 
             try:
                 rating = CompanyRating.objects.get(user=user.id, comp=comp.id)
@@ -48,6 +47,8 @@ class CompanyViewSet(viewsets.ModelViewSet):
 class CompanyRatingViewSet(viewsets.ModelViewSet):
     queryset = CompanyRating.objects.all()
     serializer_class = CompanyRatingSerializer
+    authentication_classes = (TokenAuthentication, )
+
 
 class SocialMediaScoreViewSet(viewsets.ModelViewSet):
     queryset = SocialMediaScore.objects.all()[0:10]
