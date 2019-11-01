@@ -7,6 +7,21 @@ class Company(models.Model):
     name = models.CharField(max_length=100, blank=True)
     id = models.IntegerField(primary_key=True)
 
+    def no_of_ratings(self):
+        ratings = CompanyRating.objects.filter(comp=self)
+        return len(ratings)
+
+    def avg_rating(self):
+        sum = 0
+        ratings = CompanyRating.objects.filter(comp=self)
+        for rating in ratings:
+            sum += rating.stars
+
+        if len(ratings) > 0:
+            return sum / len(ratings)
+        else:
+            return 0
+
     def __str__(self):
         return self.name
 
@@ -35,8 +50,8 @@ class Business(models.Model):
 
 
 class CompanyRating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comp = models.ForeignKey(Company, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     stars  = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
     class Meta:
