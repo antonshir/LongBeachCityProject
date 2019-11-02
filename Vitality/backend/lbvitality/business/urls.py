@@ -10,6 +10,7 @@ router.register('socialmediascore', SocialMediaScoreViewSet,
                 'socialmediascore')
 router.register('yelphistory', YelpHistoryViewSet, 'yelphistory')
 router.register('googlehistory', GoogleHistoryViewSet, 'googlehistory')
+router.register('users', UserViewSet)
 router.register('companys', CompanyViewSet)
 router.register('companyratings', CompanyRatingViewSet)
 
