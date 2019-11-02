@@ -1,10 +1,24 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.auth.models import User
+
+#extra_kwargs for hiding password and only allows user to send passwd but never send in api
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ( 'id', 'username', 'password')
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
+
+    #overwrite:validate user 
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ( 'name', 'id', 'no_of_ratings', 'avg_rating')
+
 class CompanyRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyRating

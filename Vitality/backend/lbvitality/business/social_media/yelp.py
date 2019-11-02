@@ -110,7 +110,7 @@ def query_api(term, location):
 
 if __name__ == '__main__':
     conn = psycopg2.connect(
-        "host=127.0.0.1 dbname=businessdb user=postgres password=admin")
+        "host=127.0.0.1 dbname=businessdb user=postgres password={password}")
     cur = conn.cursor()
 
     postgreSQL_select_Query = "select * from business_business"
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     d = datetime.datetime.now()
     date = d.date()
 
-    with open('/Users/David/Desktop/yelp.csv', 'w') as appendFile:
+    with open('{path}yelp.csv', 'w') as appendFile:
         writer = csv.writer(appendFile)
         header = [
             'licenseNum', 'date', 'yelp_name', 'yelp_id', 'image_url',
@@ -146,7 +146,6 @@ if __name__ == '__main__':
                     print(count)
                     info = get_business(API_KEY,
                                         business['businesses'][0]['id'])
-                    # pprint.pprint(info)
                     arr = []
                     try:
                         arr.append(row[0])
