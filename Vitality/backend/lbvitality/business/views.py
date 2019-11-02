@@ -14,6 +14,11 @@ from django.contrib.auth.models import User
 
 from django.shortcuts import get_object_or_404
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
