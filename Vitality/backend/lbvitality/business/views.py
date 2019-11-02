@@ -8,6 +8,7 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.core import serializers
 from django.contrib.auth.models import User
@@ -18,13 +19,13 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
-
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     authentication_classes = (TokenAuthentication, )
-#decorating method with extra values. detail(needs one specific comp)
+    permission_classes = (IsAuthenticated, )
+
+    #decorating method with extra values. detail(needs one specific comp)
     @action(detail=True, methods=['POST'])
     def rate_company(self, request, pk='id'):
         if 'stars' in request.data:
@@ -53,6 +54,15 @@ class CompanyRatingViewSet(viewsets.ModelViewSet):
     queryset = CompanyRating.objects.all()
     serializer_class = CompanyRatingSerializer
     authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def update(self, *args, **kwargs):
+        response = {'message': 'Update rating not possible!'}
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+    def create(self, *args, **kwargs):
+        response = {'message': 'Create rating not possible!'}
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SocialMediaScoreViewSet(viewsets.ModelViewSet):
