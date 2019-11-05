@@ -8,6 +8,7 @@ function CompanyList(props) {
   };
 
   return (
+
     <div>
        { props.companys.map( company => {
         return (
@@ -17,6 +18,7 @@ function CompanyList(props) {
         )
       })}
     </div>
+
   )
 }
 
