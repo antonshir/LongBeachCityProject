@@ -31,11 +31,11 @@ with open('{filepath}', 'r') as f:
             e_date = None
 
         cur.execute(
-            """INSERT INTO business_business ("license_num","dba_name","license_type","status","processed_date","start_date", \
-            "expire_date","employee_num","company_type","business_type","property_type","address","zipcode","name_id") \
+            """INSERT INTO business_business ("license_num","name_id","dba_name","license_type","status","processed_date","start_date", \
+            "expire_date","employee_num","company_type","business_type","property_type","address","zipcode") \
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-            (row[0], row[2], row[3], row[5], p_date, s_date, e_date,
-             row[17], row[16], row[22], row[13], row[14], row[15], dataName))
+            (row[0], dataName, row[2], row[3], row[5], p_date, s_date, e_date,
+             row[17], row[16], row[22], row[13], row[14], row[15]))
 
 #Read in delinquent licenses
 with open('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject\\Data\\delinquent.csv', 'r') as f:
@@ -52,10 +52,10 @@ with open('C:\\Users\\baraj\\Desktop\\csulb.fall19\\cs491b\\LongBeachCityProject
         except:
             e_date = None
         cur.execute(
-            """INSERT INTO business_business ("license_num","dba_name","license_type","status","processed_date","start_date", \
-            "expire_date","employee_num","company_type","business_type","property_type","address","zipcode","name_id") \
+            """INSERT INTO business_business ("license_num","name_id","dba_name","license_type","status","processed_date","start_date", \
+            "expire_date","employee_num","company_type","business_type","property_type","address","zipcode") \
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-            (row[0], row[2], row[3], row[5], p_date, s_date, e_date,
-             row[17], row[16], row[22], row[13], row[14], row[15], dataName))
+            (row[0], dataName, row[2], row[3], row[5], p_date, s_date, e_date,
+             row[17], row[16], row[22], row[13], row[14], row[15]))
 
 conn.commit()

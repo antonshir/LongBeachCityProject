@@ -22,6 +22,10 @@ class Company(models.Model):
         else:
             return 0
 
+    def get_comp_businesses(self):
+        comp_bus_list = Business.objects.filter(name=self)
+        return comp_bus_list
+
     def __str__(self):
         return self.name
 
@@ -41,6 +45,8 @@ class Business(models.Model):
     property_type = models.CharField(max_length=100, blank=True)
     address = models.CharField(max_length=100, blank=True)
     zipcode = models.IntegerField(default=0, blank=True)
+
+
 
 #    class Meta:
 #        unique_together = (('comp', 'address'))
@@ -74,7 +80,7 @@ class SocialMediaScore(models.Model):
 class Yelp(models.Model):
 
     yelp_name = models.CharField(max_length=100)
-    yelp_id = models.CharField(max_length=100, primary_key=True)
+    yelp_id = models.CharField(max_length=100)
     image_url = models.CharField(max_length=1000)
     is_claimed = models.BooleanField(max_length=100)
     is_closed = models.BooleanField(max_length=100)
@@ -83,8 +89,9 @@ class Yelp(models.Model):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=5)
-    transactions = models.CharField(max_length=100)
+    transactions = models.CharField(max_length=1000)
     url = models.CharField(max_length=1000)
+    categories = models.CharField(max_length=1000)
 
     business = models.OneToOneField('Business', on_delete=models.CASCADE)
 
