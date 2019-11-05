@@ -50,6 +50,15 @@ class CompanyViewSet(viewsets.ModelViewSet):
             response = {'message': 'PROVIDE STARS'}
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['GET'])
+    def get_bus_list(self, request, pk='name'):
+        business = Business.objects.filter(name=pk)
+
+        serializer = BusinessSerializer(business, many=True)
+        response = {'message': 'Business list', 'result': serializer.data}
+        return Response(response, status=status.HTTP_200_OK)
+
+
 class CompanyRatingViewSet(viewsets.ModelViewSet):
     queryset = CompanyRating.objects.all()
     serializer_class = CompanyRatingSerializer
