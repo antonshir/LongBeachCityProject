@@ -16,6 +16,14 @@ class UserSerializer(serializers.ModelSerializer):
         Token.objects.create(user=user)
         return user
 
+class BusinessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Business
+        fields = ('license_num', 'dba_name', 'license_type', 'status',
+                  'processed_date', 'start_date', 'expire_date',
+                  'employee_num', 'company_type', 'business_type',
+                  'property_type', 'address', 'zipcode', 'name_id')
+
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
