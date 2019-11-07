@@ -11,10 +11,10 @@ export default class D3Chart {
             .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
             .append("g")
             .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`)
-
+        //d3.max(data, d => d.employee_num)
         const y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.employee_num)])
-            .range([0, HEIGHT])
+            .domain([0, 300])
+            .range([HEIGHT, 0])
 
         const x = d3.scaleBand()
             .domain(data.map(d => d.license_num))
@@ -30,12 +30,13 @@ export default class D3Chart {
         svg.append("g").call(yAxisCall)
 
         const rectangles = svg.selectAll("rect").data(data)
+
         rectangles.enter()
             .append("rect")
             .attr("x", d => x(d.license_num) )
-            .attr("y", d => HEIGHT - y(d.employee_num))
+            .attr("y", d => y(d.employee_num))
             .attr("width", x.bandwidth)
-            .attr("height", d => y(d.employee_num) )
+            .attr("height", d => HEIGHT - y(d.employee_num) )
             .attr("fill", d => {
                 if (d.zipcode === 90805) {
                     return "red"
