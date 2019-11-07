@@ -12,7 +12,8 @@ class  App extends Component {
     state = {
         companys: [],
         selectedCompany: null,
-        graphsData: []
+        graphsData: [],
+        graphsData0: []
     }
 
     componentDidMount() {
@@ -36,8 +37,18 @@ class  App extends Component {
         }).then(resp => resp.json())
             .then(res => this.setState({ graphsData: res.result }))
             .catch(error => console.log(error))
-        
 
+        fetch(`http://127.0.0.1:8000/api/companys/1826/get_bus_list/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ba809f29097d05d76e97e0b9ea3ed7d007f18105'
+            }
+        }).then(resp => resp.json())
+            .then(res => this.setState({ graphsData0: res.result }))
+            .catch(error => console.log(error))
+
+        
     }
 
   loadCompany = company => {
@@ -53,11 +64,11 @@ class  App extends Component {
 
   render() {
       console.log("app");
-      console.log(this.state.graphsData);
+      console.log(this.state.graphsData0);
     return (
         <div className="App">
-            {(this.state.graphsData[0]) ? 
-                <ChartWrapper data={this.state.graphsData}/>
+            {(this.state.graphsData0[0]) ? 
+                <ChartWrapper data={this.state.graphsData} moreData={this.state.graphsData0}/>
                 :  <h1>Company Rater</h1>
             } 
         
