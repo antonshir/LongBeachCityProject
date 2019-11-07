@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-const MARGIN = { TOP: 50, BOTTOM: 150, LEFT: 100, RIGHT: 10}
+const MARGIN = { TOP: 50, BOTTOM: 260, LEFT: 150, RIGHT: 10}
 const WIDTH = 800 - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = 500 - MARGIN.TOP - MARGIN.BOTTOM;
 
@@ -31,11 +31,16 @@ export default class D3Chart {
 
         svg.append("text")
             .attr("x", WIDTH / 2)
-            .attr("y", HEIGHT + 100)
+            .attr("y", HEIGHT + 49)
             .attr("text-anchor", "middle")
-            .text("Businesses Employee # Per Company")
+            .text("Business Employee # Per Company")
 
-
+        svg.append("text")
+            .attr("x", -(HEIGHT / 2 ))
+            .attr("y", -20)
+            .attr("text-anchor", "middle")
+            .text("# of Employee")
+            .attr("tranform", "rotate(-90)")
 
         const yAxisCall = d3.axisLeft(y)
         svg.append("g").call(yAxisCall)
