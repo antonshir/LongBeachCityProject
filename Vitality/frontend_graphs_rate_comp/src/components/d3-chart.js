@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-const MARGIN = { TOP: 100, BOTTOM: 10, LEFT: 100, RIGHT: 10}
+const MARGIN = { TOP: 50, BOTTOM: 150, LEFT: 100, RIGHT: 10}
 const WIDTH = 800 - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = 500 - MARGIN.TOP - MARGIN.BOTTOM;
 
@@ -11,9 +11,12 @@ export default class D3Chart {
             .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM)
             .append("g")
             .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`)
-        //d3.max(data, d => d.employee_num)
+
         const y = d3.scaleLinear()
-            .domain([0, 300])
+            .domain([
+                d3.min(data, d => d.employee_num) * 0.95,
+                d3.max(data, d => d.employee_num)
+            ])
             .range([HEIGHT, 0])
 
         const x = d3.scaleBand()
@@ -23,8 +26,16 @@ export default class D3Chart {
 
         const xAxisCall = d3.axisBottom(x)
         svg.append("g")
-            .attr("transform", `translate(0, ${HEIGHT}`)
+            .attr("transform", `translate(0, ${HEIGHT})`)
             .call(xAxisCall)
+
+        svg.append("text")
+            .attr("x", WIDTH / 2)
+            .attr("y", HEIGHT + 100)
+            .attr("text-anchor", "middle")
+            .text("Businesses Employee # Per Company")
+
+
 
         const yAxisCall = d3.axisLeft(y)
         svg.append("g").call(yAxisCall)
