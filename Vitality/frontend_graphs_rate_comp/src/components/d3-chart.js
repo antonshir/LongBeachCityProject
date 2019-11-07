@@ -64,20 +64,22 @@ export default class D3Chart {
             .padding(0.5)
 
         const xAxisCall = d3.axisBottom(x)
-        vis.xAxisGroup.call(xAxisCall)
+        vis.xAxisGroup.transition().duration(500).call(xAxisCall)
 
         const yAxisCall = d3.axisLeft(y)
-        vis.yAxisGroup.call(yAxisCall)
+        vis.yAxisGroup.transition().duration(500).call(yAxisCall)
 
         // Data join happens
         const rectangles = vis.svg.selectAll("rect")
             .data(vis.data)
 
         //Exit
-        rectangles.exit().remove()
+        rectangles.exit().attr("height", 0).attr("y", HEIGHT)
+            .transition()
+            .remove()
 
         //Update
-        rectangles
+        rectangles.transition().duration(500)
             .attr("x", d => x(d.license_num))
             .attr("y", d => y(d.employee_num))
             .attr("width", x.bandwidth)
@@ -86,16 +88,18 @@ export default class D3Chart {
         //Enter happens
         rectangles.enter().append("rect")
             .attr("x", d => x(d.license_num))
-            .attr("y", d => y(d.employee_num))
             .attr("width", x.bandwidth)
-            .attr("height", d => HEIGHT - y(d.employee_num))
             .attr("fill", d => {
                 if (d.zipcode === 90805) {
                     return "red"
                 } else {
                     return "green"
                 }
-            })
+            }).attr("y", HEIGHT)
+            .transition().duration(500)
+            .attr("height", d => HEIGHT - y(d.employee_num))
+            .attr("y", d => y(d.employee_num))
+
      }
 }
 /* */
